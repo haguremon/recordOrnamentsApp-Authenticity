@@ -36,7 +36,6 @@
 		CF829F71272A94F8000F6DC1 /* UploadPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F4E272A94F7000F6DC1 /* UploadPostController.swift */; };
 		CF829F72272A94F8000F6DC1 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F4F272A94F7000F6DC1 /* DescriptionViewController.swift */; };
 		CF829F73272A94F8000F6DC1 /* IconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F50272A94F7000F6DC1 /* IconViewController.swift */; };
-		CF829F74272A94F8000F6DC1 /* OrnamentNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F51272A94F7000F6DC1 /* OrnamentNavigationViewController.swift */; };
 		CF829F75272A94F8000F6DC1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F52272A94F7000F6DC1 /* LoginViewController.swift */; };
 		CF829F76272A94F8000F6DC1 /* OrnamentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F53272A94F7000F6DC1 /* OrnamentViewController.swift */; };
 		CF829F77272A94F8000F6DC1 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F54272A94F7000F6DC1 /* DetailsViewController.swift */; };
@@ -94,7 +93,6 @@
 		CF829F4E272A94F7000F6DC1 /* UploadPostController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadPostController.swift; sourceTree = "<group>"; };
 		CF829F4F272A94F7000F6DC1 /* DescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = "<group>"; };
 		CF829F50272A94F7000F6DC1 /* IconViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconViewController.swift; sourceTree = "<group>"; };
-		CF829F51272A94F7000F6DC1 /* OrnamentNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrnamentNavigationViewController.swift; sourceTree = "<group>"; };
 		CF829F52272A94F7000F6DC1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CF829F53272A94F7000F6DC1 /* OrnamentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrnamentViewController.swift; sourceTree = "<group>"; };
 		CF829F54272A94F7000F6DC1 /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -232,7 +230,6 @@
 				CF829F4E272A94F7000F6DC1 /* UploadPostController.swift */,
 				CF829F4F272A94F7000F6DC1 /* DescriptionViewController.swift */,
 				CF829F50272A94F7000F6DC1 /* IconViewController.swift */,
-				CF829F51272A94F7000F6DC1 /* OrnamentNavigationViewController.swift */,
 				CF829F52272A94F7000F6DC1 /* LoginViewController.swift */,
 				CF829F53272A94F7000F6DC1 /* OrnamentViewController.swift */,
 				CF829F54272A94F7000F6DC1 /* DetailsViewController.swift */,
@@ -471,7 +468,6 @@
 				CF829F47272A94E5000F6DC1 /* Constants.swift in Sources */,
 				CF829F70272A94F8000F6DC1 /* NewRegistrationViewController.swift in Sources */,
 				CF829F4A272A94E5000F6DC1 /* ContentView.swift in Sources */,
-				CF829F74272A94F8000F6DC1 /* OrnamentNavigationViewController.swift in Sources */,
 				CF829F72272A94F8000F6DC1 /* DescriptionViewController.swift in Sources */,
 				CF829F6F272A94F8000F6DC1 /* SideMenuViewController.swift in Sources */,
 				CF829F7D272A94F8000F6DC1 /* CollectionViewCell.swift in Sources */,

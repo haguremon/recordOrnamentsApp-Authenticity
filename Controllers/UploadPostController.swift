@@ -51,26 +51,64 @@ class UploadPostController: UIViewController {
     
     @objc func addPhoto() {
         
-        var configuration = PHPickerConfiguration(photoLibrary: .shared())
-        configuration.selectionLimit = 1
-        //configuration.selection = .default
-        
-       // configuration.preferredAssetRepresentationMode = .automatic
-        
-        configuration.filter = .any(of: [.images, .livePhotos])
-        
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        //navigationController?.pushViewController(picker, animated: true)
-        present(picker, animated: true)
+        showMessage1(withTitle: "写真", message: "写真を追加しますか？")
+ 
         
     }
+    func showMessage1(withTitle title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "カメラで撮影", style: .default, handler: { [ weak self ] _ in
+            self?.setCamera()
+        }))
+        alert.addAction(UIAlertAction(title: "写真を選択", style: .default, handler: { [ weak self ] _ in
+            self?.setAlbum()
+        }))
+        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+   private func setCamera(){
+        print("tap")
+        
+        let camera = UIImagePickerController.SourceType.camera
+        let picker = UIImagePickerController()
+        if UIImagePickerController.isSourceTypeAvailable(camera) {
+           
+            picker.sourceType = camera
+            picker.delegate = self
+            picker.allowsEditing = true
+    
+            present(picker, animated: true, completion: nil)
+            
+       }  else {
+
+            picker.delegate = self
+            picker.allowsEditing = true
+
+            present(picker, animated: true, completion: nil)
+        }
+
+    
+    }
+    private func setAlbum(){
+         print("tap")
+         
+         let picker = UIImagePickerController()
+             picker.delegate = self
+             picker.allowsEditing = true
+
+             present(picker, animated: true, completion: nil)
+         }
+    
+    
     
     private lazy var imagenameTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "名前を付ける"
         tv.font = UIFont.systemFont(ofSize: 16)
         tv.textColor = .label
+        tv.text = ""
         //tv.delegate = self
         tv.placeholderShouldCenter = false
         tv.returnKeyType = .next
@@ -82,6 +120,7 @@ class UploadPostController: UIViewController {
         tv.placeholderText = "メモをする"
         tv.font = UIFont.systemFont(ofSize: 16)
         tv.textColor = .label
+        tv.text = ""
         //tv.delegate = self
         tv.placeholderShouldCenter = false
         tv.returnKeyType = .done
@@ -121,6 +160,7 @@ class UploadPostController: UIViewController {
     private func uploadPost() {
         imagenameTextView.resignFirstResponder()
         captionTextView.resignFirstResponder()
+        
         guard let imagename = imagenameTextView.text else { return }
         guard let image = selectedImage else { return }
         guard let caption = captionTextView.text else { return }
@@ -297,31 +337,21 @@ extension UploadPostController: UITextViewDelegate {
     }
 }
 
+extension UploadPostController :UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            guard let selectedImage = info[.editedImage] as? UIImage else { return }
+        
+        self.selectedImage = selectedImage
+        
+        //photoImageView.layer.cornerRadius = photoImageView.frame.width / 2
+        photoImageView.layer.masksToBounds = true
+        photoImageView.layer.borderColor = UIColor.white.cgColor
+        photoImageView.layer.borderWidth = 2
+        photoImageView.image = selectedImage
+        self.dismiss(animated: true, completion: nil)
 
-extension UploadPostController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true, completion: nil)
-        guard let selectedImage = results.first?.itemProvider else { return }
-        selectedImage.canLoadObject(ofClass: UIImage.self)
-        selectedImage.loadObject(ofClass: UIImage.self) { image, error in
-            
-            if let image = image as? UIImage {
-                DispatchQueue.main.async {
-                    
-                    self.selectedImage = image
-                    
-                    
-                }
-                
-                
-            }
-        }
-        
-        
-        
-        
     }
-    
-    
+
     
 }
