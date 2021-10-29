@@ -67,10 +67,12 @@ class SideMenuViewController: UIViewController {
         tableView.isScrollEnabled = false
         tableView.scrollsToTop = false
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+     
         activityIndicatorView.startAnimating()
         fetchUser()
+        
     }
     private func fetchUser() {
         //コールバックを使ってProfileControllerのプロパティに代入する
