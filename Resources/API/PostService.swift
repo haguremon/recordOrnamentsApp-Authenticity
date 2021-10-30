@@ -25,10 +25,35 @@ struct  PostService {
                         "ownerUsername": user.name] as [String: Any]
             
             COLLETION_POSTS.addDocument(data: data, completion: completion)
-            // DocumentReference.documentID
+            
            // self.updateUserFeedAfterPost(postId: docRef.documentID)
         }
     }
+    static func updatePost(ownerUid uid: Post,updatepost: UpdatePost, completion: @escaping(Post) -> Void) {
+        
+//        let query = COLLETION_POSTS.whereField("ownerUid", isEqualTo: uid.ownerUid)
+            
+        COLLETION_POSTS.document(uid.postId).updateData([ // アップデート
+                "caption": updatepost.caption as Any,
+                "imagename": updatepost.imagename as Any
+            ]) { err in
+                if let err = err { // エラーハンドリング
+                    print("Error updating document: \(err)")
+                } else { // 書き換え成功ハンドリング
+                    
+                COLLETION_POSTS.document(uid.postId).getDocument { (snapshot, _) in
+                guard let snapshot = snapshot else { return }
+                guard let data = snapshot.data() else { return }
+                let post = Post(postId: snapshot.documentID, dictonary: data)
+                completion(post)
+                    }
+                
+                }
+            }
+        
+        
+    }
+    
     static func fetchPosts(forUser uid: String, completion: @escaping([Post]) -> Void) {
         //フィルーどのownerUidと引数が同じ時に
         let query = COLLETION_POSTS.whereField("ownerUid", isEqualTo: uid)

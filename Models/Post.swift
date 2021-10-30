@@ -34,3 +34,8 @@ struct Post {
     }
     
 }
+struct UpdatePost {
+    var caption: String?
+    var imagename: String?
+    
+}

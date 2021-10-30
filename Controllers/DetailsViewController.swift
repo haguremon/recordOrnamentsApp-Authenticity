@@ -16,25 +16,26 @@ class DetailsViewController: UIViewController {
         
         didSet {
             
-            guard let post = post else { return }
-            print(post.imagename)
-            //configurepost(post: post)
-            
+            //guard let post = post else { return }
+            configurepost(post: post)
+            print("4")
  }
          
     }
     private func configurepost(post: Post?){
-        
-        imagenameTextView.placeholderLabel.isHidden = true
-        captionTextView.placeholderLabel.isHidden = true
 
         guard let post = post else { return }
-
+        
+        if post.imagename == "" || post.caption == "" {
+        imagenameTextView.placeholderLabel.isHidden = false
+        captionTextView.placeholderLabel.isHidden = false
+     }
         
         photoImageView.sd_setImage(with: URL(string: post.imageUrl), completed: nil)
         imagenameTextView.text = post.imagename
         captionTextView.text = post.caption
-        
+        imagenameCharacterCountLabel.text = "\(imagenameTextView.text.count)/15"
+        captionCharacterCountLabel.text = "\(captionTextView.text.count)/300"
     }
     //
     //
@@ -61,7 +62,7 @@ class DetailsViewController: UIViewController {
         button.isChecked = false
         button.bounds.size.width = 15
         button.bounds.size.height = 30
-        button.backgroundColor = .blue
+        button.backgroundColor = .clear
         button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
         button.layer.shadowOpacity = 1.0
@@ -85,11 +86,11 @@ class DetailsViewController: UIViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
             self?.checkButton.isChecked = true
-            self?.post?.isSetPassword = true
+            //self?.post?.isSetPassword = true
         }))
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: { [ weak self ] _ in
             self?.checkButton.isChecked = false
-            self?.post?.isSetPassword = false
+            //self?.post?.isSetPassword = false
         }))
         
         present(alert, animated: true, completion: nil)
@@ -101,6 +102,7 @@ class DetailsViewController: UIViewController {
         tv.font = UIFont.systemFont(ofSize: 16)
         tv.textColor = .label
         tv.delegate = self
+        //tv.text = ""
         tv.placeholderShouldCenter = true
         //tv.placeholderShouldCentral = true
         tv.returnKeyType = .next
@@ -112,7 +114,9 @@ class DetailsViewController: UIViewController {
         tv.placeholderText = "メモを変更する"
         tv.font = UIFont.systemFont(ofSize: 16)
         tv.textColor = .label
-        //tv.delegate = self
+        //tv.text = ""
+        tv.delegate = self
+        
         tv.placeholderShouldCenter = false
         tv.returnKeyType = .done
         return tv
@@ -121,13 +125,22 @@ class DetailsViewController: UIViewController {
         let label = UILabel()
         label.textColor = .label
         label.font = UIFont.systemFont(ofSize: 20)
-        label.text = "パスワードを設定する？"
-        label.backgroundColor = .red
+        label.text = "パスワードを設定する"
+        label.backgroundColor = .systemBackground
+        label.textAlignment = .center
+        return label
+    }()
+    private let memoLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .label
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.text = "メモ"
+        label.backgroundColor = .systemBackground
         label.textAlignment = .center
         return label
     }()
     
-    private let characterCountLabel: UILabel = {
+    private let captionCharacterCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .secondaryLabel
         label.font = UIFont.systemFont(ofSize: 14)
@@ -135,7 +148,7 @@ class DetailsViewController: UIViewController {
         return label
     }()
     
-    private let characterCountLabel2: UILabel = {
+    private let imagenameCharacterCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .secondaryLabel
         label.font = UIFont.systemFont(ofSize: 14)
@@ -145,7 +158,7 @@ class DetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("1")
+        print("3")
         showLoader(false)
     }
     
@@ -153,6 +166,13 @@ class DetailsViewController: UIViewController {
         self.user = user
         self.post = post
         super.init(nibName: nil, bundle: nil)
+        //guard let post = post else { return }
+        print(post.postId)
+        imagenameTextView.placeholderLabel.isHidden = true
+        captionTextView.placeholderLabel.isHidden = true
+        DispatchQueue.main.async {
+            self.configurepost(post: post)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -163,15 +183,12 @@ class DetailsViewController: UIViewController {
     //    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("2")
         configureUI()
         imagenameTextView.delegate = self
         captionTextView.delegate = self
-    
-        guard let post = post else { return }
         
-        DispatchQueue.main.async {
-            self.configurepost(post: post)
-        }
+      
           showLoader(true)
     }
     
@@ -185,33 +202,26 @@ class DetailsViewController: UIViewController {
         captionTextView.resignFirstResponder()
         
         guard let imagename = imagenameTextView.text else { return }
-        guard let image = selectedImage else { return }
         guard let caption = captionTextView.text else { return }
-        guard let user = user else { return }
+        guard let post = post else { return }
         //ここでインジケーターが発動する
         showLoader(true)
-        navigationItem.leftBarButtonItem?.isEnabled = false
+        navigationItem.rightBarButtonItem?.isEnabled = false
         //
-        PostService.uploadPost(caption: caption, image: image, imagename: imagename, user: user) { (error) in
-            //uploadできたらインジケーターが終わる
-            self.showLoader(false)
-           
-            self.navigationItem.leftBarButtonItem?.isEnabled = true
-            
-            if let error = error {
-                print("DEBUG: Failed to upload post \(error.localizedDescription)")
-                return
+        let updatePost = UpdatePost(caption: caption, imagename: imagename)
+        
+        PostService.updatePost(ownerUid: post, updatepost: updatePost) { post in
+            DispatchQueue.main.async {
+                
+                self.post = post
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
             }
-            print("成功やで")
-            //ポストが成功した時の処理 tabバーもホームに移動したいのでプロトコルを使って委任する
-            self.dismiss(animated: true, completion: nil)
-            //     self.dismiss(animated: true, completion: nil)
-            //            self.tabBarController?.selectedIndex = 0
-            //delegateに値が入ってるのでcontrollerDidFinishUploadingPost()を使うことができる
-            //rightBarButtonItemが押された時にcontrollerDidFinishUploadingPostが発動する
-            // self.seni()
+           self.showLoader(false)
         }
+        
+
     }
+    
     @objc func didTapDone() {
        
         upDatePost()
@@ -229,15 +239,15 @@ class DetailsViewController: UIViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didTapDone))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "変更する", style: .done, target: nil, action: #selector(didTapDone))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "変更", style: .done, target: nil, action: #selector(didTapDone))
         
         view.addSubview(imagenameTextView)
         imagenameTextView.setDimensions(height: view.bounds.height / 12, width: view.bounds.width / 1.25)
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 15)
         imagenameTextView.centerX(inView: view)
         
-        view.addSubview(characterCountLabel2)
-        characterCountLabel2.anchor(bottom: imagenameTextView.bottomAnchor, right: imagenameTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
+        view.addSubview(imagenameCharacterCountLabel)
+        imagenameCharacterCountLabel.anchor(bottom: imagenameTextView.bottomAnchor, right: imagenameTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
         view.addSubview(photoImageView)
         
         
@@ -246,6 +256,17 @@ class DetailsViewController: UIViewController {
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
         //checkButton.setDimensions(height: 50, width: 13)
+        let verticalStackView = UIStackView()
+            verticalStackView.axis = .vertical
+            verticalStackView.alignment = .fill
+            verticalStackView.spacing = 5
+            //verticalStackView.distribution = .fillEqually
+            view.addSubview(verticalStackView)
+       
+        verticalStackView.anchor(top: photoImageView.bottomAnchor,
+                                 paddingTop: 15)
+        verticalStackView.centerX(inView: view)
+        
         let stack = UIStackView(arrangedSubviews: [passwordLabel, checkButton])
         //縦の関係
     
@@ -257,18 +278,21 @@ class DetailsViewController: UIViewController {
         passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
         //二つが左寄りに
         stack.alignment = .fill
-        stack.backgroundColor = .gray
-        view.addSubview(stack)
+       // view.addSubview(stack)
         //stack.setDimensions(height: 55, width: 250)
        
-        stack.anchor(top: photoImageView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 15, paddingLeft: 60, paddingRight: 60)
+//        stack.anchor(top: photoImageView.bottomAnchor, paddingTop: 15)
+//        stack.centerX(inView: view)
         
+        verticalStackView.addArrangedSubview(stack)
+        verticalStackView.addArrangedSubview(memoLabel)
+
         
         view.addSubview(captionTextView)
-        captionTextView.anchor(top: stack.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingRight: 5, height: 100)
+        captionTextView.anchor(top: verticalStackView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 2, paddingLeft: 5, paddingRight: 5, height: 100)
         
-        view.addSubview(characterCountLabel)
-        characterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
+        view.addSubview(captionCharacterCountLabel)
+        captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -334,12 +358,12 @@ extension DetailsViewController: UITextViewDelegate {
         case imagenameTextView:
             checkMaxLength(textView)
             let count = textView.text.count
-            characterCountLabel2.text = "\(count)/15"
+            imagenameCharacterCountLabel.text = "\(count)/15"
         
         case captionTextView:
             checkMaxLength(textView)
             let count = textView.text.count
-            characterCountLabel.text = "\(count)/300"
+            captionCharacterCountLabel.text = "\(count)/300"
      
         default:
             break

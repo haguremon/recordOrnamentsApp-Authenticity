@@ -55,7 +55,6 @@ class OrnamentViewController: UIViewController {
         setupSideMenu()
         setupCollectionView()
         fetchPosts()
-    
         let refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(habdleRefresh), for: .valueChanged)
         
