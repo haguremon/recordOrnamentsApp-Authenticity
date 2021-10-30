@@ -165,11 +165,12 @@ class OrnamentViewController: UIViewController {
         //投稿してユーザーの情報を　渡す
         controller.currentUser = self.user
         //UploadPostControllerはUINavigationを含むのでrootViewControllerにして入れた
-        let nav = UINavigationController(rootViewController: controller)
-        
-        nav.modalPresentationStyle = .fullScreen
-        
-        self.present(nav, animated: false, completion: nil)
+//        let nav = UINavigationController(rootViewController: controller)
+//
+//        nav.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(controller, animated: true)
+        //show(nav, sender: nil)
+        //self.present(nav, animated: false, completion: nil)
         
         
         
@@ -196,8 +197,7 @@ extension OrnamentViewController: UploadPostControllerDelegate{
     
     func controllerDidFinishUploadingPost(_ controller: UploadPostController) {
         
-        controller.dismiss(animated: true, completion: nil)
-        
+        controller.navigationController?.popViewController(animated: true)
         self.habdleRefresh()
         
     }
@@ -219,6 +219,8 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: "header", withReuseIdentifier: "header")
+        collectionView.alwaysBounceVertical = true
+        collectionView.keyboardDismissMode = .interactive
         
     }
     
@@ -236,10 +238,9 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
-        
-//        cell.imageView.sd_setImage(with: URL(string: posts[indexPath.row].imageUrl), completed: nil)
+
         if let post = post {
-       //     print(post.imagename)
+  
             cell.setup(image: URL(string: post.imageUrl) , imagename: post.imagename)
         } else {
             cell.setup(image: URL(string: posts[indexPath.row].imageUrl), imagename: posts[indexPath.row].imagename)
@@ -251,22 +252,26 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                                    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        performSegue(withIdentifier: "DetailsView", sender: nil)
+        let post = posts[indexPath.row]
+        
+        guard let user = user else {
+            return
+        }
+    
+        let detailsViewController = DetailsViewController(user: user, post: post)
+        
+        //let nvdetailsViewController = UINavigationController(rootViewController: detailsViewController)
+        
+        //nvdetailsViewController.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(detailsViewController, animated: true)
+       // present(nvdetailsViewController, animated: true)
+        
             
         }
-                                   //viewForSupplementaryをつけることができるヘッダーやフッターなので
+    //viewForSupplementaryをつけることができるヘッダーやフッターなので
     
     fileprivate func extractedFunc(_ indexPath: IndexPath, _ header1: HeaderCollectionReusableView) -> UICollectionReusableView {
-//        if indexPath.section == 0 {
-//
-//            header1.label.text = ""
-//
-//        } else {
-//
-//            header1.label.text = ""
-//
-//            }
-            
+
             return header1
         }
                                    
@@ -284,7 +289,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
         
         }
                                    
-                                   }
+    }
                                    
                                    
                                    //MRAK: -SideMeun
@@ -301,10 +306,6 @@ extension OrnamentViewController: SideMenuNavigationControllerDelegate {
         settings.statusBarEndAlpha = 0
         return settings
             }
-            
-            
-            
-            
             
             
     
@@ -330,8 +331,9 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
         switch name {
             
         case .useGuide:
-            print("useGuide")
-            //present(createViewController()!, animated: true, completion: nil)
+            let vc = ViewController()
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true, completion: nil)
         case .signOut:
             print("log out")
             do {

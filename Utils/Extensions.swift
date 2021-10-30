@@ -32,7 +32,7 @@ extension UIColor {
     convenience init(r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat = 1.0) {
         self.init(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: a)
     }
-
+//ダークモード等で変化するカラー等
     static var offWhiteOrBlack: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
@@ -98,10 +98,6 @@ extension UIButton {
         
         shake.fromValue = fromPoint
         shake.toValue = toPoint
-        //        UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
-        //            self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0);
-        //            self.alpha = 1
-        //        },completion: nil)
         
         layer.add(shake, forKey: nil)
     }
@@ -132,6 +128,7 @@ extension UIButton {
     
 }
 extension UIView {
+    
     func anchor(top: NSLayoutYAxisAnchor? = nil,
                 left: NSLayoutXAxisAnchor? = nil,
                 bottom: NSLayoutYAxisAnchor? = nil,
@@ -169,6 +166,40 @@ extension UIView {
             heightAnchor.constraint(equalToConstant: height).isActive = true
         }
     }
+        func anchor1(top: NSLayoutYAxisAnchor?,
+                    leading: NSLayoutXAxisAnchor?,
+                    bottom: NSLayoutYAxisAnchor?,
+                    trailing: NSLayoutXAxisAnchor?,
+                    padding: UIEdgeInsets = .zero,
+                    size: CGSize = .zero) {
+            translatesAutoresizingMaskIntoConstraints = false
+            
+            if let top = top {
+                topAnchor.constraint(equalTo: top, constant: padding.top).isActive = true
+            }
+            
+            if let leading = leading {
+                leadingAnchor.constraint(equalTo: leading, constant: padding.left).isActive = true
+            }
+            
+            if let bottom = bottom {
+                bottomAnchor.constraint(equalTo: bottom, constant: -padding.bottom).isActive = true
+            }
+            
+            if let trailing = trailing {
+                trailingAnchor.constraint(equalTo: trailing, constant: -padding.right).isActive = true
+            }
+            
+            if size.width != 0 {
+                widthAnchor.constraint(equalToConstant: size.width).isActive = true
+            }
+            
+            if size.height != 0 {
+                heightAnchor.constraint(equalToConstant: size.height).isActive = true
+            }
+    }
+    
+    
     
     func center(inView view: UIView, yConstant: CGFloat? = 0) {
         translatesAutoresizingMaskIntoConstraints = false
@@ -219,6 +250,14 @@ extension UIView {
                bottom: view.bottomAnchor, right: view.rightAnchor)
     }
 }
+
+
+
+
+
+
+
+
 
 extension UIWindow {
 

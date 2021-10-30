@@ -38,7 +38,6 @@ class SideMenuViewController: UIViewController {
             guard let user = user else {
                 return
             }
-            
             configure(user: user)
             activityIndicatorView.hidesWhenStopped = true
 
@@ -61,18 +60,19 @@ class SideMenuViewController: UIViewController {
         activityIndicatorView.style = .large
 
     }
-    func configureTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.isScrollEnabled = false
-        tableView.scrollsToTop = false
-    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
      
         activityIndicatorView.startAnimating()
         fetchUser()
         
+    }
+    
+     private func configureTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.isScrollEnabled = false
+        tableView.scrollsToTop = false
     }
     private func fetchUser() {
         //コールバックを使ってProfileControllerのプロパティに代入する

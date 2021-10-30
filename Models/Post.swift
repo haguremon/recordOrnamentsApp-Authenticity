@@ -20,7 +20,7 @@ struct Post {
     let ownerImageUrl: String
     // Postしたユーザー名
     let ownerUsername: String
-    var iaSetPassword = false
+    var isSetPassword = false
     
     init(postId: String, dictonary: [String: Any]) {
         self.caption = dictonary["caption"] as? String ?? ""

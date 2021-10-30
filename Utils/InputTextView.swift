@@ -30,7 +30,7 @@ class InputTextView: UITextView {
             }
         }
     }
-    
+    //central
     // MARK: - Lifecycle
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {

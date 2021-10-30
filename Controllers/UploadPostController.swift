@@ -107,7 +107,7 @@ class UploadPostController: UIViewController {
         let tv = InputTextView()
         tv.placeholderText = "名前を付ける"
         tv.font = UIFont.systemFont(ofSize: 16)
-        tv.textColor = .label
+        tv.textColor = .clear
         tv.text = ""
         //tv.delegate = self
         tv.placeholderShouldCenter = false
@@ -119,7 +119,7 @@ class UploadPostController: UIViewController {
         let tv = InputTextView()
         tv.placeholderText = "メモをする"
         tv.font = UIFont.systemFont(ofSize: 16)
-        tv.textColor = .label
+        tv.textColor = .clear
         tv.text = ""
         //tv.delegate = self
         tv.placeholderShouldCenter = false
@@ -199,9 +199,9 @@ class UploadPostController: UIViewController {
         
         view.backgroundColor = .systemBackground
         imagenameTextView.layer.borderWidth = 1
-        imagenameTextView.layer.borderColor = UIColor.secondaryLabel.cgColor
+        imagenameTextView.layer.borderColor = UIColor.gray.cgColor
         captionTextView.layer.borderWidth = 1
-        captionTextView.layer.borderColor = UIColor.secondaryLabel.cgColor
+        captionTextView.layer.borderColor = UIColor.gray.cgColor
         navigationItem.title = "保管"
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
