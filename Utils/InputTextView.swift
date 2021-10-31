@@ -26,7 +26,7 @@ class InputTextView: UITextView {
                 placeholderLabel.anchor(left: leftAnchor, right: rightAnchor, paddingLeft: 8)
                 placeholderLabel.centerY(inView: self)
             } else {
-                placeholderLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 6, paddingLeft: 8)
+                placeholderLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 7, paddingLeft: 8)
             }
         }
     }
@@ -37,7 +37,7 @@ class InputTextView: UITextView {
         super.init(frame: frame, textContainer: textContainer)
         
         addSubview(placeholderLabel)
-        placeholderLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 6, paddingLeft: 8)
+        placeholderLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 7, paddingLeft: 8)
         
         // whatever text did change than it will call handleTextDidChange
         //オブサーバーを使ってUITextViewの値を感知したら→handleTextDidChangeを発動する

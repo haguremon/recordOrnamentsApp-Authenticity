@@ -26,10 +26,14 @@ class DetailsViewController: UIViewController {
 
         guard let post = post else { return }
         
-        if post.imagename == "" || post.caption == "" {
+        if post.imagename == "" {
         imagenameTextView.placeholderLabel.isHidden = false
-        captionTextView.placeholderLabel.isHidden = false
-     }
+        }
+        if post.caption == "" {
+            
+            captionTextView.placeholderLabel.isHidden = false
+            
+        }
         
         photoImageView.sd_setImage(with: URL(string: post.imageUrl), completed: nil)
         imagenameTextView.text = post.imagename
@@ -99,10 +103,10 @@ class DetailsViewController: UIViewController {
     private lazy var imagenameTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "名前を変更する"
-        tv.font = UIFont.systemFont(ofSize: 16)
         tv.textColor = .label
         tv.delegate = self
-        //tv.text = ""
+        tv.text = ""
+    
         tv.placeholderShouldCenter = true
         //tv.placeholderShouldCentral = true
         tv.returnKeyType = .next
@@ -112,9 +116,9 @@ class DetailsViewController: UIViewController {
     private lazy var captionTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "メモを変更する"
-        tv.font = UIFont.systemFont(ofSize: 16)
+        tv.font = UIFont.systemFont(ofSize: 20)
         tv.textColor = .label
-        //tv.text = ""
+        tv.text = ""
         tv.delegate = self
         
         tv.placeholderShouldCenter = false
@@ -187,14 +191,15 @@ class DetailsViewController: UIViewController {
         configureUI()
         imagenameTextView.delegate = self
         captionTextView.delegate = self
-        
-      
+        print("\(captionTextView.font?.pointSize)")
+        print("\(imagenameTextView.font?.pointSize)")
+        print("\(view.bounds.size.height / 12)")
           showLoader(true)
     }
     
     // MARK: - Actions
     @objc func didTapCancel(){
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
 
     }
     private func upDatePost() {
@@ -205,7 +210,7 @@ class DetailsViewController: UIViewController {
         guard let caption = captionTextView.text else { return }
         guard let post = post else { return }
         //ここでインジケーターが発動する
-        showLoader(true)
+       // showLoader(true)
         navigationItem.rightBarButtonItem?.isEnabled = false
         //
         let updatePost = UpdatePost(caption: caption, imagename: imagename)
@@ -216,7 +221,9 @@ class DetailsViewController: UIViewController {
                 self.post = post
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
             }
-           self.showLoader(false)
+            self.navigationController?.popViewController(animated: true)
+            // self.showLoader(false)
+        
         }
         
 
@@ -242,7 +249,7 @@ class DetailsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "変更", style: .done, target: nil, action: #selector(didTapDone))
         
         view.addSubview(imagenameTextView)
-        imagenameTextView.setDimensions(height: view.bounds.height / 12, width: view.bounds.width / 1.25)
+        imagenameTextView.setDimensions(height: view.bounds.height / 12, width: view.bounds.width / 1.08)
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 15)
         imagenameTextView.centerX(inView: view)
         
@@ -278,11 +285,6 @@ class DetailsViewController: UIViewController {
         passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
         //二つが左寄りに
         stack.alignment = .fill
-       // view.addSubview(stack)
-        //stack.setDimensions(height: 55, width: 250)
-       
-//        stack.anchor(top: photoImageView.bottomAnchor, paddingTop: 15)
-//        stack.centerX(inView: view)
         
         verticalStackView.addArrangedSubview(stack)
         verticalStackView.addArrangedSubview(memoLabel)
@@ -293,6 +295,8 @@ class DetailsViewController: UIViewController {
         
         view.addSubview(captionCharacterCountLabel)
         captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
+        
+        imagenameTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
