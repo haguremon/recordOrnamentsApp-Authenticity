@@ -162,14 +162,10 @@ class OrnamentViewController: UIViewController {
         //ここですでにcontrollerDidFinishUploadingPost()を保持
         controller.delegate = self
         //投稿してユーザーの情報を　渡す
-        controller.currentUser = self.user
-        //UploadPostControllerはUINavigationを含むのでrootViewControllerにして入れた
-//        let nav = UINavigationController(rootViewController: controller)
-//
-//        nav.modalPresentationStyle = .fullScreen
+        controller.currentUser = user
+
         navigationController?.pushViewController(controller, animated: true)
-        //show(nav, sender: nil)
-        //self.present(nav, animated: false, completion: nil)
+
         
         
         
@@ -209,7 +205,7 @@ extension OrnamentViewController: UploadPostControllerDelegate{
 
 
 
-//MRAK: -CollectionView
+//MARK: -CollectionView
 extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     private func setupCollectionView() {
         collectionView.collectionViewLayout = collectionViewLayout.ornamentCollectionViewLayout()
@@ -218,9 +214,6 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: "header", withReuseIdentifier: "header")
-        collectionView.alwaysBounceVertical = true
-        collectionView.keyboardDismissMode = .interactive
-        
     }
     
     

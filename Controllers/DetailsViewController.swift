@@ -8,28 +8,21 @@
 import UIKit
 
 class DetailsViewController: UIViewController {
-    //
-    //    // MARK: - Properties
     
+    // MARK: - Properties
     var user: User?
-    var post: Post? {
-        
-        didSet {
-            
-            //guard let post = post else { return }
-            configurepost(post: post)
-            print("4")
- }
-         
-    }
+    
+    var post: Post? { didSet { configurepost(post: post) } }
+   
     private func configurepost(post: Post?){
-
+        
         guard let post = post else { return }
         
         if post.imagename == "" {
-        imagenameTextView.placeholderLabel.isHidden = false
-        }
-        if post.caption == "" {
+        
+            imagenameTextView.placeholderLabel.isHidden = false
+        
+        } else if post.caption == "" {
             
             captionTextView.placeholderLabel.isHidden = false
             
@@ -38,16 +31,10 @@ class DetailsViewController: UIViewController {
         photoImageView.sd_setImage(with: URL(string: post.imageUrl), completed: nil)
         imagenameTextView.text = post.imagename
         captionTextView.text = post.caption
+        checkButton.isChecked = post.isSetPassword
         imagenameCharacterCountLabel.text = "\(imagenameTextView.text.count)/15"
         captionCharacterCountLabel.text = "\(captionTextView.text.count)/300"
     }
-    //
-    //
-    var selectedImage: UIImage? {
-        didSet{ photoImageView.image = selectedImage }
-    }
-    //
-    //
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -59,56 +46,99 @@ class DetailsViewController: UIViewController {
     
     private lazy var checkButton: CheckBox = {
         let button = CheckBox()
-        //button.setTitle("写真を追加する", for: .normal)
-        button.addTarget(self, action: #selector(addPhoto), for: .touchUpInside)
-       // button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(setPassword), for: .touchUpInside)
         button.layer.shadowColor = UIColor.gray.cgColor
-        button.isChecked = false
         button.bounds.size.width = 15
         button.bounds.size.height = 30
         button.backgroundColor = .clear
-        button.layer.cornerRadius = 10
-        button.layer.shadowRadius = 5
-        button.layer.shadowOpacity = 1.0
         return button
     }()
     
-    
-    @objc func addPhoto() {
+    @objc func setPassword() {
         
-        if checkButton.isChecked {
-        showMessage1(withTitle: "パスワード", message: "保管画面でログイン時のパスワードが要求されます")
-        } else {
-     
-        
-        }
-       
- 
-        
+        showEditModeMessage()
+//        DispatchQueue.main.async {
+        self.checkButton.isChecked = self.post!.isSetPassword
+//        }
+   
     }
-    func showMessage1(withTitle title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
-            self?.checkButton.isChecked = true
-            //self?.post?.isSetPassword = true
+    
+    private lazy var deleteButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("削除", for: .normal)
+        button.addTarget(self, action: #selector(remove), for: .touchUpInside)
+        button.backgroundColor = .red
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.cornerRadius = 10
+        button.layer.shadowRadius = 5
+        button.layer.shadowOpacity = 1.0
+        
+        return button
+    }()
+    @objc func remove() {
+        let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "削除する", style: .default, handler: { [ weak self ] _ in
+           
+            DispatchQueue.main.async {
+                self?.deletePost()
+            }
+            self?.didTapClose()
+        
         }))
-        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: { [ weak self ] _ in
-            self?.checkButton.isChecked = false
-            //self?.post?.isSetPassword = false
-        }))
+        
+        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
         
         present(alert, animated: true, completion: nil)
+        
+        
+    }
+    
+    private func deletePost() {
+        
+        PostService.deletePost(withPostId: post!.postId)
+        
+    }
+    
+    
+    
+    
+    
+    private lazy var editButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("編集完了", for: .normal)
+        button.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
+        button.backgroundColor = .blue
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.cornerRadius = 10
+        button.layer.shadowRadius = 5
+        button.layer.shadowOpacity = 1.0
+        
+        return button
+    }()
+    
+
+    func showEditModeMessage() {
+        let alert = UIAlertController(title: "編集", message: "編集モードに変更しますか？", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "編集モードにする", style: .default, handler: { [ weak self ] _ in
+           
+                self?.editingMode()
+        
+        }))
+        
+        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
+        
+        present(alert, animated: false, completion: nil)
     }
     
     private lazy var imagenameTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "名前を変更する"
         tv.textColor = .label
-        tv.delegate = self
         tv.text = ""
-    
+        tv.isEditable = false
+        tv.isSelectable = false
         tv.placeholderShouldCenter = true
-        //tv.placeholderShouldCentral = true
         tv.returnKeyType = .next
         
         return tv
@@ -119,8 +149,8 @@ class DetailsViewController: UIViewController {
         tv.font = UIFont.systemFont(ofSize: 20)
         tv.textColor = .label
         tv.text = ""
-        tv.delegate = self
-        
+        tv.isEditable = false
+        tv.isSelectable = false
         tv.placeholderShouldCenter = false
         tv.returnKeyType = .done
         return tv
@@ -160,11 +190,7 @@ class DetailsViewController: UIViewController {
         return label
     }()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("3")
-        showLoader(false)
-    }
+    // MARK: - Lifecycle
     
     init(user: User, post: Post){
         self.user = user
@@ -183,56 +209,44 @@ class DetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    //    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         print("2")
         configureUI()
-        imagenameTextView.delegate = self
-        captionTextView.delegate = self
-        print("\(captionTextView.font?.pointSize)")
-        print("\(imagenameTextView.font?.pointSize)")
-        print("\(view.bounds.size.height / 12)")
           showLoader(true)
     }
+   
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("3")
+        showLoader(false)
+    }
+    
     
     // MARK: - Actions
-    @objc func didTapCancel(){
+    
+    
+    @objc func didTapClose(){
         navigationController?.popViewController(animated: true)
 
     }
-    private func upDatePost() {
-        imagenameTextView.resignFirstResponder()
-        captionTextView.resignFirstResponder()
-        
-        guard let imagename = imagenameTextView.text else { return }
-        guard let caption = captionTextView.text else { return }
-        guard let post = post else { return }
-        //ここでインジケーターが発動する
-       // showLoader(true)
-        navigationItem.rightBarButtonItem?.isEnabled = false
-        //
-        let updatePost = UpdatePost(caption: caption, imagename: imagename)
-        
-        PostService.updatePost(ownerUid: post, updatepost: updatePost) { post in
-            DispatchQueue.main.async {
-                
-                self.post = post
-                self.navigationItem.rightBarButtonItem?.isEnabled = true
-            }
-            self.navigationController?.popViewController(animated: true)
-            // self.showLoader(false)
-        
-        }
-        
-
-    }
+    
     
     @objc func didTapDone() {
        
-        upDatePost()
+        showEditModeMessage()
     }
+   
+    
+    
+    @objc func editingMode() {
+       
+        let editViewController = EditViewController(user: self.user!, post: self.post!)
+        
+        navigationController?.pushViewController(editViewController, animated: true)
+
+    }
+    
     //
     //    // MARK: - Helpers
     func configureUI(){
@@ -244,9 +258,8 @@ class DetailsViewController: UIViewController {
         captionTextView.layer.borderColor = UIColor.gray.cgColor
         navigationItem.title = "詳細"
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didTapDone))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "変更", style: .done, target: nil, action: #selector(didTapDone))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapClose))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "編集", style: .done, target: self, action: #selector(editingMode))
         
         view.addSubview(imagenameTextView)
         imagenameTextView.setDimensions(height: view.bounds.height / 12, width: view.bounds.width / 1.08)
@@ -262,12 +275,11 @@ class DetailsViewController: UIViewController {
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 8)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
-        //checkButton.setDimensions(height: 50, width: 13)
+       
         let verticalStackView = UIStackView()
             verticalStackView.axis = .vertical
             verticalStackView.alignment = .fill
             verticalStackView.spacing = 5
-            //verticalStackView.distribution = .fillEqually
             view.addSubview(verticalStackView)
        
         verticalStackView.anchor(top: photoImageView.bottomAnchor,
@@ -297,6 +309,29 @@ class DetailsViewController: UIViewController {
         captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
         
         imagenameTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
+        
+        let stack2 = UIStackView(arrangedSubviews: [deleteButton, editButton])
+        //縦の関係
+    
+        stack2.axis = .horizontal
+
+        stack2.spacing = 15
+        //これでstack内でのサイズがcheckButton.bounds.size.widthと同じになるらしい
+        deleteButton.bounds.size.width = deleteButton.intrinsicContentSize.width
+        editButton.bounds.size.width = editButton.intrinsicContentSize.width
+        //二つが左寄りに
+        stack2.alignment = .fill
+        view.addSubview(stack2)
+   
+        stack2.anchor(top: captionTextView.bottomAnchor,
+                                 paddingTop: 7)
+        stack2.centerX(inView: view)
+        deleteButton.setDimensions(height: view.bounds.height / 12, width: view.bounds.width / 3.5)
+        editButton.setDimensions(height: view.bounds.height / 12, width: view.bounds.width / 3.5)
+        deleteButton.layer.cornerRadius = deleteButton.bounds.width / 2
+        editButton.layer.cornerRadius = deleteButton.bounds.width / 2
+
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -348,58 +383,5 @@ extension DetailsViewController {
         }
     
     }
-    //
-    
-    
-    
 }
 
-// MARK: - UITextFieldDelegate
-//textViewの文字のカウントを認知することができる
-extension DetailsViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        switch textView {
-        case imagenameTextView:
-            checkMaxLength(textView)
-            let count = textView.text.count
-            imagenameCharacterCountLabel.text = "\(count)/15"
-        
-        case captionTextView:
-            checkMaxLength(textView)
-            let count = textView.text.count
-            captionCharacterCountLabel.text = "\(count)/300"
-     
-        default:
-            break
-            
-        }
-        
-     
-    }
-    //UITextFieldDelegateを使ってユーザーの入力を認知する
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == imagenameTextView {
-            //nameEmailTextFieldでリターンが押された時にpasswordTextFieldのキーボードを開く
-            imagenameTextView.resignFirstResponder()
-            captionTextView.becomeFirstResponder()
-            
-        } else if textField ==  captionTextView {
-            //textFieldが押されたらログインボタンが起動する
-            upDatePost()
-            
-        }
-        
-        return true
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
-                  replacementText text: String) -> Bool {
-        if text == "\n" {
-            imagenameTextView.resignFirstResponder() //キーボードを閉じる
-            captionTextView.resignFirstResponder()
-            
-            return false
-        }
-        return true
-    }
-}

@@ -11,7 +11,7 @@ import UIKit
 
 struct  PostService {
     //MARK: - Firebaseに保存する処理
-    static func uploadPost(caption: String, image: UIImage, imagename: String, user: User,completion: @escaping(FirestoreCompletion)){
+    static func uploadPost(caption: String, image: UIImage, imagename: String,password: Bool, user: User,completion: @escaping(FirestoreCompletion)){
         // typealias FirestoreCompletion = (Error?) -> Void
         guard let uid = Auth.auth().currentUser?.uid else { return }
         //ここでストレージにイメージを入れてからimageUrlのコールバックを使って（completion: @escaping (String) -> Void）なのでimageUrlを取得する
@@ -21,6 +21,7 @@ struct  PostService {
                         "imageUrl": imageUrl,
                         "imagename": imagename,
                         "ownerUid": uid,
+                        "isSetPassword": password,
                         "ownerImageUrl": user.profileImageUrl,
                         "ownerUsername": user.name] as [String: Any]
             
@@ -29,13 +30,14 @@ struct  PostService {
            // self.updateUserFeedAfterPost(postId: docRef.documentID)
         }
     }
-    static func updatePost(ownerUid uid: Post,updatepost: UpdatePost, completion: @escaping(Post) -> Void) {
+    static func updatePost(ownerUid uid: Post,updatepost: Submissions, completion: @escaping(Post) -> Void) {
         
 //        let query = COLLETION_POSTS.whereField("ownerUid", isEqualTo: uid.ownerUid)
             
         COLLETION_POSTS.document(uid.postId).updateData([ // アップデート
                 "caption": updatepost.caption as Any,
-                "imagename": updatepost.imagename as Any
+                "imagename": updatepost.imagename as Any,
+                "isSetPassword": updatepost.isSetPassword as Any
             ]) { err in
                 if let err = err { // エラーハンドリング
                     print("Error updating document: \(err)")
@@ -79,7 +81,16 @@ struct  PostService {
             completion(post)
         }
     }
-
+    
+    static func deletePost(withPostId postId: String) {
+        COLLETION_POSTS.document(postId).delete { error in
+            
+            guard let error = error else { return }
+            print("\(error.localizedDescription)")
+           
+        }
+        
+    }
     
     
     

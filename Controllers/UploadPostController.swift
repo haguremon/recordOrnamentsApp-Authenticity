@@ -42,6 +42,8 @@ class UploadPostController: UIViewController {
         button.backgroundColor = .systemRed
         button.tintColor = .white
         button.layer.shadowColor = UIColor.gray.cgColor
+        button.bounds.size.width = 15
+        button.bounds.size.height = 55
         button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
         button.layer.shadowOpacity = 1.0
@@ -107,9 +109,9 @@ class UploadPostController: UIViewController {
         let tv = InputTextView()
         tv.placeholderText = "名前を付ける"
         tv.font = UIFont.systemFont(ofSize: 16)
-        tv.textColor = .clear
+        tv.textColor = .label
         tv.text = ""
-        //tv.delegate = self
+        tv.delegate = self
         tv.placeholderShouldCenter = false
         tv.returnKeyType = .next
         
@@ -119,9 +121,9 @@ class UploadPostController: UIViewController {
         let tv = InputTextView()
         tv.placeholderText = "メモをする"
         tv.font = UIFont.systemFont(ofSize: 16)
-        tv.textColor = .clear
+        tv.textColor = .label
         tv.text = ""
-        //tv.delegate = self
+        tv.delegate = self
         tv.placeholderShouldCenter = false
         tv.returnKeyType = .done
         return tv
@@ -140,6 +142,61 @@ class UploadPostController: UIViewController {
         label.textColor = .secondaryLabel
         label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/15"
+        return label
+    }()
+    private lazy var checkButton: CheckBox = {
+        let button = CheckBox()
+        //button.setTitle("写真を追加する", for: .normal)
+        button.addTarget(self, action: #selector(setPassword), for: .touchUpInside)
+       // button.backgroundColor = .clear
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.isChecked = false
+        button.bounds.size.width = 15
+        button.bounds.size.height = 30
+        button.backgroundColor = .clear
+        return button
+    }()
+    
+    @objc func setPassword() {
+        
+        if checkButton.isChecked {
+        showMessage2(withTitle: "パスワード", message: "画像タップ時にパスワードが要求されます")
+        } else {
+            
+            print(checkButton.isChecked)
+        
+        }
+
+    }
+    
+    func showMessage2(withTitle title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
+            
+            DispatchQueue.main.async {
+                self?.checkButton.isChecked = true
+            }
+            
+            //self?.post?.isSetPassword = true
+        }))
+        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: { [ weak self ] _ in
+            DispatchQueue.main.async {
+                self?.checkButton.isChecked = false
+            }
+     
+        }))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+    private let passwordLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .label
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.text = "パスワードを設定する"
+        label.backgroundColor = .systemBackground
+        label.textAlignment = .center
         return label
     }()
     
@@ -165,11 +222,12 @@ class UploadPostController: UIViewController {
         guard let image = selectedImage else { return }
         guard let caption = captionTextView.text else { return }
         guard let user = currentUser else { return }
+        let password = checkButton.isChecked
         //ここでインジケーターが発動する
         showLoader(true)
         navigationItem.leftBarButtonItem?.isEnabled = false
         //
-        PostService.uploadPost(caption: caption, image: image, imagename: imagename, user: user) { (error) in
+        PostService.uploadPost(caption: caption, image: image, imagename: imagename, password: password, user: user) { (error) in
             //uploadできたらインジケーターが終わる
             self.showLoader(false)
            
@@ -182,11 +240,7 @@ class UploadPostController: UIViewController {
             print("成功やで")
             //ポストが成功した時の処理 tabバーもホームに移動したいのでプロトコルを使って委任する
             self.delegate?.controllerDidFinishUploadingPost(self)
-            //     self.dismiss(animated: true, completion: nil)
-            //            self.tabBarController?.selectedIndex = 0
-            //delegateに値が入ってるのでcontrollerDidFinishUploadingPost()を使うことができる
-            //rightBarButtonItemが押された時にcontrollerDidFinishUploadingPostが発動する
-            // self.seni()
+
         }
     }
     @objc func didTapDone() {
@@ -221,12 +275,36 @@ class UploadPostController: UIViewController {
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
         
-        view.addSubview(addPhotoButton)
-        //addPhotoButton.setDimensions(height: 55, width: 100)
-        addPhotoButton.anchor(top: photoImageView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 15, paddingLeft: 80, paddingRight: 80, height: 55)
+//        view.addSubview(addPhotoButton)
+//        //addPhotoButton.setDimensions(height: 55, width: 100)
+//        addPhotoButton.anchor(top: photoImageView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 15, paddingLeft: 80, paddingRight: 80, height: 55)
+        let verticalStackView = UIStackView()
+            verticalStackView.axis = .vertical
+            verticalStackView.alignment = .fill
+            verticalStackView.spacing = 7
+            view.addSubview(verticalStackView)
+       
+        verticalStackView.anchor(top: photoImageView.bottomAnchor,
+                                 paddingTop: 1)
+        verticalStackView.centerX(inView: view)
+        
+        let stack = UIStackView(arrangedSubviews: [passwordLabel, checkButton])
+        //縦の関係
+    
+        stack.axis = .horizontal
+        //stack.distribution = .equalSpacing
+        stack.spacing = 1
+        //これでstack内でのサイズがcheckButton.bounds.size.widthと同じになるらしい
+        checkButton.bounds.size.width = checkButton.intrinsicContentSize.width
+        passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
+        //二つが左寄りに
+        stack.alignment = .fill
+        
+        verticalStackView.addArrangedSubview(addPhotoButton)
+        verticalStackView.addArrangedSubview(stack)
         
         view.addSubview(captionTextView)
-        captionTextView.anchor(top: addPhotoButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingRight: 5, height: 100)
+        captionTextView.anchor(top: verticalStackView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingRight: 5, height: 100)
         
         view.addSubview(characterCountLabel)
         characterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: view.rightAnchor,paddingBottom: 0, paddingRight: 14)

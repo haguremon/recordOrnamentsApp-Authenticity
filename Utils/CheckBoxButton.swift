@@ -43,7 +43,12 @@ class CheckBox: UIButton {
 //
 //    }
 //
-    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.cornerRadius = 10
+        self.layer.shadowRadius = 5
+        self.layer.shadowOpacity = 1.0
+    }
     
 
     @objc func buttonClicked(sender: UIButton) {

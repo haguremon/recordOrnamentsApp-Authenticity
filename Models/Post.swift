@@ -20,7 +20,7 @@ struct Post {
     let ownerImageUrl: String
     // Postしたユーザー名
     let ownerUsername: String
-    var isSetPassword = false
+    var isSetPassword:  Bool
     
     init(postId: String, dictonary: [String: Any]) {
         self.caption = dictonary["caption"] as? String ?? ""
@@ -29,13 +29,14 @@ struct Post {
         self.ownerUid = dictonary["ownerUid"] as? String ?? ""
         self.timestamp = dictonary["timestamp"] as? Timestamp ?? Timestamp(date: Date())
         self.postId = postId
+        self.isSetPassword = dictonary["isSetPassword"] as? Bool ?? false
         self.ownerImageUrl = dictonary["ownerImageUrl"] as? String ?? ""
         self.ownerUsername = dictonary["ownerUsername"] as? String ?? ""
     }
     
 }
-struct UpdatePost {
+struct Submissions {
     var caption: String?
     var imagename: String?
-    
+    var isSetPassword: Bool?
 }

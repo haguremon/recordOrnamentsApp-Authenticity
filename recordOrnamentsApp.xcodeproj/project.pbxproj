@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF151E12272FD75C00D774B6 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF151E11272FD75C00D774B6 /* EditViewController.swift */; };
 		CF829F03272A9174000F6DC1 /* recordOrnamentsAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F02272A9174000F6DC1 /* recordOrnamentsAppTests.swift */; };
 		CF829F0D272A9174000F6DC1 /* recordOrnamentsAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F0C272A9174000F6DC1 /* recordOrnamentsAppUITests.swift */; };
 		CF829F0F272A9174000F6DC1 /* recordOrnamentsAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F0E272A9174000F6DC1 /* recordOrnamentsAppUITestsLaunchTests.swift */; };
@@ -79,6 +80,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CF151E11272FD75C00D774B6 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		CF829EE8272A9172000F6DC1 /* recordOrnamentsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recordOrnamentsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF829EF9272A9174000F6DC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF829EFE272A9174000F6DC1 /* recordOrnamentsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = recordOrnamentsAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -239,6 +241,7 @@
 				CF829F53272A94F7000F6DC1 /* OrnamentViewController.swift */,
 				CF829F8E272BBBB1000F6DC1 /* ViewController.swift */,
 				CF829F54272A94F7000F6DC1 /* DetailsViewController.swift */,
+				CF151E11272FD75C00D774B6 /* EditViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 				CF829F7C272A94F8000F6DC1 /*  HeaderCollectionReusable.swift in Sources */,
 				CF829F85272A94F8000F6DC1 /* AppDelegate.swift in Sources */,
 				CF829F86272A94F8000F6DC1 /* SceneDelegate.swift in Sources */,
+				CF151E12272FD75C00D774B6 /* EditViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
