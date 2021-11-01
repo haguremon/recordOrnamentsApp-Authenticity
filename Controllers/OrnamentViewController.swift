@@ -230,13 +230,20 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
-
+//        if post?.isSetPassword == true {
+//
+//            cell.setEffect()
+//
+//        }
+//
         if let post = post {
-  
+            cell.setEffect = true
             cell.setup(image: URL(string: post.imageUrl) , imagename: post.imagename)
         } else {
+            cell.setEffect = true
             cell.setup(image: URL(string: posts[indexPath.row].imageUrl), imagename: posts[indexPath.row].imagename)
         }
+        
         
         return cell
        
@@ -249,17 +256,62 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
         guard let user = user else {
             return
         }
-    
-        let detailsViewController = DetailsViewController(user: user, post: post)
         
-        //let nvdetailsViewController = UINavigationController(rootViewController: detailsViewController)
-        
-        //nvdetailsViewController.modalPresentationStyle = .fullScreen
-        navigationController?.pushViewController(detailsViewController, animated: true)
-       // present(nvdetailsViewController, animated: true)
-        
+        if post.isSetPassword {
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+                   alert.title = "パスワード"
+                   alert.message = "ログイン時のパスワードを入力してください"
+
+                   alert.addTextField(configurationHandler: {(textField) -> Void in
+                       textField.delegate = self
+
+                   })
+
+                   //追加ボタン
+                   alert.addAction(
+                       UIAlertAction(
+                           title: "OK",
+                           style: .default,
+                           handler: { [ weak self ] _ in
+                              
+                               if alert.textFields?.first?.text == user.password {
+                                   
+                                   self?.open(user: user, post: post)
+                                   
+                               }
+                            
+                               
+                           })
+                   )
+
+                   //キャンセルボタン
+                   alert.addAction(
+                   UIAlertAction(
+                       title: "キャンセル",
+                       style: .cancel
+                   )
+                   )
+
+                   //アラートが表示されるごとにprint
+                   self.present(
+                   alert,
+                   animated: true,
+                   completion: {
+                       print("アラートが表示された")
+                   })
+               }
+        open(user: user, post: post)
             
         }
+    
+    private func open(user: User, post: Post){
+        
+        let detailsViewController = DetailsViewController(user: user, post: post)
+        
+        navigationController?.pushViewController(detailsViewController, animated: true)
+      
+    }
+    
     //viewForSupplementaryをつけることができるヘッダーやフッターなので
     
     fileprivate func extractedFunc(_ indexPath: IndexPath, _ header1: HeaderCollectionReusableView) -> UICollectionReusableView {
@@ -345,6 +397,12 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
     }
     
 }
+ extension OrnamentViewController : UITextFieldDelegate {
+    
+    
+    
+
+ }
 //extension OrnamentViewController: UISearchBarDelegate {
 //    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 //        didCancelSearch()

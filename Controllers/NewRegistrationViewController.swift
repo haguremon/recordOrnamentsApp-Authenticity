@@ -127,7 +127,8 @@ class NewRegistrationViewController: UIViewController {
         passwordTextField.textContentType = .newPassword
         passwordTextField.isSecureTextEntry = true
         
-        emailTextField.keyboardType = .default
+        emailTextField.keyboardType = .emailAddress
+        
         userNameTextField.keyboardType = .namePhonePad
         
         registerButton.isEnabled = false

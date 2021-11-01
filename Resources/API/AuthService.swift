@@ -33,6 +33,7 @@ struct  AuthService {
                     "email": credentials.email,
                     "name": credentials.name,
                     "profileImageUrl": imageUrl,
+                    "password": credentials.password,
                     "uid": uid
                  ]
                //collection("users"）のパスが被ることがないuidのでキュメントにdataをつける

@@ -30,12 +30,38 @@ class CollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    var setEffect = true {
+        
+        didSet{
+            if setEffect {
+                
+                setEffect1()
+                
+            } else {
+                imageView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0,paddingRight: 0)
+            }
+        }
+        
+    }
+    
+    func setEffect1() {
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = CGRect(x: 0, y: 0, width: imageView.frame.width, height: imageView.frame.height)
+        blurEffectView.center = imageView.center
+        self.imageView.addSubview(blurEffectView)
+        
+    }
     
     override init(frame: CGRect){
         super.init(frame: frame)
         addSubview(imageView)
     imageView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0,paddingRight: 0)
         
+        if setEffect == true {
+            setEffect1()
+        }
+    
     imageView.setDimensions(height: self.bounds.height / 1.25, width: self.bounds.width)
     addSubview(imagename)
         imagename.anchor(top: imageView.bottomAnchor,
