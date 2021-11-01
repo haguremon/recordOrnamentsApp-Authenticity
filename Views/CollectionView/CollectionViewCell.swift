@@ -17,6 +17,16 @@ class CollectionViewCell: UICollectionViewCell {
         iv.backgroundColor = .lightGray
         return iv
     }()
+    
+    private var blurEffectView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .extraLight)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+       // blurEffectView.isHidden = true
+        blurEffectView.alpha = 0.9
+        return blurEffectView
+    }()
+    
+    
     private let imagename: UILabel = {
         let label = UILabel()
         label.backgroundColor = .lightGray
@@ -29,41 +39,19 @@ class CollectionViewCell: UICollectionViewCell {
         label.sizeToFit()
         return label
     }()
-    
-    var setEffect = true {
         
-        didSet{
-            if setEffect {
-                
-                setEffect1()
-                
-            } else {
-                imageView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0,paddingRight: 0)
-            }
-        }
-        
-    }
-    
-    func setEffect1() {
-        let blurEffect = UIBlurEffect(style: .light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = CGRect(x: 0, y: 0, width: imageView.frame.width, height: imageView.frame.height)
-        blurEffectView.center = imageView.center
-        self.imageView.addSubview(blurEffectView)
-        
-    }
-    
     override init(frame: CGRect){
         super.init(frame: frame)
         addSubview(imageView)
-    imageView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0,paddingRight: 0)
+        imageView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0,paddingRight: 0)
+        imageView.setDimensions(height: self.bounds.height / 1.25, width: self.bounds.width)
         
-        if setEffect == true {
-            setEffect1()
-        }
-    
-    imageView.setDimensions(height: self.bounds.height / 1.25, width: self.bounds.width)
-    addSubview(imagename)
+        imageView.addSubview(blurEffectView)
+        
+        blurEffectView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0,paddingRight: 0)
+        blurEffectView.setDimensions(height: self.bounds.height / 1.25, width: self.bounds.width)
+        
+        addSubview(imagename)
         imagename.anchor(top: imageView.bottomAnchor,
                          left: leftAnchor,
                          bottom: bottomAnchor,
@@ -83,13 +71,16 @@ class CollectionViewCell: UICollectionViewCell {
 
     
     }
-    func setup(image: URL?, imagename: String?){
+
+    func setup(image: URL?, imagename: String?,setPassword: Bool){
         imageView.sd_setImage(with: image, completed: nil)
         self.imagename.text = imagename
-        
+        self.blurEffectView.isHidden = !setPassword
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    
 }

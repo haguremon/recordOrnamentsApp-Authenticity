@@ -230,18 +230,11 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
-//        if post?.isSetPassword == true {
-//
-//            cell.setEffect()
-//
-//        }
-//
+        
         if let post = post {
-            cell.setEffect = true
-            cell.setup(image: URL(string: post.imageUrl) , imagename: post.imagename)
+            cell.setup(image: URL(string: post.imageUrl) , imagename: post.imagename,setPassword: post.isSetPassword)
         } else {
-            cell.setEffect = true
-            cell.setup(image: URL(string: posts[indexPath.row].imageUrl), imagename: posts[indexPath.row].imagename)
+            cell.setup(image: URL(string: posts[indexPath.row].imageUrl), imagename: posts[indexPath.row].imagename, setPassword: posts[indexPath.row].isSetPassword)
         }
         
         
