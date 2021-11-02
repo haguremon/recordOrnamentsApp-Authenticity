@@ -21,10 +21,12 @@ class LoginViewController: UIViewController {
     
     @IBOutlet private var loginButton: UIButton!
     
+    @IBOutlet private var messageLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         movingBackground()
+        messageLabel.isHidden = true
       
     }
     
@@ -80,17 +82,75 @@ class LoginViewController: UIViewController {
         guard let email = emailTextField.text else { return }
         guard let password = passwordTextField.text else { return }
         
-        AuthService.logUserIn(withEmail: email, password: password) { result, error in
+        AuthService.logUserIn(withEmail: email, password: password) { [ weak self ] result, error in
             if let error = error {
-                print(error.localizedDescription)
+                self?.showErrorIfNeeded(error)
                 return
             }
-            let ornamentViewController = self.storyboard?.instantiateViewController(identifier: "OrnamentViewController") as! OrnamentViewController
+            let ornamentViewController = self?.storyboard?.instantiateViewController(identifier: "OrnamentViewController") as! OrnamentViewController
             let navVC = UINavigationController(rootViewController: ornamentViewController)
             navVC.modalPresentationStyle = .fullScreen
-       self.present(navVC, animated: true, completion: nil)
+       self?.present(navVC, animated: true, completion: nil)
         }
         
+    }
+    
+    @IBAction func resetPasswordButton(_ sender: Any) {
+         messageLabel.isHidden = false
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+               alert.title = "パスワードリセット"
+               alert.message = "ログイン時のメールアドレスを入力してください"
+
+               alert.addTextField(configurationHandler: {(textField) -> Void in
+                   textField.delegate = self
+                   textField.textContentType = .emailAddress
+
+               })
+               //追加ボタン
+               alert.addAction(
+                   UIAlertAction(
+                       title: "入力完了",
+                       style: .default,
+                       handler: { [ weak self ] _ in
+                           guard let email =  alert.textFields?.first?.text else {
+                               self?.showMessage(withTitle: "エラー", message: "適切なメールアドレスが入力されていません")
+                               return
+                               
+                           }
+                           AuthService.resetPassword(withEmail: email) { error in
+                               
+                               if let error = error {
+                                   self?.showMessage(withTitle: "エラー", message: "もう一度入力してください")
+                                   print("\(error.localizedDescription)")
+                                   return
+                               }
+                               DispatchQueue.main.async {
+                                   self?.messageLabel.text = "リセット用のメールを送りました!"
+                               }
+                               
+                           }
+                               
+                           
+                       })
+               )
+        
+            //キャンセルボタン
+               alert.addAction(
+               UIAlertAction(
+                   title: "キャンセル",
+                   style: .cancel
+               )
+               )
+               //アラートが表示されるごとにprint
+               self.present(
+               alert,
+               animated: true,
+               completion: {
+                   print("アラートが表示された")
+               })
+        
+    
     }
     
     
@@ -152,3 +212,15 @@ extension LoginViewController: UITextFieldDelegate {
     
     
 }
+extension LoginViewController {
+    private func showErrorIfNeeded(_ errorOrNil: Error?) {
+        // エラーがなければ何もしません
+        guard let error = errorOrNil else { return }
+       
+        let message =  AuthService.errorMessage(of: error)
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+}
+

@@ -56,10 +56,11 @@ class DetailsViewController: UIViewController {
     
     @objc func setPassword() {
         
-        showEditModeMessage()
-//        DispatchQueue.main.async {
-        self.checkButton.isChecked = self.post!.isSetPassword
-//        }
+        DispatchQueue.main.async {
+            self.showEditModeMessage()
+            self.checkButton.isChecked = self.post!.isSetPassword
+        }
+        
    
     }
     
@@ -89,7 +90,7 @@ class DetailsViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
         
-        present(alert, animated: true, completion: nil)
+        present(alert, animated: false, completion: nil)
         
         
     }
@@ -99,9 +100,6 @@ class DetailsViewController: UIViewController {
         PostService.deletePost(withPostId: post!.postId)
         
     }
-    
-    
-    
     
     
     private lazy var editButton: UIButton = {
@@ -211,14 +209,14 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("2")
+   
         configureUI()
           showLoader(true)
     }
    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("3")
+
         showLoader(false)
     }
     
@@ -233,8 +231,10 @@ class DetailsViewController: UIViewController {
     
     
     @objc func didTapDone() {
-       
+
         showEditModeMessage()
+        
+       
     }
    
     
@@ -243,8 +243,8 @@ class DetailsViewController: UIViewController {
        
         let editViewController = EditViewController(user: self.user!, post: self.post!)
         
-        navigationController?.pushViewController(editViewController, animated: true)
-
+        navigationController?.pushViewController(editViewController, animated: false)
+    
     }
     
     //

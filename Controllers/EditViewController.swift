@@ -15,10 +15,8 @@ class EditViewController: UIViewController {
     var post: Post? {
         
         didSet {
-            
-            //guard let post = post else { return }
+           
             configurepost(post: post)
-            print("4")
  }
          
     }
@@ -42,13 +40,6 @@ class EditViewController: UIViewController {
         imagenameCharacterCountLabel.text = "\(imagenameTextView.text.count)/15"
         captionCharacterCountLabel.text = "\(captionTextView.text.count)/300"
     }
-    //
-    //
-    var selectedImage: UIImage? {
-        didSet{ photoImageView.image = selectedImage }
-    }
-    //
-    //
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -60,7 +51,7 @@ class EditViewController: UIViewController {
     
     private lazy var checkButton: CheckBox = {
         let button = CheckBox()
-        //button.setTitle("写真を追加する", for: .normal)
+
         button.addTarget(self, action: #selector(setPassword), for: .touchUpInside)
        // button.backgroundColor = .clear
         button.layer.shadowColor = UIColor.gray.cgColor
@@ -75,9 +66,6 @@ class EditViewController: UIViewController {
         
         if checkButton.isChecked {
         showMessage1(withTitle: "パスワード", message: "保管画面でログイン時のパスワードが要求されます")
-        } else {
-     
-        
         }
     }
     
@@ -112,8 +100,6 @@ class EditViewController: UIViewController {
     }()
     
     
-    
-    
     func showMessage1(withTitle title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
@@ -139,9 +125,8 @@ class EditViewController: UIViewController {
         tv.textColor = .label
         tv.delegate = self
         tv.text = ""
-        tv.keyboardType = .default
+        tv.keyboardType = .namePhonePad
         tv.placeholderShouldCenter = true
-        //tv.placeholderShouldCentral = true
         tv.returnKeyType = .next
         
         return tv
@@ -153,7 +138,7 @@ class EditViewController: UIViewController {
         tv.textColor = .label
         tv.text = ""
         tv.delegate = self
-        tv.keyboardType = .default
+        tv.keyboardType = .namePhonePad
         tv.placeholderShouldCenter = false
         tv.returnKeyType = .done
         return tv
@@ -192,11 +177,8 @@ class EditViewController: UIViewController {
         label.text = "0/15"
         return label
     }()
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
+        
+    // MARK: - Lifecycle
     init(user: User, post: Post){
         self.user = user
         self.post = post
@@ -205,33 +187,35 @@ class EditViewController: UIViewController {
         print(post.postId)
         imagenameTextView.placeholderLabel.isHidden = true
         captionTextView.placeholderLabel.isHidden = true
+        navigationItem.title = "編集モード"
         imagenameTextView.becomeFirstResponder()
         DispatchQueue.main.async {
             self.configurepost(post: post)
         }
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    //    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("2")
-        print("\(view.bounds.size.height)")
+      
         configureUI()
         imagenameTextView.delegate = self
         captionTextView.delegate = self
-        
+        print("viewDidLoad")
     }
-    
+
+        
     // MARK: - Actions
     @objc func didTapCancel(){
         self.navigationController?.popViewController(animated: true)
+    
     }
+    
     private func upDatePost() {
+        
         imagenameTextView.resignFirstResponder()
         captionTextView.resignFirstResponder()
         
@@ -239,8 +223,7 @@ class EditViewController: UIViewController {
         guard let caption = captionTextView.text else { return }
         let password = checkButton.isChecked
         guard let post = post else { return }
-        //ここでインジケーターが発動する
-
+    
         let updatePost = Submissions(caption: caption, imagename: imagename,isSetPassword: password)
         
         PostService.updatePost(ownerUid: post, updatepost: updatePost) { post in
@@ -271,7 +254,6 @@ class EditViewController: UIViewController {
         imagenameTextView.layer.borderColor = UIColor.gray.cgColor
         captionTextView.layer.borderWidth = 1
         captionTextView.layer.borderColor = UIColor.gray.cgColor
-        navigationItem.title = "編集モード"
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
         
@@ -306,7 +288,6 @@ class EditViewController: UIViewController {
         stack.axis = .horizontal
         //stack.distribution = .equalSpacing
         stack.spacing = 0
-        //これでstack内でのサイズがcheckButton.bounds.size.widthと同じになるらしい
         checkButton.bounds.size.width = checkButton.intrinsicContentSize.width
         passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
         //二つが左寄りに
@@ -397,8 +378,6 @@ extension EditViewController {
         }
     
     }
-    //
-    
     
     
 }

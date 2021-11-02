@@ -11,15 +11,17 @@ import FirebaseAuth
 
 class OrnamentViewController: UIViewController {
     
-    var user: User? {
-        didSet {
-            guard let user = user else { return }
-            print("デバッグ:", user.name)
+    var user: User?
+    
+    private var posts = [Post]() {
+        didSet{
+            collectionView.reloadData()
+            if inSearchMode == true {
+                updateSearchResults(for: searchController)
+            }
         }
     }
-    private var posts = [Post]() {
-        didSet{ collectionView.reloadData() }
-    }
+    private var filteredPosts = [Post]()
     
     var post: Post?{
         didSet {
@@ -29,6 +31,9 @@ class OrnamentViewController: UIViewController {
     
     @IBOutlet private var collectionView: UICollectionView!
     private let searchController = UISearchController(searchResultsController: nil)
+    private var inSearchMode: Bool {
+        return searchController.isActive && !searchController.searchBar.text!.isEmpty
+    }
     
     private let coverView: UIView = {
         let mainBoundSize: CGSize = UIScreen.main.bounds.size
@@ -40,6 +45,7 @@ class OrnamentViewController: UIViewController {
         return view
     }()
     var menu: SideMenuNavigationController?
+    
     let collectionViewLayout = CollectionViewLayout()
     
     override func viewDidLoad() {
@@ -48,13 +54,15 @@ class OrnamentViewController: UIViewController {
         configureNavigationBar()
         print("hello")
         navigationController?.navigationBar.isTranslucent = true
-        //navigationController?.title = "置物"
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .green
         view.backgroundColor = .systemBackground
+       
         configureSearchController()
+     
         setupSideMenu()
         setupCollectionView()
         fetchPosts()
+   
         let refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(habdleRefresh), for: .valueChanged)
         
@@ -125,7 +133,6 @@ class OrnamentViewController: UIViewController {
     //loginSegue
     private func presentToViewController() {
         
-        //RegisterViewControllerに移動する
         let loginViewController = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
         loginViewController.modalPresentationStyle = .fullScreen
         present(loginViewController, animated: false, completion: nil)
@@ -133,14 +140,20 @@ class OrnamentViewController: UIViewController {
     }
     
     private func configureSearchController(){
-        // searchController.searchResultsUpdater = self
+        searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "登録した名前で検索できるよ"
-        //searchController.searchBar.delegate = self
+        searchController.searchBar.tintColor = .label
+        searchController.searchBar.backgroundColor = .green
+        searchController.searchBar.layer.borderColor = UIColor.systemGray.cgColor
+        searchController.searchBar.searchTextField.backgroundColor = .systemBackground
+        searchController.searchBar.delegate = self
+        navigationController?.navigationBar.backgroundColor = .systemBackground
         navigationItem.searchController = searchController
         definesPresentationContext = false
     }
+    
     private func configureNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                                             style: .done,
@@ -150,44 +163,30 @@ class OrnamentViewController: UIViewController {
                                                            style: .done,
                                                            target: self,
                                                            action: #selector(createSideMenuButton))
-        
     }
     
     @objc private func didTapPostToButton() {
         
         let controller = UploadPostController()
-        //ここで遷移渡しをしてuserの情報やselectedImageをUploadPostControllerにあげる
-        //controller.selectedImage = selectedImage
-        print("didFinishPickingMedia ここで1")
-        //ここですでにcontrollerDidFinishUploadingPost()を保持
         controller.delegate = self
-        //投稿してユーザーの情報を　渡す
         controller.currentUser = user
-
         navigationController?.pushViewController(controller, animated: true)
-
-        
-        
-        
-    }
     
+    }
     
     @objc func createSideMenuButton(_ sender: Any) {
         
         present(menu!, animated: true, completion: nil)
         
-        
-        
     }
-    
     
     @IBAction func barItemReturn(segue: UIStoryboardSegue){
         
-        
     }
-    
+
 }
 
+//MARK: -UploadPostControllerDelegate
 extension OrnamentViewController: UploadPostControllerDelegate{
     
     func controllerDidFinishUploadingPost(_ controller: UploadPostController) {
@@ -196,8 +195,6 @@ extension OrnamentViewController: UploadPostControllerDelegate{
         self.habdleRefresh()
         
     }
-    
-    
     
 }
 
@@ -216,88 +213,97 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: "header", withReuseIdentifier: "header")
     }
     
-    
-//    func numberOfSections(in collectionView: UICollectionView) -> Int {
-//        1
-//    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return  post == nil ? posts.count : 1
-        
+        switch inSearchMode {
+            
+        case true:
+            return filteredPosts.count
+        case false:
+            return  post == nil ? posts.count : 1
+        }
         
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
         
-        if let post = post {
-            cell.setup(image: URL(string: post.imageUrl) , imagename: post.imagename,setPassword: post.isSetPassword)
-        } else {
-            cell.setup(image: URL(string: posts[indexPath.row].imageUrl), imagename: posts[indexPath.row].imagename, setPassword: posts[indexPath.row].isSetPassword)
+        switch inSearchMode {
+        case true:
+            cell.setup(image: URL(string: filteredPosts[indexPath.row].imageUrl), imagename: filteredPosts[indexPath.row].imagename, setPassword: filteredPosts[indexPath.row].isSetPassword)
+        case false:
+            if let post = post {
+                cell.setup(image: URL(string: post.imageUrl) , imagename: post.imagename,setPassword: post.isSetPassword)
+            } else {
+                cell.setup(image: URL(string: posts[indexPath.row].imageUrl), imagename: posts[indexPath.row].imagename, setPassword: posts[indexPath.row].isSetPassword)
+            }
         }
-        
         
         return cell
        
 }
-                                   
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let post = posts[indexPath.row]
-        
+        let post = inSearchMode ? filteredPosts[indexPath.row] : posts[indexPath.row]
         guard let user = user else {
             return
         }
         
         if post.isSetPassword {
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-                   alert.title = "パスワード"
-                   alert.message = "ログイン時のパスワードを入力してください"
-
-                   alert.addTextField(configurationHandler: {(textField) -> Void in
-                       textField.delegate = self
-
-                   })
-
-                   //追加ボタン
-                   alert.addAction(
-                       UIAlertAction(
-                           title: "OK",
-                           style: .default,
-                           handler: { [ weak self ] _ in
-                              
-                               if alert.textFields?.first?.text == user.password {
-                                   
-                                   self?.open(user: user, post: post)
-                                   
-                               }
-                            
-                               
-                           })
-                   )
-
-                   //キャンセルボタン
-                   alert.addAction(
-                   UIAlertAction(
-                       title: "キャンセル",
-                       style: .cancel
-                   )
-                   )
-
-                   //アラートが表示されるごとにprint
-                   self.present(
-                   alert,
-                   animated: true,
-                   completion: {
-                       print("アラートが表示された")
-                   })
+            showDialog(user: user, post: post)
                }
-        open(user: user, post: post)
+        
+        openDetailsViewController(user: user, post: post)
             
         }
     
-    private func open(user: User, post: Post){
+    private func showDialog(user: User, post: Post) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+               alert.title = "パスワード"
+               alert.message = "ログイン時のパスワードを入力してください"
+
+               alert.addTextField(configurationHandler: {(textField) -> Void in
+                   textField.delegate = self
+                   textField.textContentType = .newPassword
+                   textField.isSecureTextEntry = true
+               })
+               //追加ボタン
+               alert.addAction(
+                   UIAlertAction(
+                       title: "入力完了",
+                       style: .default,
+                       handler: { [ weak self ] _ in
+                           if alert.textFields?.first?.text == user.password {
+                               self?.openDetailsViewController(user: user, post:post)
+                           }
+                       })
+               )
+                alert.addAction(
+                    UIAlertAction(
+                    title: "パスワードを忘れた場合",
+                    style: .default,
+                    handler: { [ weak self ] _ in
+                        print("\(String(describing: self?.user?.password))")
+                }))
+            //キャンセルボタン
+               alert.addAction(
+               UIAlertAction(
+                   title: "キャンセル",
+                   style: .cancel
+               )
+               )
+               //アラートが表示されるごとにprint
+               self.present(
+               alert,
+               animated: true,
+               completion: {
+                   print("アラートが表示された")
+               })
+        
+    }
+    
+   
+    private func openDetailsViewController(user: User, post: Post){
         
         let detailsViewController = DetailsViewController(user: user, post: post)
         
@@ -329,7 +335,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     }
                                    
                                    
-                                   //MRAK: -SideMeun
+        //MARK: -SideMeun
 
 extension OrnamentViewController: SideMenuNavigationControllerDelegate {
     
@@ -344,8 +350,6 @@ extension OrnamentViewController: SideMenuNavigationControllerDelegate {
         return settings
             }
             
-            
-    
     func sideMenuWillAppear(menu: SideMenuNavigationController, animated: Bool) {
         navigationController?.view.addSubview(coverView)
     }
@@ -357,9 +361,9 @@ extension OrnamentViewController: SideMenuNavigationControllerDelegate {
     
     
 }
+
+
 //MARK: - SideMenuViewControllerDelegate
-
-
 extension OrnamentViewController: SideMenuViewControllerDelegate {
     func didSelectMeunItem(name: SideMenuItem) {
         menu?.dismiss(animated: true, completion:nil)
@@ -391,37 +395,33 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
     
 }
  extension OrnamentViewController : UITextFieldDelegate {
-    
-    
-    
-
  }
-//extension OrnamentViewController: UISearchBarDelegate {
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        didCancelSearch()
-//        guard let text = searchBar.text, !text.isEmpty else {
-//            return
-//        }
-//
-//        query(text)
-//    }
-//
-//    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel",
-//                                                            style: .plain,
-//                                                            target: self,
-//                                                            action: #selector(didCancelSearch))
-//    }
-//
-        //    @objc private func didCancelSearch() {
-        //        searchBar.resignFirstResponder()
-        //        navigationItem.rightBarButtonItem = nil
-        //    }
-        //
-        //    private func query(_ text: String) {
-        //        // Perform in search in the back ends
-        //    }
-        //}
+// MARK: - UISearchResultsUpdating
+extension OrnamentViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        //1文字でも含まれてたら検索できる
+        filteredPosts = posts.filter({$0.imagename.contains(searchText)})
+
+       self.collectionView.reloadData()
+    }
+}
+
+extension OrnamentViewController: UISearchBarDelegate{
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+        collectionView.isHidden = false
+        //tableView.isHidden = false
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+        searchBar.showsCancelButton = false
+        searchBar.text = nil
+        collectionView.isHidden = false
+       // tableView.isHidden = true
+    }
+}
+
         
         
   

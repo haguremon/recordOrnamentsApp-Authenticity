@@ -225,7 +225,7 @@ class UploadPostController: UIViewController {
         let password = checkButton.isChecked
         //ここでインジケーターが発動する
         showLoader(true)
-        navigationItem.leftBarButtonItem?.isEnabled = false
+        navigationItem.rightBarButtonItem?.isEnabled = false
         //
         PostService.uploadPost(caption: caption, image: image, imagename: imagename, password: password, user: user) { (error) in
             //uploadできたらインジケーターが終わる
@@ -259,7 +259,6 @@ class UploadPostController: UIViewController {
         navigationItem.title = "保管"
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didTapDone))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didTapDone))
         view.addSubview(imagenameTextView)
         imagenameTextView.setDimensions(height: view.bounds.height / 11, width: view.bounds.width)
@@ -269,15 +268,12 @@ class UploadPostController: UIViewController {
         characterCountLabel2.anchor(bottom: imagenameTextView.bottomAnchor, right: view.rightAnchor,paddingBottom: 0, paddingRight: 14)
         view.addSubview(photoImageView)
         
-        
         photoImageView.setDimensions(height: view.bounds.height / 3, width: view.bounds.width)
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 8)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
         
-//        view.addSubview(addPhotoButton)
-//        //addPhotoButton.setDimensions(height: 55, width: 100)
-//        addPhotoButton.anchor(top: photoImageView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 15, paddingLeft: 80, paddingRight: 80, height: 55)
+        
         let verticalStackView = UIStackView()
             verticalStackView.axis = .vertical
             verticalStackView.alignment = .fill
@@ -290,9 +286,7 @@ class UploadPostController: UIViewController {
         
         let stack = UIStackView(arrangedSubviews: [passwordLabel, checkButton])
         //縦の関係
-    
         stack.axis = .horizontal
-        //stack.distribution = .equalSpacing
         stack.spacing = 1
         //これでstack内でのサイズがcheckButton.bounds.size.widthと同じになるらしい
         checkButton.bounds.size.width = checkButton.intrinsicContentSize.width
@@ -322,7 +316,7 @@ extension UploadPostController {
             guard let userInfo = sender.userInfo else { return }
             let duration: Float = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
             UIView.animate(withDuration: TimeInterval(duration), animations: { () -> Void in
-                let transform = CGAffineTransform(translationX: 0, y: -150)
+                let transform = CGAffineTransform(translationX: 0, y: -250)
                 self.view.transform = transform
             })
         }

@@ -102,7 +102,7 @@ class NewRegistrationViewController: UIViewController {
         print("handleAuthToFirebase: \(authCredential)")
         AuthService.registerUser(withCredential: authCredential) { (error) in
             if let error = error {
-                print("DEBUG: Failed to register user\(error.localizedDescription)")
+                self.showErrorIfNeeded(error)
                 self.registerButton.isEnabled = true
                 return
             }
@@ -242,4 +242,16 @@ extension NewRegistrationViewController {
         self.view.endEditing(true)
     }
     
+}
+
+extension NewRegistrationViewController {
+    private func showErrorIfNeeded(_ errorOrNil: Error?) {
+        // エラーがなければ何もしません
+        guard let error = errorOrNil else { return }
+       
+        let message =  AuthService.errorMessage(of: error)
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }

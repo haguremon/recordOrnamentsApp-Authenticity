@@ -49,4 +49,27 @@ struct  AuthService {
     static func resetPassword(withEmail email: String, completion: SendPasswordResetCallback?){
         Auth.auth().sendPasswordReset(withEmail: email, completion: completion)
     }
+    
+    static func errorMessage(of error: Error) -> String {
+        var message = "エラーが発生しました"
+        guard let errcd = AuthErrorCode(rawValue: (error as NSError).code) else {
+            return message
+        }
+    
+        switch errcd {
+        case .networkError: message = "ネットワークに接続できません"
+        case .userNotFound: message = "ユーザが見つかりません"
+        case .invalidEmail: message = "不正なメールアドレスです"
+        case .emailAlreadyInUse: message = "このメールアドレスは既に使われています"
+        case .wrongPassword: message = "入力した認証情報でサインインできません"
+        case .userDisabled: message = "このアカウントは無効です"
+        case .weakPassword: message = "パスワードが脆弱すぎます"
+        // これは一例です。必要に応じて増減させてください
+        default: break
+        }
+        return message
+    }
+
+    
+    
 }

@@ -25,7 +25,7 @@ class  CollectionViewLayout {
             widthDimension: .fractionalWidth(0.5),
             heightDimension: .absolute(170)))
         
-        item.contentInsets = .init(top: 2, leading: 5, bottom: 12, trailing: 2)
+        item.contentInsets = .init(top: 2, leading: 5, bottom: 10, trailing: 5)
         
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(
@@ -41,7 +41,7 @@ class  CollectionViewLayout {
             [
                 .init(layoutSize: .init(
                         widthDimension: .fractionalWidth(1),
-                        heightDimension: .absolute(5)),
+                        heightDimension: .absolute(0.5)),
                       elementKind: "header" ,
                       alignment: .top)
                 

@@ -58,11 +58,6 @@ class DescriptionViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.size.width * 3, height: belowView.frame.size.height)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
-//        scrollView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-//                scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-//                scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-//                scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-//                scrollView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         
     scrollView.topAnchor.constraint(equalTo: belowView.topAnchor).isActive = true
     scrollView.bottomAnchor.constraint(equalTo: belowView.bottomAnchor).isActive = true
@@ -72,6 +67,7 @@ class DescriptionViewController: UIViewController {
     scrollView.topAnchor.constraint(equalTo: pageControl.bottomAnchor,constant: -20).isActive = true
     scrollView.bottomAnchor.constraint(equalTo: backButton.bottomAnchor,constant: -50 ).isActive = true
     }
+    
     func createImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, image: Photo) -> UIImageView {
         let imageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
         let image = UIImage(systemName:  image.imageName)
@@ -80,42 +76,29 @@ class DescriptionViewController: UIViewController {
         imageView.contentMode =  UIView.ContentMode.scaleToFill
         return imageView
     }
+    
     func setUpImageView() {
         for i in 0 ..< self.photoList.count {
             let photoItem = self.photoList[i]
             print("\(i)")
+            
             let imageView = createImageView(x: 0, y: 0, width: self.belowView.frame.size.width, height: self.belowView.frame.size.height, image: photoItem)
-       imageView.frame = CGRect(origin: CGPoint(x: belowView.frame.size.width * CGFloat(i), y: 0), size: CGSize(width: self.belowView.frame.size.width, height: self.scrollView.frame.size.height))
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-            //scrollView.addSubview(belowView)
+           imageView.frame = CGRect(origin: CGPoint(x: belowView.frame.size.width * CGFloat(i), y: 0), size: CGSize(width: self.belowView.frame.size.width, height: self.scrollView.frame.size.height))
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            
             self.belowView.addSubview(imageView)
 
         
-//        for i in 0 ..< self.photoList.count {
-//            let photoItem = self.photoList[i]
-//            let imageView = createImageView(x: 0, y: 0, width: self.scrollView.frame.size.width, height: self.scrollView.frame.size.height, image: photoItem)
-//
-////            imageView.frame = CGRect(origin: CGPoint(x: self.belowView.frame.size.width * CGFloat(i), y: 0), size: CGSize(width: self.belowView.frame.size.width, height: self.belowView.frame.size.height))
-//
-//            imageView.frame = CGRect(origin: CGPoint(x: self.belowView.frame.size.width * CGFloat(i) , y: 0), size: CGSize(width: self.belowView.frame.size.width, height: self.scrollView.frame.size.height))
-//    //
-//            self.scrollView.addSubview(imageView)
             imageView.centerXAnchor.constraint(equalTo: belowView.centerXAnchor,constant: belowView.frame.size.width + 10 * CGFloat(i)).isActive = true    // X座標軸の中心を親Viewと合わせる制約を有効にする
             
-          imageView.centerYAnchor.constraint(equalTo: belowView.centerYAnchor).isActive = true
-           // imageView.topAnchor.constraint(equalTo: pageControl.bottomAnchor,constant: -20).isActive = true
+            imageView.centerYAnchor.constraint(equalTo: belowView.centerYAnchor).isActive = true
+    
             imageView.topAnchor.constraint(equalTo: belowView.topAnchor).isActive = true
             imageView.bottomAnchor.constraint(equalTo: belowView.bottomAnchor).isActive = true
             imageView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,constant: CGFloat(i)).isActive = true
             imageView.rightAnchor.constraint(equalTo: scrollView.rightAnchor,constant: CGFloat(i)).isActive = true
             
             imageView.widthAnchor.constraint(equalTo: belowView.widthAnchor, multiplier: CGFloat(i)).isActive = true
-            
-           // imageView.bottomAnchor.constraint(equalTo: backButton.bottomAnchor,constant: -60 ).isActive = true
-            
-            //
-            
-            
             
             
         }
