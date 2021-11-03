@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            // appearance.configureWithDefaultBackground()
 
 //           appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.secondaryLabel]
-            appearance.backgroundColor = .systemBackground
+            appearance.backgroundColor = .gray
             appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
             // Large Title 用 NavigationBar の色設定
            // UINavigationBar.appearance().scrollEdgeAppearance = appearance

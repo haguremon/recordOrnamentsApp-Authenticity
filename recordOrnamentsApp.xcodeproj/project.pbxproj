@@ -27,6 +27,9 @@
 		CF1D70FA27305A2200DB31A0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = CF1D70F927305A2200DB31A0 /* FirebaseStorage */; };
 		CF1D70FC27305A2200DB31A0 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = CF1D70FB27305A2200DB31A0 /* FirebaseStorageCombine-Community */; };
 		CF1D70FE27305A2200DB31A0 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = CF1D70FD27305A2200DB31A0 /* FirebaseStorageSwift-Beta */; };
+		CF1D710127323EE900DB31A0 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1D710027323EE900DB31A0 /* AccountViewController.swift */; };
+		CF1D7108273288B500DB31A0 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1D7106273288B500DB31A0 /* TableViewCell.swift */; };
+		CF1D7109273288B500DB31A0 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1D7107273288B500DB31A0 /* TableViewCell.xib */; };
 		CF829F03272A9174000F6DC1 /* recordOrnamentsAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F02272A9174000F6DC1 /* recordOrnamentsAppTests.swift */; };
 		CF829F0D272A9174000F6DC1 /* recordOrnamentsAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F0C272A9174000F6DC1 /* recordOrnamentsAppUITests.swift */; };
 		CF829F0F272A9174000F6DC1 /* recordOrnamentsAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F0E272A9174000F6DC1 /* recordOrnamentsAppUITestsLaunchTests.swift */; };
@@ -41,7 +44,6 @@
 		CF829F6F272A94F8000F6DC1 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F4C272A94F7000F6DC1 /* SideMenuViewController.swift */; };
 		CF829F70272A94F8000F6DC1 /* NewRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F4D272A94F7000F6DC1 /* NewRegistrationViewController.swift */; };
 		CF829F71272A94F8000F6DC1 /* UploadPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F4E272A94F7000F6DC1 /* UploadPostController.swift */; };
-		CF829F72272A94F8000F6DC1 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F4F272A94F7000F6DC1 /* DescriptionViewController.swift */; };
 		CF829F75272A94F8000F6DC1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F52272A94F7000F6DC1 /* LoginViewController.swift */; };
 		CF829F76272A94F8000F6DC1 /* OrnamentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F53272A94F7000F6DC1 /* OrnamentViewController.swift */; };
 		CF829F77272A94F8000F6DC1 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F54272A94F7000F6DC1 /* DetailsViewController.swift */; };
@@ -51,7 +53,6 @@
 		CF829F7B272A94F8000F6DC1 /* CollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F5D272A94F7000F6DC1 /* CollectionViewLayout.swift */; };
 		CF829F7C272A94F8000F6DC1 /*  HeaderCollectionReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F5E272A94F7000F6DC1 /*  HeaderCollectionReusable.swift */; };
 		CF829F7D272A94F8000F6DC1 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F5F272A94F7000F6DC1 /* CollectionViewCell.swift */; };
-		CF829F80272A94F8000F6DC1 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F62272A94F7000F6DC1 /* CustomButton.swift */; };
 		CF829F81272A94F8000F6DC1 /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F65272A94F8000F6DC1 /* ImageUploader.swift */; };
 		CF829F82272A94F8000F6DC1 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F66272A94F8000F6DC1 /* PostService.swift */; };
 		CF829F83272A94F8000F6DC1 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F67272A94F8000F6DC1 /* AuthService.swift */; };
@@ -62,7 +63,7 @@
 		CF829F88272A94F8000F6DC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F6D272A94F8000F6DC1 /* User.swift */; };
 		CF829F89272A94F8000F6DC1 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F6E272A94F8000F6DC1 /* Post.swift */; };
 		CF829F8B272A9564000F6DC1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF829F8A272A9564000F6DC1 /* GoogleService-Info.plist */; };
-		CF829F8F272BBBB1000F6DC1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F8E272BBBB1000F6DC1 /* ViewController.swift */; };
+		CF829F8F272BBBB1000F6DC1 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F8E272BBBB1000F6DC1 /* DescriptionViewController.swift */; };
 		CF829F91272BCE90000F6DC1 /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F90272BCE90000F6DC1 /* CheckBoxButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +86,9 @@
 
 /* Begin PBXFileReference section */
 		CF151E11272FD75C00D774B6 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		CF1D710027323EE900DB31A0 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		CF1D7106273288B500DB31A0 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		CF1D7107273288B500DB31A0 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		CF829EE8272A9172000F6DC1 /* recordOrnamentsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recordOrnamentsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF829EF9272A9174000F6DC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF829EFE272A9174000F6DC1 /* recordOrnamentsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = recordOrnamentsAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,7 +103,6 @@
 		CF829F4C272A94F7000F6DC1 /* SideMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		CF829F4D272A94F7000F6DC1 /* NewRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRegistrationViewController.swift; sourceTree = "<group>"; };
 		CF829F4E272A94F7000F6DC1 /* UploadPostController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadPostController.swift; sourceTree = "<group>"; };
-		CF829F4F272A94F7000F6DC1 /* DescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = "<group>"; };
 		CF829F52272A94F7000F6DC1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CF829F53272A94F7000F6DC1 /* OrnamentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrnamentViewController.swift; sourceTree = "<group>"; };
 		CF829F54272A94F7000F6DC1 /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -109,7 +112,6 @@
 		CF829F5D272A94F7000F6DC1 /* CollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewLayout.swift; sourceTree = "<group>"; };
 		CF829F5E272A94F7000F6DC1 /*  HeaderCollectionReusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = " HeaderCollectionReusable.swift"; sourceTree = "<group>"; };
 		CF829F5F272A94F7000F6DC1 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		CF829F62272A94F7000F6DC1 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		CF829F65272A94F8000F6DC1 /* ImageUploader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
 		CF829F66272A94F8000F6DC1 /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		CF829F67272A94F8000F6DC1 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -120,7 +122,7 @@
 		CF829F6D272A94F8000F6DC1 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CF829F6E272A94F8000F6DC1 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		CF829F8A272A9564000F6DC1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		CF829F8E272BBBB1000F6DC1 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CF829F8E272BBBB1000F6DC1 /* DescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = "<group>"; };
 		CF829F90272BCE90000F6DC1 /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -179,6 +181,15 @@
 				CF829F52272A94F7000F6DC1 /* LoginViewController.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		CF1D710A27328B8F00DB31A0 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				CF1D7106273288B500DB31A0 /* TableViewCell.swift */,
+				CF1D7107273288B500DB31A0 /* TableViewCell.xib */,
+			);
+			path = TableView;
 			sourceTree = "<group>";
 		};
 		CF829EDF272A9172000F6DC1 = {
@@ -252,11 +263,11 @@
 				CF1D70FF2730DF2D00DB31A0 /* Authentication */,
 				CF829F4C272A94F7000F6DC1 /* SideMenuViewController.swift */,
 				CF829F4E272A94F7000F6DC1 /* UploadPostController.swift */,
-				CF829F4F272A94F7000F6DC1 /* DescriptionViewController.swift */,
 				CF829F53272A94F7000F6DC1 /* OrnamentViewController.swift */,
-				CF829F8E272BBBB1000F6DC1 /* ViewController.swift */,
+				CF829F8E272BBBB1000F6DC1 /* DescriptionViewController.swift */,
 				CF829F54272A94F7000F6DC1 /* DetailsViewController.swift */,
 				CF151E11272FD75C00D774B6 /* EditViewController.swift */,
+				CF1D710027323EE900DB31A0 /* AccountViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -264,9 +275,8 @@
 		CF829F56272A94F7000F6DC1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				CF829F57272A94F7000F6DC1 /* StoryBoards */,
+				CF1D710A27328B8F00DB31A0 /* TableView */,
 				CF829F5C272A94F7000F6DC1 /* CollectionView */,
-				CF829F62272A94F7000F6DC1 /* CustomButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -286,6 +296,7 @@
 				CF829F5D272A94F7000F6DC1 /* CollectionViewLayout.swift */,
 				CF829F5E272A94F7000F6DC1 /*  HeaderCollectionReusable.swift */,
 				CF829F5F272A94F7000F6DC1 /* CollectionViewCell.swift */,
+				CF829F57272A94F7000F6DC1 /* StoryBoards */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";
@@ -457,6 +468,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF829F7A272A94F8000F6DC1 /* Main.storyboard in Resources */,
+				CF1D7109273288B500DB31A0 /* TableViewCell.xib in Resources */,
 				CF829F78272A94F8000F6DC1 /* background2.json in Resources */,
 				CF829F79272A94F8000F6DC1 /* LaunchScreen.storyboard in Resources */,
 				CF829F87272A94F8000F6DC1 /* Assets.xcassets in Resources */,
@@ -485,20 +497,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF829F8F272BBBB1000F6DC1 /* ViewController.swift in Sources */,
+				CF829F8F272BBBB1000F6DC1 /* DescriptionViewController.swift in Sources */,
 				CF829F71272A94F8000F6DC1 /* UploadPostController.swift in Sources */,
 				CF829F49272A94E5000F6DC1 /* InputTextView.swift in Sources */,
-				CF829F80272A94F8000F6DC1 /* CustomButton.swift in Sources */,
 				CF829F88272A94F8000F6DC1 /* User.swift in Sources */,
 				CF829F76272A94F8000F6DC1 /* OrnamentViewController.swift in Sources */,
 				CF829F81272A94F8000F6DC1 /* ImageUploader.swift in Sources */,
 				CF829F83272A94F8000F6DC1 /* AuthService.swift in Sources */,
+				CF1D710127323EE900DB31A0 /* AccountViewController.swift in Sources */,
 				CF829F47272A94E5000F6DC1 /* Constants.swift in Sources */,
 				CF829F70272A94F8000F6DC1 /* NewRegistrationViewController.swift in Sources */,
 				CF829F4A272A94E5000F6DC1 /* ContentView.swift in Sources */,
-				CF829F72272A94F8000F6DC1 /* DescriptionViewController.swift in Sources */,
 				CF829F6F272A94F8000F6DC1 /* SideMenuViewController.swift in Sources */,
 				CF829F91272BCE90000F6DC1 /* CheckBoxButton.swift in Sources */,
+				CF1D7108273288B500DB31A0 /* TableViewCell.swift in Sources */,
 				CF829F7D272A94F8000F6DC1 /* CollectionViewCell.swift in Sources */,
 				CF829F7B272A94F8000F6DC1 /* CollectionViewLayout.swift in Sources */,
 				CF829F48272A94E5000F6DC1 /* Extensions.swift in Sources */,

@@ -114,6 +114,14 @@ extension UIButton {
         layer.add(animation, forKey: nil)
     }
     
+    func touchStartAnimation(duration: TimeInterval,delay: TimeInterval) {
+       UIView.animate(withDuration: duration, delay: delay, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
+           self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95);
+           self.alpha = 0.9
+       },completion: nil)
+   }
+
+    
     
     func showAnimation(_ show: Bool) {
         if show {

@@ -16,7 +16,8 @@ protocol SideMenuViewControllerDelegate: AnyObject {
 
 enum SideMenuItem: String,CaseIterable{
     case useGuide = "使い方ガイド"
-    case signOut = "最初の画面に戻る"
+    case account = "アカウント"
+    case signOut = "ログイン画面に戻る"
     case contact = "問い合わせ"
 }
 
@@ -53,11 +54,12 @@ class SideMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        imageView.layer.cornerRadius = 40
+        imageView.layer.cornerRadius = 45
         imageView.layer.borderWidth = 0.8
         imageView.layer.borderColor = UIColor.offBlackOrWhite.cgColor
         activityIndicatorView.hidesWhenStopped = false
         activityIndicatorView.style = .large
+
 
     }
     override func viewWillAppear(_ animated: Bool) {

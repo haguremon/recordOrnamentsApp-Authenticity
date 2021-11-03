@@ -60,6 +60,12 @@ class CollectionViewCell: UICollectionViewCell {
                          paddingLeft: 0,
                          paddingBottom: 0,
                          paddingRight: 0)
+       
+
+    
+    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
         self.contentView.layer.masksToBounds = true
         self.contentView.layer.cornerRadius = 10.0
         
@@ -68,8 +74,6 @@ class CollectionViewCell: UICollectionViewCell {
         self.layer.shadowOffset = CGSize(width: 3, height: 7)
         self.layer.shadowRadius = 2
         self.layer.shadowOpacity = 0.5
-
-    
     }
 
     func setup(image: URL?, imagename: String?,setPassword: Bool){

@@ -366,15 +366,26 @@ extension OrnamentViewController: SideMenuNavigationControllerDelegate {
 //MARK: - SideMenuViewControllerDelegate
 extension OrnamentViewController: SideMenuViewControllerDelegate {
     func didSelectMeunItem(name: SideMenuItem) {
-        menu?.dismiss(animated: true, completion:nil)
-        //閉じた時に移動する
+        menu?.dismiss(animated: false, completion:nil)
+        //サイドメニューが閉じた時に移動する
         
         switch name {
             
         case .useGuide:
-            let vc = ViewController()
+            let vc = DescriptionViewController()
             vc.modalPresentationStyle = .fullScreen
             present(vc, animated: true, completion: nil)
+       
+        case .account:
+            let accoutViewController = storyboard?.instantiateViewController(withIdentifier: "AccountViewController") as! AccountViewController
+            accoutViewController.modalPresentationStyle = .fullScreen
+            accoutViewController.user = self.user
+            let transition = CATransition()
+               transition.duration = 0.2
+               transition.type = CATransitionType.push
+               transition.subtype = CATransitionSubtype.fromLeft
+               view.window!.layer.add(transition, forKey: kCATransition)
+            navigationController?.pushViewController(accoutViewController, animated: false)
         case .signOut:
             print("log out")
             do {
@@ -422,6 +433,3 @@ extension OrnamentViewController: UISearchBarDelegate{
     }
 }
 
-        
-        
-  
