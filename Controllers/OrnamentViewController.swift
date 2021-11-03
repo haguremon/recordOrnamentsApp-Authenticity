@@ -54,8 +54,8 @@ class OrnamentViewController: UIViewController {
         configureNavigationBar()
         print("hello")
         navigationController?.navigationBar.isTranslucent = true
-        collectionView.backgroundColor = .green
-        view.backgroundColor = .systemBackground
+        collectionView.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
        
         configureSearchController()
      
@@ -65,7 +65,7 @@ class OrnamentViewController: UIViewController {
    
         let refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(habdleRefresh), for: .valueChanged)
-        
+        refresher.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         refresher.tintColor = .secondaryLabel
         collectionView.refreshControl = refresher
 
@@ -145,11 +145,11 @@ class OrnamentViewController: UIViewController {
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "登録した名前で検索できるよ"
         searchController.searchBar.tintColor = .label
-        searchController.searchBar.backgroundColor = .green
-        searchController.searchBar.layer.borderColor = UIColor.systemGray.cgColor
+        searchController.searchBar.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        searchController.searchBar.layer.borderColor = UIColor.systemBlue.cgColor
         searchController.searchBar.searchTextField.backgroundColor = .systemBackground
         searchController.searchBar.delegate = self
-        navigationController?.navigationBar.backgroundColor = .systemBackground
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         navigationItem.searchController = searchController
         definesPresentationContext = false
     }
@@ -206,7 +206,8 @@ extension OrnamentViewController: UploadPostControllerDelegate{
 extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     private func setupCollectionView() {
         collectionView.collectionViewLayout = collectionViewLayout.ornamentCollectionViewLayout()
-        
+       
+
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -372,20 +373,26 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
         switch name {
             
         case .useGuide:
-            let vc = DescriptionViewController()
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true, completion: nil)
-       
+            DispatchQueue.main.async {
+                let vc = DescriptionViewController()
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true, completion: nil)
+           
+            }
+            
         case .account:
-            let accoutViewController = storyboard?.instantiateViewController(withIdentifier: "AccountViewController") as! AccountViewController
-            accoutViewController.modalPresentationStyle = .fullScreen
-            accoutViewController.user = self.user
-            let transition = CATransition()
-               transition.duration = 0.2
-               transition.type = CATransitionType.push
-               transition.subtype = CATransitionSubtype.fromLeft
-               view.window!.layer.add(transition, forKey: kCATransition)
-            navigationController?.pushViewController(accoutViewController, animated: false)
+            DispatchQueue.main.async {
+                let accoutViewController = self.storyboard?.instantiateViewController(withIdentifier: "AccountViewController") as! AccountViewController
+                accoutViewController.modalPresentationStyle = .fullScreen
+                accoutViewController.user = self.user
+                let transition = CATransition()
+                   transition.duration = 0.2
+                   transition.type = CATransitionType.push
+                   transition.subtype = CATransitionSubtype.fromLeft
+                self.view.window!.layer.add(transition, forKey: kCATransition)
+                self.navigationController?.pushViewController(accoutViewController, animated: false)
+            }
+           
         case .signOut:
             print("log out")
             do {

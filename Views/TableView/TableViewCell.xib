@@ -16,21 +16,23 @@
                 <rect key="frame" x="0.0" y="0.0" width="321" height="94"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sO8-ec-BeJ">
-                        <rect key="frame" x="30" y="5" width="276" height="20.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sO8-ec-BeJ">
+                        <rect key="frame" x="15" y="6" width="291" height="20.5"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k6s-9q-7SC">
-                        <rect key="frame" x="15" y="27.5" width="291" height="56.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <rect key="frame" x="15" y="28.5" width="291" height="55.5"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
                 </subviews>
                 <constraints>
                     <constraint firstItem="k6s-9q-7SC" firstAttribute="top" secondItem="sO8-ec-BeJ" secondAttribute="bottom" constant="2" id="8ps-kA-AkA"/>
-                    <constraint firstItem="sO8-ec-BeJ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="htc-Ec-BSo"/>
+                    <constraint firstItem="sO8-ec-BeJ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="htc-Ec-BSo"/>
                     <constraint firstItem="k6s-9q-7SC" firstAttribute="top" secondItem="sO8-ec-BeJ" secondAttribute="bottom" constant="2" id="iFi-0Q-dCa"/>
                     <constraint firstItem="k6s-9q-7SC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="ihn-gQ-DWU"/>
                     <constraint firstAttribute="trailing" secondItem="k6s-9q-7SC" secondAttribute="trailing" constant="15" id="sAC-FR-neW"/>
@@ -40,7 +42,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <constraints>
                 <constraint firstItem="njF-e1-oar" firstAttribute="trailing" secondItem="sO8-ec-BeJ" secondAttribute="trailing" constant="15" id="SRv-OK-noD"/>
-                <constraint firstItem="sO8-ec-BeJ" firstAttribute="leading" secondItem="njF-e1-oar" secondAttribute="leading" constant="30" id="uIo-19-JDP"/>
+                <constraint firstItem="sO8-ec-BeJ" firstAttribute="leading" secondItem="njF-e1-oar" secondAttribute="leading" constant="15" id="uIo-19-JDP"/>
             </constraints>
             <connections>
                 <outlet property="lable" destination="sO8-ec-BeJ" id="vny-Z7-PVd"/>

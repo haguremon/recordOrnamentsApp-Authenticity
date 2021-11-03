@@ -29,11 +29,11 @@ class CollectionViewCell: UICollectionViewCell {
     
     private let imagename: UILabel = {
         let label = UILabel()
-        label.backgroundColor = .lightGray
         label.textColor = .label
         label.textAlignment = .center
         label.numberOfLines = 0
-       // label.attributedText = NSAttributedString(
+        label.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        // label.attributedText = NSAttributedString(
         label.lineBreakMode = .byWordWrapping
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.sizeToFit()
@@ -62,10 +62,6 @@ class CollectionViewCell: UICollectionViewCell {
                          paddingRight: 0)
        
 
-    
-    }
-    override func layoutSubviews() {
-        super.layoutSubviews()
         self.contentView.layer.masksToBounds = true
         self.contentView.layer.cornerRadius = 10.0
         
@@ -74,7 +70,10 @@ class CollectionViewCell: UICollectionViewCell {
         self.layer.shadowOffset = CGSize(width: 3, height: 7)
         self.layer.shadowRadius = 2
         self.layer.shadowOpacity = 0.5
+   
     }
+    
+
 
     func setup(image: URL?, imagename: String?,setPassword: Bool){
         imageView.sd_setImage(with: image, completed: nil)

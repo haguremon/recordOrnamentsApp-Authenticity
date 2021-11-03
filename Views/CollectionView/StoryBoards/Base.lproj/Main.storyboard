@@ -179,7 +179,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4N9-gQ-AvG">
                                         <rect key="frame" x="0.0" y="0.0" width="214" height="55"/>
-                                        <color key="backgroundColor" red="0.73607371659999998" green="1" blue="0.70616743100000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="backgroundColor" systemColor="systemRedColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="55" id="SoT-BR-0W3"/>
                                         </constraints>
@@ -230,7 +230,7 @@
                                                             <constraint firstAttribute="height" constant="55" id="V9F-Od-6aF"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -258,7 +258,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3jz-k5-Ws6">
                                                 <rect key="frame" x="0.0" y="0.0" width="214" height="55"/>
-                                                <color key="backgroundColor" red="0.73607371659999998" green="1" blue="0.70616743100000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" systemColor="systemBlueColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="55" id="dhh-m2-vqH"/>
                                                 </constraints>
@@ -370,7 +370,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JYJ-du-k2j">
                                         <rect key="frame" x="0.0" y="0.0" width="214" height="55"/>
-                                        <color key="backgroundColor" systemColor="systemPinkColor"/>
+                                        <color key="backgroundColor" systemColor="systemRedColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="55" id="ALD-Q4-Sdq"/>
                                         </constraints>
@@ -530,52 +530,51 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="fZf-Dd-XuC">
-                                <rect key="frame" x="0.0" y="216" width="414" height="646"/>
+                                <rect key="frame" x="4" y="226" width="406" height="636"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="LSA-R0-hhe" customClass="TableViewCell" customModule="recordOrnamentsApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="406" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LSA-R0-hhe" id="DuH-nA-uGA">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="406" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q09-1b-P2f">
-                                <rect key="frame" x="157" y="103" width="100" height="98"/>
+                                <rect key="frame" x="157" y="113" width="100" height="98"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="Rca-3c-4xz"/>
                                     <constraint firstAttribute="height" constant="98" id="fvV-h8-udf"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="button:Q09-1b-P2f:image" catalog="system"/>
+                                <state key="normal" image="button:Q09-1b-P2f:image"/>
                                 <connections>
                                     <action selector="setprofileImageButton:" destination="rWb-eY-Jr7" eventType="touchUpInside" id="0n0-h6-DMA"/>
                                     <action selector="tappedChangePhoto:" destination="vYy-4r-ecO" eventType="touchUpInside" id="pGb-Pr-Sa4"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNT-qj-Ehq">
-                                <rect key="frame" x="334" y="176" width="60" height="30"/>
+                                <rect key="frame" x="334" y="186" width="60" height="30"/>
                                 <color key="backgroundColor" red="0.1450980392" green="0.18039215689999999" blue="0.29411764709999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="G9u-QY-pKl"/>
                                     <constraint firstAttribute="height" constant="30" id="lck-cU-iR6"/>
                                 </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="変更"/>
-                                <buttonConfiguration key="configuration" style="plain" title="変更"/>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9Da-L1-nb8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="9Da-L1-nb8" firstAttribute="trailing" secondItem="fNT-qj-Ehq" secondAttribute="trailing" constant="20" id="3ZX-px-7fY"/>
+                            <constraint firstItem="fZf-Dd-XuC" firstAttribute="leading" secondItem="9Da-L1-nb8" secondAttribute="leading" constant="4" id="8Cz-M3-OXZ"/>
                             <constraint firstItem="fZf-Dd-XuC" firstAttribute="top" secondItem="fNT-qj-Ehq" secondAttribute="bottom" constant="10" id="MAr-wN-3jG"/>
-                            <constraint firstItem="fZf-Dd-XuC" firstAttribute="trailing" secondItem="9Da-L1-nb8" secondAttribute="trailing" id="Q91-1D-7jt"/>
-                            <constraint firstItem="fZf-Dd-XuC" firstAttribute="leading" secondItem="9Da-L1-nb8" secondAttribute="leading" id="TRt-gx-HUx"/>
-                            <constraint firstItem="Q09-1b-P2f" firstAttribute="top" secondItem="9Da-L1-nb8" secondAttribute="top" constant="15" id="Zmp-hs-oXr"/>
+                            <constraint firstItem="Q09-1b-P2f" firstAttribute="top" secondItem="9Da-L1-nb8" secondAttribute="top" constant="25" id="Zmp-hs-oXr"/>
                             <constraint firstItem="fZf-Dd-XuC" firstAttribute="top" secondItem="Q09-1b-P2f" secondAttribute="bottom" constant="15" id="sMq-8d-gIK"/>
                             <constraint firstItem="9Da-L1-nb8" firstAttribute="bottom" secondItem="fZf-Dd-XuC" secondAttribute="bottom" id="tRf-OO-7e3"/>
                             <constraint firstItem="Q09-1b-P2f" firstAttribute="centerX" secondItem="PQ9-E2-ZT0" secondAttribute="centerX" id="zBb-Sk-9It"/>
@@ -634,7 +633,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="button:Q09-1b-P2f:image" catalog="system" width="128" height="121">
+        <image name="button:Q09-1b-P2f:image" width="128" height="121">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGGoF8QD05T
 S2V5ZWRBcmNoaXZlctEICVRyb290gAGvEBELDBscIRkmKywzNjlDS0xQU1UkbnVsbNcNDg8QERITFBUW
@@ -17312,6 +17311,9 @@ AAAAD0GWA
         <image name="person.fill.badge.plus" catalog="system" width="128" height="124"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -57,9 +57,12 @@ class SideMenuViewController: UIViewController {
         imageView.layer.cornerRadius = 45
         imageView.layer.borderWidth = 0.8
         imageView.layer.borderColor = UIColor.offBlackOrWhite.cgColor
+        imageView.contentMode = .scaleToFill
         activityIndicatorView.hidesWhenStopped = false
         activityIndicatorView.style = .large
-
+        usernameLabel.textColor = .black
+        tableView.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -111,6 +114,8 @@ extension SideMenuViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
+        cell.textLabel?.textColor = .black
         cell.textLabel?.text = sideMenuItems[indexPath.row].rawValue
         return cell
     }

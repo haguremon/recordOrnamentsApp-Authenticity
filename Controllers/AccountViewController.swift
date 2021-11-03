@@ -11,8 +11,8 @@ import UIKit
 
 enum AccountMenu: String,CaseIterable{
     case name = "名前"
-    case mailaddress = "メールアドレス"
-    case space = ""
+    case mailaddress = "メールアドレス変更"
+    case password = "パスワードをリセット"
     case deleteAccount = "アカウント削除"
 }
 
@@ -63,20 +63,23 @@ class AccountViewController: UIViewController {
         
        tableView.isScrollEnabled = false
        tableView.scrollsToTop = false
+       tableView.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        
    }
     private func configureUI() {
         navigationItem.title = "アカウント"
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         //navigationController?.navigationBar.backgroundColor = .gray
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "戻る", style: .done, target: self, action: #selector(didTapdismiss))
- 
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
         profileImageButton.layer.cornerRadius = 45
         profileImageButton.imageView?.contentMode = .scaleToFill
         profileImageButton.imageView?.layer.cornerRadius = 45
         profileImageButton.layer.borderWidth = 0.7
         profileImageButton.layer.borderColor = UIColor.systemBackground.cgColor
-                // Horizontal 拡大
+        profileImageButton.isEnabled = false
+        // Horizontal 拡大
         profileImageButton.contentHorizontalAlignment = .fill
 //                // Vertical 拡大
         
@@ -99,10 +102,7 @@ class AccountViewController: UIViewController {
     }
     
     private func configure(user: User) {
-        print("\(user.profileImageUrl)")
-        
         profileImageImageview.sd_setImage(with: URL(string: user.profileImageUrl), completed: nil)
-          
     }
     
     @objc func didTapdismiss() {
@@ -121,60 +121,84 @@ class AccountViewController: UIViewController {
 
 //MARK: - UITableViewDelegate
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+ 
+    func numberOfSections(in tableView: UITableView) -> Int {
         accountMenus.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+            
+        default:
+            return 1
+        }
+        //accountMenus.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
-        cell.lable.text = accountMenus[indexPath.row].rawValue
-        cell.textLabel?.tintColor = .secondaryLabel
-        cell.textField.isHidden = false
-        cell.selectionStyle = .none
+        cell.textField.backgroundColor = #colorLiteral(red: 0.3305901885, green: 0.4503111243, blue: 0.7627663016, alpha: 1)
+        cell.lable.text = accountMenus[indexPath.section].rawValue
+        cell.textLabel?.text = accountMenus[indexPath.section].rawValue
+        cell.textLabel?.textAlignment = .center
+        cell.backgroundColor = #colorLiteral(red: 0.1358366907, green: 0.1817382276, blue: 0.3030198812, alpha: 1)
         
-        switch indexPath.row {
-        case 0...1:
-            cell.lable.textColor = .label
+        let selectionView = UIView()
+        switch accountMenus[indexPath.section] {
+            
+        case .name:
+            if let user = user {
+                cell.textLabel?.isHidden = true
+                cell.lable.isHidden = false
+                cell.selectionStyle = .none
+                cell.textField.textAlignment = .center
+                cell.textField.isHidden = false
+                cell.textField.text = user.name
+                cell.layer.cornerRadius = 15
+            }
             return cell
-        case 2...3:
-            let selectionView = UIView()
-            selectionView.backgroundColor = UIColor.red
+        
+        case .mailaddress, .password:
+            selectionView.backgroundColor = UIColor.blue
             cell.selectedBackgroundView = selectionView
-            cell.textLabel?.text = accountMenus[indexPath.row].rawValue
-            cell.textLabel?.textAlignment = .center
-            cell.lable.isHidden = true
-            cell.textField.isHidden = true
-            cell.selectionStyle = .default
+            cell.textLabel?.textColor = #colorLiteral(red: 0, green: 0.7300020456, blue: 0.8954316974, alpha: 1)
+            cell.layer.cornerRadius = 10
             return cell
-        
-        default:
+        case .deleteAccount:
+            
+            selectionView.backgroundColor = #colorLiteral(red: 0.982794106, green: 0.4097733498, blue: 0.4362072051, alpha: 1)
+            cell.selectedBackgroundView = selectionView
+            cell.textLabel?.textColor = .red
+            cell.layer.cornerRadius = 5
             return cell
         }
-        
     }
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
     
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        switch indexPath.row {
-       
-        case 0...1:
+        switch accountMenus[indexPath.section] {
+            
+        case .name:
             return 80
-        
-        case 2:
-           return 2
-        
-        case 3:
+        case .mailaddress, .password:
+            return 40
+        case .deleteAccount:
             return 25
-        
-        default:
-            return 20
-        
         }
-        
-        
     }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let marginView = UIView()
+        marginView.backgroundColor = .clear
+        return marginView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 7.5
+    }
+    
 }
