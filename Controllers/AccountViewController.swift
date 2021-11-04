@@ -8,29 +8,36 @@
 
 import UIKit
 
+protocol AccountViewControllerDelegate: AnyObject {
+    func didSelectMeunItem(name: AccountMenu)
+}
 
 enum AccountMenu: String,CaseIterable{
     case name = "名前"
     case mailaddress = "メールアドレス変更"
     case password = "パスワードをリセット"
     case deleteAccount = "アカウント削除"
+    case exit = "戻る"
 }
 
 class AccountViewController: UIViewController {
     
-     var user: User? {
-         didSet{
-             guard let user = user else { return }
-             configure(user: user)
-         }
-     }
+    var user: User? {
+        didSet{
+            guard let user = user else { return }
+            configure(user: user)
+        }
+    }
     
     let accountMenus: [AccountMenu] = AccountMenu.allCases
+    
+    
+    weak var delegate: AccountViewControllerDelegate?
     
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var profileImageButton: UIButton!
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     private var profileImage: UIImage?
@@ -47,25 +54,25 @@ class AccountViewController: UIViewController {
         configureTableView()
     }
     
-   
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.hidesBackButton = true
-           
+        
     }
     
     // MARK: - Helpers
     private func configureTableView() {
-       tableView.dataSource = self
-       tableView.delegate = self
-       tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         
         
-       tableView.isScrollEnabled = false
-       tableView.scrollsToTop = false
-       tableView.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        tableView.isScrollEnabled = false
+        tableView.scrollsToTop = false
+        tableView.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         
-   }
+    }
     private func configureUI() {
         navigationItem.title = "アカウント"
         
@@ -81,16 +88,16 @@ class AccountViewController: UIViewController {
         profileImageButton.isEnabled = false
         // Horizontal 拡大
         profileImageButton.contentHorizontalAlignment = .fill
-//                // Vertical 拡大
+        //                // Vertical 拡大
         
         profileImageButton.contentVerticalAlignment = .fill
         DispatchQueue.main.async {
             
             self.profileImageButton.imageView?.addSubview(self.profileImageImageview)
             self.profileImageImageview.setDimensions(
-                                                height: self.profileImageButton.frame.height,
-                                                width: self.profileImageButton.frame.width
-                                            )
+                height: self.profileImageButton.frame.height,
+                width: self.profileImageButton.frame.width
+            )
         }
         
         
@@ -98,7 +105,7 @@ class AccountViewController: UIViewController {
     
     @IBAction func tappedChangePhoto(_ sender: UIButton) {
         print("tappedChangePhoto")
-    
+        
     }
     
     private func configure(user: User) {
@@ -107,10 +114,10 @@ class AccountViewController: UIViewController {
     
     @objc func didTapdismiss() {
         let transition = CATransition()
-           transition.duration = 0.2
-           transition.type = CATransitionType.push
-           transition.subtype = CATransitionSubtype.fromRight
-           view.window!.layer.add(transition, forKey: kCATransition)
+        transition.duration = 0.2
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        view.window!.layer.add(transition, forKey: kCATransition)
         navigationController?.popToRootViewController(animated: false)
     }
     
@@ -121,62 +128,71 @@ class AccountViewController: UIViewController {
 
 //MARK: - UITableViewDelegate
 extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
- 
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         accountMenus.count
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-            
-        default:
-            return 1
-        }
-        //accountMenus.count
+       1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         cell.textField.backgroundColor = #colorLiteral(red: 0.3305901885, green: 0.4503111243, blue: 0.7627663016, alpha: 1)
         cell.lable.text = accountMenus[indexPath.section].rawValue
-        cell.textLabel?.text = accountMenus[indexPath.section].rawValue
-        cell.textLabel?.textAlignment = .center
         cell.backgroundColor = #colorLiteral(red: 0.1358366907, green: 0.1817382276, blue: 0.3030198812, alpha: 1)
         
+        var content = cell.defaultContentConfiguration()
+        content.text = accountMenus[indexPath.section].rawValue
+        content.textProperties.alignment = .center
+        content.textProperties.color = .white
+        
         let selectionView = UIView()
+        cell.selectedBackgroundView = selectionView
+        
         switch accountMenus[indexPath.section] {
             
         case .name:
-            if let user = user {
-                cell.textLabel?.isHidden = true
-                cell.lable.isHidden = false
-                cell.selectionStyle = .none
-                cell.textField.textAlignment = .center
-                cell.textField.isHidden = false
-                cell.textField.text = user.name
-                cell.layer.cornerRadius = 15
-            }
+            
+            guard let user = user else { return cell}
+            cell.selectionStyle = .none
+            cell.textField.textAlignment = .center
+            cell.textField.text = user.name
+            cell.layer.cornerRadius = 15
             return cell
-        
+            
         case .mailaddress, .password:
+            
             selectionView.backgroundColor = UIColor.blue
-            cell.selectedBackgroundView = selectionView
-            cell.textLabel?.textColor = #colorLiteral(red: 0, green: 0.7300020456, blue: 0.8954316974, alpha: 1)
             cell.layer.cornerRadius = 10
+            content.textProperties.color = #colorLiteral(red: 0, green: 0.7300020456, blue: 0.8954316974, alpha: 1)
+            cell.contentConfiguration = content
             return cell
+            
         case .deleteAccount:
             
             selectionView.backgroundColor = #colorLiteral(red: 0.982794106, green: 0.4097733498, blue: 0.4362072051, alpha: 1)
-            cell.selectedBackgroundView = selectionView
-            cell.textLabel?.textColor = .red
             cell.layer.cornerRadius = 5
+            content.textProperties.color = .red
+            content.textProperties.font = UIFont.systemFont(ofSize: 14)
+            cell.contentConfiguration = content
+            return cell
+        case .exit:
+            selectionView.backgroundColor = .gray
+            cell.layer.cornerRadius = 15
+            cell.contentConfiguration = content
             return cell
         }
     }
-     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+        let selectItem = accountMenus[indexPath.section]
+        //ここでの通知をViewControllernに伝えてその内容をViewControllerでやる
+        delegate?.didSelectMeunItem(name: selectItem)
+    
     
     }
     
@@ -188,9 +204,13 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .mailaddress, .password:
             return 40
         case .deleteAccount:
-            return 25
+            return 35
+        case .exit:
+           return 40
         }
     }
+    
+    
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let marginView = UIView()
         marginView.backgroundColor = .clear

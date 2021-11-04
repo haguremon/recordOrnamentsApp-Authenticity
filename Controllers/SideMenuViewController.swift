@@ -127,11 +127,9 @@ extension SideMenuViewController: UITableViewDataSource, UITableViewDelegate {
         //デリゲートを使ってやり取りする
         tableView.deselectRow(at: indexPath, animated: true)
         let selectItem = sideMenuItems[indexPath.row]
-        print(selectItem)
         //ここでの通知をViewControllernに伝えてその内容をViewControllerでやる
         delegate?.didSelectMeunItem(name: selectItem)
         
-        print("tap")
     }
 
 }

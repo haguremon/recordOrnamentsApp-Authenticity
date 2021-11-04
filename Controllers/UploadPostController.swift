@@ -308,8 +308,9 @@ class UploadPostController: UIViewController {
         
     }
 }
+
+
 extension UploadPostController {
-    
     // キーボードが表示された時
     @objc private func keyboardWillShow(sender: NSNotification) {
         if captionTextView.isFirstResponder {
@@ -353,11 +354,9 @@ extension UploadPostController {
         }
     
     }
-    //
-    
-    
     
 }
+
 
 // MARK: - UITextFieldDelegate
 //textViewの文字のカウントを認知することができる

@@ -13,6 +13,8 @@ class TableViewCell: UITableViewCell {
     
     @IBOutlet weak var textField: UITextField!
    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -27,8 +29,7 @@ class TableViewCell: UITableViewCell {
         lable.textColor = .white
         textField.textColor = .green
         textField.isEnabled = false
-        lable.isHidden = true
-        textField.isHidden = true
+       
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

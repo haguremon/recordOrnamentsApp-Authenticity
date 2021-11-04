@@ -90,11 +90,8 @@ class OrnamentViewController: UIViewController {
             
             
             DispatchQueue.main.async {
-                print("check2222")
                 self.presentToViewController()
             }
-            
-            
             
         }
         
@@ -190,7 +187,6 @@ class OrnamentViewController: UIViewController {
 extension OrnamentViewController: UploadPostControllerDelegate{
     
     func controllerDidFinishUploadingPost(_ controller: UploadPostController) {
-        
         controller.navigationController?.popViewController(animated: true)
         self.habdleRefresh()
         
@@ -206,7 +202,6 @@ extension OrnamentViewController: UploadPostControllerDelegate{
 extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     private func setupCollectionView() {
         collectionView.collectionViewLayout = collectionViewLayout.ornamentCollectionViewLayout()
-       
 
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.delegate = self
@@ -384,6 +379,7 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
             DispatchQueue.main.async {
                 let accoutViewController = self.storyboard?.instantiateViewController(withIdentifier: "AccountViewController") as! AccountViewController
                 accoutViewController.modalPresentationStyle = .fullScreen
+                accoutViewController.delegate = self
                 accoutViewController.user = self.user
                 let transition = CATransition()
                    transition.duration = 0.2
@@ -412,6 +408,31 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
     }
     
 }
+//MARK: - AccountViewControllerDelegate
+
+extension OrnamentViewController: AccountViewControllerDelegate {
+    func didSelectMeunItem(name: AccountMenu) {
+        switch name {
+        case .name:
+            <#code#>
+        case .mailaddress:
+            <#code#>
+        case .password:
+            <#code#>
+        case .deleteAccount:
+            <#code#>
+        case .exit:
+            <#code#>
+        }
+    }
+    
+    
+}
+
+
+
+
+
  extension OrnamentViewController : UITextFieldDelegate {
  }
 // MARK: - UISearchResultsUpdating
