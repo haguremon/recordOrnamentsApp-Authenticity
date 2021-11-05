@@ -579,6 +579,9 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="変更"/>
+                                <connections>
+                                    <action selector="upDateAccountButton:" destination="vYy-4r-ecO" eventType="touchUpInside" id="sZZ-Lu-h39"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9Da-L1-nb8"/>
@@ -598,6 +601,7 @@
                     <connections>
                         <outlet property="profileImageButton" destination="Q09-1b-P2f" id="Jhy-vX-yDe"/>
                         <outlet property="tableView" destination="fZf-Dd-XuC" id="Xlr-4h-mRW"/>
+                        <outlet property="upDateButton" destination="fNT-qj-Ehq" id="6us-sR-LVy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0xf-F4-fDT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

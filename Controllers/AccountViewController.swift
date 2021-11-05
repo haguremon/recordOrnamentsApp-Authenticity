@@ -14,7 +14,6 @@ protocol AccountViewControllerDelegate: AnyObject {
 
 enum AccountMenu: String,CaseIterable{
     case name = "名前"
-    case mailaddress = "メールアドレス変更"
     case password = "パスワードをリセット"
     case deleteAccount = "アカウント削除"
     case exit = "戻る"
@@ -42,11 +41,24 @@ class AccountViewController: UIViewController {
     
     private var profileImage: UIImage?
     
+    @IBOutlet weak var upDateButton: UIButton!
+    
+    @IBAction func upDateAccountButton(_ sender: Any) {
+    
+        DispatchQueue.main.async {
+            self.profileImageButton.isEnabled = true
+            self.profileImageImageview.image = UIImage(systemName: "camera.circle")
+            self.navigationItem.leftBarButtonItem?.isEnabled = true
+        }
+    
+    }
     private var profileImageImageview: UIImageView = {
         let imageview = UIImageView()
         imageview.isUserInteractionEnabled = true
         return imageview
     }()
+    
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +70,7 @@ class AccountViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem?.isEnabled = false
         
     }
     
@@ -80,12 +93,19 @@ class AccountViewController: UIViewController {
         //navigationController?.navigationBar.backgroundColor = .gray
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "戻る", style: .done, target: self, action: #selector(didTapdismiss))
         navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didTapdismiss))
+  
+        
         profileImageButton.layer.cornerRadius = 45
         profileImageButton.imageView?.contentMode = .scaleToFill
         profileImageButton.imageView?.layer.cornerRadius = 45
         profileImageButton.layer.borderWidth = 0.7
         profileImageButton.layer.borderColor = UIColor.systemBackground.cgColor
         profileImageButton.isEnabled = false
+        upDateButton.layer.cornerRadius = 5
+        upDateButton.layer.shadowRadius = 5
+        upDateButton.layer.shadowOpacity = 1.0
+        
         // Horizontal 拡大
         profileImageButton.contentHorizontalAlignment = .fill
         //                // Vertical 拡大
@@ -98,7 +118,10 @@ class AccountViewController: UIViewController {
                 height: self.profileImageButton.frame.height,
                 width: self.profileImageButton.frame.width
             )
+           // self.navigationItem.leftBarButtonItem?.isEnabled = true
+
         }
+        
         
         
     }
@@ -120,6 +143,10 @@ class AccountViewController: UIViewController {
         view.window!.layer.add(transition, forKey: kCATransition)
         navigationController?.popToRootViewController(animated: false)
     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+        tableView.endEditing(true)
+    }
     
 }
 
@@ -140,10 +167,8 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
-        cell.textField.backgroundColor = #colorLiteral(red: 0.3305901885, green: 0.4503111243, blue: 0.7627663016, alpha: 1)
-        cell.lable.text = accountMenus[indexPath.section].rawValue
         cell.backgroundColor = #colorLiteral(red: 0.1358366907, green: 0.1817382276, blue: 0.3030198812, alpha: 1)
-        
+        cell.lable.text = accountMenus[indexPath.section].rawValue
         var content = cell.defaultContentConfiguration()
         content.text = accountMenus[indexPath.section].rawValue
         content.textProperties.alignment = .center
@@ -159,11 +184,14 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             guard let user = user else { return cell}
             cell.selectionStyle = .none
             cell.textField.textAlignment = .center
+            cell.textField.backgroundColor = #colorLiteral(red: 0.3305901885, green: 0.4503111243, blue: 0.7627663016, alpha: 1)
             cell.textField.text = user.name
+            cell.textField.isEnabled = true
+            cell.delegat = self
             cell.layer.cornerRadius = 15
             return cell
             
-        case .mailaddress, .password:
+        case .password:
             
             selectionView.backgroundColor = UIColor.blue
             cell.layer.cornerRadius = 10
@@ -201,7 +229,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             
         case .name:
             return 80
-        case .mailaddress, .password:
+        case .password:
             return 40
         case .deleteAccount:
             return 35
@@ -214,7 +242,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         switch accountMenus[indexPath.section] {
         case .name:
             return nil
-        case .mailaddress, .password, .deleteAccount, .exit:
+        case .password, .deleteAccount, .exit:
             return indexPath
         }
      }
@@ -231,4 +259,11 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         return 7.5
     }
     
+}
+extension AccountViewController: TableViewCellDelegat{
+    func cell(_ cell: TableViewCell) {
+        
+        navigationItem.leftBarButtonItem?.isEnabled = true
+
+    }
 }

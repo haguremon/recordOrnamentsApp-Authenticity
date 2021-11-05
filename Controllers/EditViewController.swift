@@ -103,6 +103,7 @@ class EditViewController: UIViewController {
     func showMessage1(withTitle title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
+            self?.message(withTitle: "パスワード", message: "パスワードを入力してください")
             
             DispatchQueue.main.async {
                 self?.checkButton.isChecked = true
@@ -177,6 +178,11 @@ class EditViewController: UIViewController {
         label.text = "0/15"
         return label
     }()
+    private let password: UILabel = {
+        let label = UILabel()
+        label.isEnabled = true
+        return label
+    }()
         
     // MARK: - Lifecycle
     init(user: User, post: Post){
@@ -221,10 +227,11 @@ class EditViewController: UIViewController {
         
         guard let imagename = imagenameTextView.text else { return }
         guard let caption = captionTextView.text else { return }
-        let password = checkButton.isChecked
+        let setPassword = checkButton.isChecked
+        let password = password.text
         guard let post = post else { return }
     
-        let updatePost = Submissions(caption: caption, imagename: imagename,isSetPassword: password)
+        let updatePost = Submissions(caption: caption, imagename: imagename,password: password,isSetPassword: setPassword)
         
         PostService.updatePost(ownerUid: post, updatepost: updatePost) { post in
             DispatchQueue.main.async {
@@ -430,4 +437,50 @@ extension EditViewController: UITextViewDelegate {
         }
         return true
     }
+}
+
+extension EditViewController {
+    
+    func message(withTitle title: String, message: String){
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+               alert.addTextField(configurationHandler: {(textField) -> Void in
+                   //textField.delegate = self
+                   textField.textContentType = .newPassword
+
+               })
+               //追加ボタン
+               alert.addAction(
+                   UIAlertAction(
+                       title: "入力完了",
+                       style: .default,
+                       handler: { _ in
+                           guard let textFieldText = alert.textFields?.first?.text else { return }
+                           self.password.text = textFieldText
+                        
+                       })
+               )
+        
+            //キャンセルボタン
+               alert.addAction(
+               UIAlertAction(
+                   title: "キャンセル",
+                   style: .cancel,
+                   handler: { [ weak self ] _ in
+                       DispatchQueue.main.async {
+                           self?.checkButton.isChecked = false
+                       }
+                   })
+            )
+               //アラートが表示されるごとにprint
+               self.present(
+               alert,
+               animated: true)
+        
+    }
+    
+    
+    
+    
 }

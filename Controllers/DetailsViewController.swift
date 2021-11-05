@@ -22,7 +22,8 @@ class DetailsViewController: UIViewController {
         
             imagenameTextView.placeholderLabel.isHidden = false
         
-        } else if post.caption == "" {
+        }
+        if post.caption == "" {
             
             captionTextView.placeholderLabel.isHidden = false
             

@@ -11,7 +11,7 @@ import UIKit
 
 struct  PostService {
     //MARK: - Firebaseに保存する処理
-    static func uploadPost(caption: String, image: UIImage, imagename: String,setpassword: Bool, user: User,completion: @escaping(FirestoreCompletion)){
+    static func uploadPost(caption: String, image: UIImage, imagename: String,setpassword: Bool, password: String?, user: User,completion: @escaping(FirestoreCompletion)){
         // typealias FirestoreCompletion = (Error?) -> Void
         guard let uid = Auth.auth().currentUser?.uid else { return }
         //ここでストレージにイメージを入れてからimageUrlのコールバックを使って（completion: @escaping (String) -> Void）なのでimageUrlを取得する
@@ -21,6 +21,7 @@ struct  PostService {
                         "imageUrl": imageUrl,
                         "imagename": imagename,
                         "ownerUid": uid,
+                        "password": password as Any,
                         "isSetPassword": setpassword,
                         "ownerImageUrl": user.profileImageUrl,
                         "ownerUsername": user.name] as [String: Any]
@@ -38,6 +39,7 @@ struct  PostService {
         COLLETION_POSTS.document(uid.postId).updateData([ // アップデート
                 "caption": updatepost.caption as Any,
                 "imagename": updatepost.imagename as Any,
+                "password": updatepost.password as Any,
                 "isSetPassword": updatepost.isSetPassword as Any
             ]) { err in
                 if let err = err { // エラーハンドリング

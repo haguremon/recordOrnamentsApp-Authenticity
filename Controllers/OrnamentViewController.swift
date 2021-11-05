@@ -85,21 +85,21 @@ class OrnamentViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showLoader(false)
-        if Auth.auth().currentUser != nil {
-            Auth.auth().currentUser?.reload(completion: { error in
-                if error == nil {
-                    if Auth.auth().currentUser?.isEmailVerified == true {
-
-                    } else if Auth.auth().currentUser?.isEmailVerified == false {
-                        let alert = UIAlertController(title: "確認用メールを送信しているので確認をお願いします。", message: "まだメール認証が完了していません。", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [ weak self ] _ in
-                            self?.presentToViewController()
-                        }))
-                        self.present(alert, animated: true)
-                    }
-                }
-            })
-        }
+//        if Auth.auth().currentUser != nil {
+//            Auth.auth().currentUser?.reload(completion: { error in
+//                if error == nil {
+//                    if Auth.auth().currentUser?.isEmailVerified == true {
+//
+//                    } else if Auth.auth().currentUser?.isEmailVerified == false {
+//                        let alert = UIAlertController(title: "確認用メールを送信しているので確認をお願いします。", message: "まだメール認証が完了していません。", preferredStyle: .alert)
+//                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [ weak self ] _ in
+//                            self?.presentToViewController()
+//                        }))
+//                        self.present(alert, animated: true)
+//                    }
+//                }
+//            })
+//        }
     }
     
     
@@ -275,8 +275,8 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                alert.message = "ログイン時のパスワードを入力してください"
 
                alert.addTextField(configurationHandler: {(textField) -> Void in
-                   textField.delegate = self
-                   textField.textContentType = .newPassword
+                   //textField.delegate = self
+                   textField.textContentType = .emailAddress
                    textField.isSecureTextEntry = true
                })
                //追加ボタン
@@ -285,17 +285,22 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                        title: "入力完了",
                        style: .default,
                        handler: { [ weak self ] _ in
-                           if alert.textFields?.first?.text == user.password {
+                           if alert.textFields?.first?.text == post.password {
                                self?.openDetailsViewController(user: user, post:post)
+                           } else {
+                               
+                               self?.showMessage(withTitle: "パスワード", message: "パスワードが違います")
                            }
                        })
                )
-                alert.addAction(
+        // TODO: -パスワードを忘れた場合どうするか考える
+        alert.addAction(
                     UIAlertAction(
                     title: "パスワードを忘れた場合",
                     style: .default,
                     handler: { [ weak self ] _ in
                         print("\(String(describing: self?.user?.password))")
+                
                 }))
             //キャンセルボタン
                alert.addAction(
@@ -429,11 +434,11 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
 extension OrnamentViewController: AccountViewControllerDelegate {
     func didSelectMeunItem(_ viewController: AccountViewController, name: AccountMenu) {
         
+       
         switch name {
         case .name:
             print("name")
-        case .mailaddress:
-            print("mailaddress")
+    //MARK: - 11/6日やるやつ
         case .password:
             print("password")
         case .deleteAccount:
@@ -460,8 +465,8 @@ extension OrnamentViewController: AccountViewControllerDelegate {
 
 
 
- extension OrnamentViewController : UITextFieldDelegate {
- }
+// extension OrnamentViewController : UITextFieldDelegate {
+// }
 
 
 // MARK: - UISearchResultsUpdating

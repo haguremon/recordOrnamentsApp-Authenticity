@@ -172,7 +172,8 @@ class UploadPostController: UIViewController {
     func showMessage2(withTitle title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
-            self?.message(withTitle: "パスワード", message: "パスワードを入力してください", text: self?.password)
+         
+            self?.message(withTitle: "パスワード", message: "パスワードを入力してください")
             
             DispatchQueue.main.async {
                 self?.checkButton.isChecked = true
@@ -202,11 +203,7 @@ class UploadPostController: UIViewController {
     }()
     private let password: UILabel = {
         let label = UILabel()
-        label.textColor = .label
         label.isEnabled = true
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.backgroundColor = .systemBackground
-        label.textAlignment = .center
         return label
     }()
     
@@ -229,7 +226,7 @@ class UploadPostController: UIViewController {
         captionTextView.resignFirstResponder()
         
         guard let imagename = imagenameTextView.text else { return }
-        guard let image = selectedImage else { return }
+        guard let image = selectedImage else { return showMessage(withTitle: "写真", message: "写真がありません") }
         guard let caption = captionTextView.text else { return }
         guard let user = currentUser else { return }
         let password = password.text
@@ -238,7 +235,7 @@ class UploadPostController: UIViewController {
         showLoader(true)
         navigationItem.rightBarButtonItem?.isEnabled = false
         //
-        PostService.uploadPost(caption: caption, image: image, imagename: imagename, setpassword: setPassword, user: user) { (error) in
+        PostService.uploadPost(caption: caption, image: image, imagename: imagename, setpassword: setPassword, password: password, user: user) { (error) in
             //uploadできたらインジケーターが終わる
             self.showLoader(false)
            
@@ -440,14 +437,14 @@ extension UploadPostController :UIImagePickerControllerDelegate, UINavigationCon
 }
 extension UploadPostController {
     
-    func message(withTitle title: String, message: String, text: UILabel){
+    func message(withTitle title: String, message: String){
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
                alert.addTextField(configurationHandler: {(textField) -> Void in
                    //textField.delegate = self
                    textField.textContentType = .emailAddress
-
+                   textField.isSecureTextEntry = true
                })
                //追加ボタン
                alert.addAction(
@@ -456,7 +453,7 @@ extension UploadPostController {
                        style: .default,
                        handler: { _ in
                            guard let textFieldText = alert.textFields?.first?.text else { return }
-                           text.text = textFieldText
+                           self.password.text = textFieldText
                         
                        })
                )
@@ -465,9 +462,13 @@ extension UploadPostController {
                alert.addAction(
                UIAlertAction(
                    title: "キャンセル",
-                   style: .cancel
-               )
-               )
+                   style: .cancel,
+                   handler: { [ weak self ] _ in
+                       DispatchQueue.main.async {
+                           self?.checkButton.isChecked = false
+                       }
+                   })
+            )
                //アラートが表示されるごとにprint
                self.present(
                alert,

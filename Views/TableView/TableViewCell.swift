@@ -6,6 +6,10 @@
 //
 
 import UIKit
+protocol TableViewCellDelegat: AnyObject {
+    //コメントviewに行くにはFeedControllerのFeedCellのcommentButtonを押さないといけない
+    func cell(_ cell: TableViewCell)
+}
 
 class TableViewCell: UITableViewCell {
 
@@ -13,7 +17,7 @@ class TableViewCell: UITableViewCell {
     
     @IBOutlet weak var textField: UITextField!
    
-    
+    weak var delegat: TableViewCellDelegat?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,8 +32,7 @@ class TableViewCell: UITableViewCell {
         self.layer.shadowOpacity = 0.3
         lable.textColor = .white
         textField.textColor = .green
-        textField.isEnabled = false
-       
+        textField.delegate = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -37,5 +40,19 @@ class TableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+  
     
+}
+extension TableViewCell: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+      //  delegat?.cell(self)
+    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        delegat?.cell(self)
+        return true
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
