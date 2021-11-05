@@ -16,17 +16,29 @@ struct AuthCredentials {
 }
 
 struct  AuthService {
-    static func registerUser(withCredential credentials: AuthCredentials, completion: @escaping FirestoreCompletion) {
+    static func registerUser(_ viewControllerw: UIViewController,withCredential credentials: AuthCredentials, completion: @escaping FirestoreCompletion) {
         print("DEBUG: Credentials are \(credentials)")
 //
         ImageUploader.uploadImage(image: credentials.profileImage) { (imageUrl) in
             
             Auth.auth().createUser(withEmail: credentials.email, password: credentials.password) { (result, error) in
+          
                 if let error = error {
-                    print("DEBUG: Failed to register user\(error.localizedDescription)")
+                    viewControllerw.showErrorIfNeeded(error)
                     return
                 }
-                
+                guard let user = result?.user else { return }
+                let req = user.createProfileChangeRequest()
+                req.displayName = credentials.name
+                req.commitChanges { error in
+                    
+                    user.sendEmailVerification { error in
+                        guard let error = error else { return }
+                        viewControllerw.showErrorIfNeeded(error)
+
+                    }
+                }
+            
                 guard let uid = result?.user.uid else { return }
 //                //fieldに追加するデータ達
                 let data: [String: Any] = [
@@ -37,7 +49,7 @@ struct  AuthService {
                     "uid": uid
                  ]
                //collection("users"）のパスが被ることがないuidのでキュメントにdataをつける
-                COLLECTION_USERS.document(uid).setData(data,  completion:  completion)
+                COLLECTION_USERS.document(uid).setData(data,  completion: completion)
             }
        }
     }

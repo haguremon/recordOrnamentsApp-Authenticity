@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AccountViewControllerDelegate: AnyObject {
-    func didSelectMeunItem(name: AccountMenu)
+    func didSelectMeunItem(_ viewController: AccountViewController, name: AccountMenu)
 }
 
 enum AccountMenu: String,CaseIterable{
@@ -191,7 +191,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectItem = accountMenus[indexPath.section]
         //ここでの通知をViewControllernに伝えてその内容をViewControllerでやる
-        delegate?.didSelectMeunItem(name: selectItem)
+        delegate?.didSelectMeunItem(self, name: selectItem)
     
     
     }
@@ -209,6 +209,16 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
            return 40
         }
     }
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        
+        switch accountMenus[indexPath.section] {
+        case .name:
+            return nil
+        case .mailaddress, .password, .deleteAccount, .exit:
+            return indexPath
+        }
+     }
+    
     
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

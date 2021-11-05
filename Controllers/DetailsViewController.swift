@@ -332,56 +332,5 @@ class DetailsViewController: UIViewController {
         editButton.layer.cornerRadius = deleteButton.bounds.width / 2
 
         
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
     }
 }
-extension DetailsViewController {
-    
-    // キーボードが表示された時
-    @objc private func keyboardWillShow(sender: NSNotification) {
-        if captionTextView.isFirstResponder {
-            guard let userInfo = sender.userInfo else { return }
-            let duration: Float = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
-            UIView.animate(withDuration: TimeInterval(duration), animations: { () -> Void in
-                let transform = CGAffineTransform(translationX: 0, y: -150)
-                self.view.transform = transform
-            })
-        }
-    }
-    
-    @objc func hidekeyboard(){
-        UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
-            self.view.transform = .identity
-        })
-    }
-    //画面をタップした時にキーボードを閉じる
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
-    
-    func checkMaxLength(_ textView: UITextView){
-        
-        switch textView {
-        case imagenameTextView:
-            if (textView.text.count) > 15 {
-                textView.deleteBackward()
-            }
-        case captionTextView:
-
-            if (textView.text.count) > 300 {
-    
-                textView.deleteBackward()
-            }
-            
-        default:
-            break
-            
-        }
-    
-    }
-}
-

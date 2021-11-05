@@ -15,19 +15,22 @@ class LoginViewController: UIViewController {
     @IBOutlet private var animationView: UIView!
     
     
-    @IBOutlet  private var emailTextField: UITextField!
-    
-    @IBOutlet  private var passwordTextField: UITextField!
+    @IBOutlet  weak var emailTextField: UITextField!
+    var email: String? { didSet{ emailTextField.text = email } }
+   
+    @IBOutlet  weak var passwordTextField: UITextField!
+    var password: String? { didSet{ passwordTextField.text = password }}
     
     @IBOutlet private var loginButton: UIButton!
     
-    @IBOutlet private var messageLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         movingBackground()
         messageLabel.isHidden = true
-      
+        emailTextField.text = email
+        passwordTextField.text = password
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -115,14 +118,14 @@ class LoginViewController: UIViewController {
                        handler: { [ weak self ] _ in
                            guard let email =  alert.textFields?.first?.text else {
                                self?.showMessage(withTitle: "エラー", message: "適切なメールアドレスが入力されていません")
+                              
                                return
                                
                            }
                            AuthService.resetPassword(withEmail: email) { error in
                                
                                if let error = error {
-                                   self?.showMessage(withTitle: "エラー", message: "もう一度入力してください")
-                                   print("\(error.localizedDescription)")
+                                   self?.showErrorIfNeeded(error)
                                    return
                                }
                                DispatchQueue.main.async {
@@ -212,15 +215,3 @@ extension LoginViewController: UITextFieldDelegate {
     
     
 }
-extension LoginViewController {
-    private func showErrorIfNeeded(_ errorOrNil: Error?) {
-        // エラーがなければ何もしません
-        guard let error = errorOrNil else { return }
-       
-        let message =  AuthService.errorMessage(of: error)
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-}
-

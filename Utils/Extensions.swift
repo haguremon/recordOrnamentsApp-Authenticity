@@ -21,11 +21,27 @@ extension UIViewController {
         }
     }
     
-    func showMessage(withTitle title: String, message: String) {
+    func showMessage(withTitle title: String, message: String, completion: @escaping(String) -> Void){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
-    }    
+    }
+    
+    
+    
+    
+    func showErrorIfNeeded(_ errorOrNil: Error?) {
+        // エラーがなければ何もしません
+        guard let error = errorOrNil else { return }
+       
+        let message =  AuthService.errorMessage(of: error)
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+
     
 }
 extension UIColor {

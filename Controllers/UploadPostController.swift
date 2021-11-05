@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import PhotosUI
 
 //ここで委任する
 protocol UploadPostControllerDelegate: AnyObject {
@@ -160,6 +159,7 @@ class UploadPostController: UIViewController {
     @objc func setPassword() {
         
         if checkButton.isChecked {
+        
         showMessage2(withTitle: "パスワード", message: "画像タップ時にパスワードが要求されます")
         } else {
             
@@ -172,6 +172,7 @@ class UploadPostController: UIViewController {
     func showMessage2(withTitle title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
+            self?.message(withTitle: "パスワード", message: "パスワードを入力してください", text: self?.password)
             
             DispatchQueue.main.async {
                 self?.checkButton.isChecked = true
@@ -199,6 +200,15 @@ class UploadPostController: UIViewController {
         label.textAlignment = .center
         return label
     }()
+    private let password: UILabel = {
+        let label = UILabel()
+        label.textColor = .label
+        label.isEnabled = true
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.backgroundColor = .systemBackground
+        label.textAlignment = .center
+        return label
+    }()
     
     
     //    // MARK: - Lifecycle
@@ -222,18 +232,20 @@ class UploadPostController: UIViewController {
         guard let image = selectedImage else { return }
         guard let caption = captionTextView.text else { return }
         guard let user = currentUser else { return }
-        let password = checkButton.isChecked
+        let password = password.text
+        let setPassword = checkButton.isChecked
         //ここでインジケーターが発動する
         showLoader(true)
         navigationItem.rightBarButtonItem?.isEnabled = false
         //
-        PostService.uploadPost(caption: caption, image: image, imagename: imagename, password: password, user: user) { (error) in
+        PostService.uploadPost(caption: caption, image: image, imagename: imagename, setpassword: setPassword, user: user) { (error) in
             //uploadできたらインジケーターが終わる
             self.showLoader(false)
            
             self.navigationItem.leftBarButtonItem?.isEnabled = true
             
             if let error = error {
+                self.showErrorIfNeeded(error)
                 print("DEBUG: Failed to upload post \(error.localizedDescription)")
                 return
             }
@@ -268,7 +280,7 @@ class UploadPostController: UIViewController {
         characterCountLabel2.anchor(bottom: imagenameTextView.bottomAnchor, right: view.rightAnchor,paddingBottom: 0, paddingRight: 14)
         view.addSubview(photoImageView)
         
-        photoImageView.setDimensions(height: view.bounds.height / 3, width: view.bounds.width)
+        photoImageView.setDimensions(height: view.bounds.height / 4, width: view.bounds.width)
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 8)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
@@ -317,7 +329,7 @@ extension UploadPostController {
             guard let userInfo = sender.userInfo else { return }
             let duration: Float = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
             UIView.animate(withDuration: TimeInterval(duration), animations: { () -> Void in
-                let transform = CGAffineTransform(translationX: 0, y: -250)
+                let transform = CGAffineTransform(translationX: 0, y: -150)
                 self.view.transform = transform
             })
         }
@@ -424,5 +436,46 @@ extension UploadPostController :UIImagePickerControllerDelegate, UINavigationCon
 
     }
 
+    
+}
+extension UploadPostController {
+    
+    func message(withTitle title: String, message: String, text: UILabel){
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+               alert.addTextField(configurationHandler: {(textField) -> Void in
+                   //textField.delegate = self
+                   textField.textContentType = .emailAddress
+
+               })
+               //追加ボタン
+               alert.addAction(
+                   UIAlertAction(
+                       title: "入力完了",
+                       style: .default,
+                       handler: { _ in
+                           guard let textFieldText = alert.textFields?.first?.text else { return }
+                           text.text = textFieldText
+                        
+                       })
+               )
+        
+            //キャンセルボタン
+               alert.addAction(
+               UIAlertAction(
+                   title: "キャンセル",
+                   style: .cancel
+               )
+               )
+               //アラートが表示されるごとにprint
+               self.present(
+               alert,
+               animated: true)
+        
+    }
+    
+    
+    
     
 }

@@ -2,12 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>ja_JP</string>
-	<key>NSCameraUsageDescription</key>
-	<string>カメラを利用しますか？</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>写真を保存しますか？</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

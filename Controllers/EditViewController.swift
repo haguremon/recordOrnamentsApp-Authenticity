@@ -267,7 +267,7 @@ class EditViewController: UIViewController {
         view.addSubview(photoImageView)
         
         
-        photoImageView.setDimensions(height: view.bounds.height / 3, width: view.bounds.width)
+        photoImageView.setDimensions(height: view.bounds.height / 4, width: view.bounds.width)
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 8)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
@@ -341,7 +341,7 @@ extension EditViewController {
             guard let userInfo = sender.userInfo else { return }
             let duration: Float = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
             UIView.animate(withDuration: TimeInterval(duration), animations: { () -> Void in
-                let transform = CGAffineTransform(translationX: 0, y: -250)
+                let transform = CGAffineTransform(translationX: 0, y: -150)
                 self.view.transform = transform
             })
         }

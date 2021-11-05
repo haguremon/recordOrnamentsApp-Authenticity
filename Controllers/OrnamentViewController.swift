@@ -82,6 +82,27 @@ class OrnamentViewController: UIViewController {
         SideMenuManager.default.addPanGestureToPresent(toView: self.view)
         
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        showLoader(false)
+        if Auth.auth().currentUser != nil {
+            Auth.auth().currentUser?.reload(completion: { error in
+                if error == nil {
+                    if Auth.auth().currentUser?.isEmailVerified == true {
+
+                    } else if Auth.auth().currentUser?.isEmailVerified == false {
+                        let alert = UIAlertController(title: "確認用メールを送信しているので確認をお願いします。", message: "まだメール認証が完了していません。", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [ weak self ] _ in
+                            self?.presentToViewController()
+                        }))
+                        self.present(alert, animated: true)
+                    }
+                }
+            })
+        }
+    }
+    
+    
     func checkIfUserIsLoggedIn() {
         // configurenavigationController()
         print("check1")
@@ -122,11 +143,6 @@ class OrnamentViewController: UIViewController {
         fetchPosts()
         
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        showLoader(false)
-    }
-    
     //loginSegue
     private func presentToViewController() {
         
@@ -411,20 +427,31 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
 //MARK: - AccountViewControllerDelegate
 
 extension OrnamentViewController: AccountViewControllerDelegate {
-    func didSelectMeunItem(name: AccountMenu) {
+    func didSelectMeunItem(_ viewController: AccountViewController, name: AccountMenu) {
+        
         switch name {
         case .name:
-            <#code#>
+            print("name")
         case .mailaddress:
-            <#code#>
+            print("mailaddress")
         case .password:
-            <#code#>
+            print("password")
         case .deleteAccount:
-            <#code#>
+            Auth.auth().currentUser?.delete {  (error) in
+                      // エラーが無ければ、ログイン画面へ戻る
+                      if error == nil {
+                          self.presentToViewController()
+                      }else{
+                          
+                          self.showErrorIfNeeded(error)
+                      }
+                  }
+            print("deleteAccount")
         case .exit:
-            <#code#>
+            viewController.didTapdismiss()
         }
     }
+    
     
     
 }
@@ -435,6 +462,8 @@ extension OrnamentViewController: AccountViewControllerDelegate {
 
  extension OrnamentViewController : UITextFieldDelegate {
  }
+
+
 // MARK: - UISearchResultsUpdating
 extension OrnamentViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {

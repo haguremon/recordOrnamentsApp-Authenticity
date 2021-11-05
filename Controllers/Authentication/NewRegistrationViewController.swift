@@ -8,6 +8,7 @@
 import UIKit
 import Lottie
 
+
 class NewRegistrationViewController: UIViewController {
     @IBOutlet private var animationView: UIView!
     
@@ -23,10 +24,22 @@ class NewRegistrationViewController: UIViewController {
     
     @IBOutlet private var registerButton: UIButton!
     
+    @IBOutlet weak var messageLabel: UILabel!
+
+    @IBOutlet weak var label: UILabel!
    
     @IBAction func tappedRegisterButton(_ sender: UIButton) {
         print("tap")
         handleAuthToFirebase()
+    }
+    
+    @IBAction func tappedDismisButton(_ sender: Any) {
+        let loginViewController = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+        loginViewController.modalPresentationStyle = .fullScreen
+        present(loginViewController, animated: true, completion: nil)
+        
+       // self.dismiss(animated: true, completion: nil)
+    
     }
     
     
@@ -34,9 +47,9 @@ class NewRegistrationViewController: UIViewController {
         super.viewDidLoad()
        
         movingBackground()
-        configureUI()
         congigureButtton()
-       // profileImageView.addSubview(tap)
+        messageLabel.isHidden = true
+        // profileImageView.addSubview(tap)
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         
@@ -83,6 +96,7 @@ class NewRegistrationViewController: UIViewController {
 
     
     }
+    
     private func setAlbum(){
          print("tap")
          
@@ -95,24 +109,32 @@ class NewRegistrationViewController: UIViewController {
 
     private func handleAuthToFirebase() {
         registerButton.isEnabled = false
-        guard let email = emailTextField.text, !email.isEmpty ,
-              let password = passwordTextField.text, password.count > 7 ,
-              let name = userNameTextField.text, !name.isEmpty else { return }
+        guard let email = emailTextField.text, !email.isEmpty else { return }
+        guard let password = passwordTextField.text else { return showMessage(withTitle: "短いです", message: "7文字以上入力してください") }
+              let name = userNameTextField.text ?? ""
         let authCredential = AuthCredentials(email: email, password: password, name: name, profileImage: selectedImage)
         print("handleAuthToFirebase: \(authCredential)")
-        AuthService.registerUser(withCredential: authCredential) { (error) in
+        AuthService.registerUser(self,withCredential: authCredential) { (error) in
             if let error = error {
                 self.showErrorIfNeeded(error)
                 self.registerButton.isEnabled = true
                 return
             }
-            self.registerButton.isEnabled = true
-            let ornamentViewController = self.storyboard?.instantiateViewController(identifier: "OrnamentViewController") as! OrnamentViewController
-            let navVC = UINavigationController(rootViewController: ornamentViewController)
-            navVC.modalPresentationStyle = .fullScreen
-       self.present(navVC, animated: true, completion: nil)
+                self.showMessage(withTitle: "認証", message: "入力したメールアドレス宛に確認メールを送信しました")
+        
+                self.showErrorIfNeeded(error)
+            DispatchQueue.main.async {
+                self.messageLabel.isHidden = false
+                self.label.isHidden = true
+                self.messageLabel.text = "認証後ログインしてください"
+            }
+            
+//            self.registerButton.isEnabled = true
+//            let ornamentViewController = self.storyboard?.instantiateViewController(identifier: "OrnamentViewController") as! OrnamentViewController
+//            let navVC = UINavigationController(rootViewController: ornamentViewController)
+//            navVC.modalPresentationStyle = .fullScreen
+//       self.present(navVC, animated: true, completion: nil)
         }
-        print("成功")
         
     }
     private func transitionToOrnamentView() {
@@ -184,7 +206,6 @@ extension NewRegistrationViewController :UIImagePickerControllerDelegate, UINavi
         profileImageButton.layer.masksToBounds = true
         profileImageButton.layer.borderColor = UIColor.white.cgColor
         profileImageButton.layer.borderWidth = 2
-       // profileImageView.setImage(selectedImage.withRenderingMode(.alwaysOriginal), for: .normal)
         profileImageButton.setImage(selectedImage.withRenderingMode(.alwaysOriginal), for: .normal)
             self.dismiss(animated: true, completion: nil)
     }
@@ -242,16 +263,4 @@ extension NewRegistrationViewController {
         self.view.endEditing(true)
     }
     
-}
-
-extension NewRegistrationViewController {
-    private func showErrorIfNeeded(_ errorOrNil: Error?) {
-        // エラーがなければ何もしません
-        guard let error = errorOrNil else { return }
-       
-        let message =  AuthService.errorMessage(of: error)
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
 }

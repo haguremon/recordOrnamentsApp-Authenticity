@@ -7,8 +7,9 @@
 
 import Firebase
 
-
+//FirestoreCompletion
 typealias FirestoreCompletion = (Error?) -> Void
+typealias FirebaseAuthCompletion = (AuthDataResult,Error?) -> Void
 
 let COLLECTION_USERS = Firestore.firestore().collection("users")
 
