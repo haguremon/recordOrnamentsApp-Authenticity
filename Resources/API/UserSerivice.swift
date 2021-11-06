@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseAuth
+import UIKit
 
 struct UserService {
     
@@ -21,4 +22,32 @@ struct UserService {
             
         }
     }
+    static func updateUser(ownerUid user: User,updateUser: UpdateUser, image: UIImage?, completion: @escaping(User) -> Void) {
+        
+//        let query = COLLETION_POSTS.whereField("ownerUid", isEqualTo: uid.ownerUid)
+        ImageUploader.uploadImage(image: image) { (profileImageUrl) in
+            COLLETION_POSTS.document(user.uid).updateData([ // アップデート
+                    "name": updateUser.name as Any,
+                    "profileImageUrl": profileImageUrl as Any
+                ]) { err in
+                    if let err = err { // エラーハンドリング
+                        print("Error updating document: \(err)")
+                    } else { // 書き換え成功ハンドリング
+                        
+                    COLLECTION_USERS.document(user.uid).getDocument { (snapshot, _) in
+                    guard let snapshot = snapshot else { return }
+                    guard let data = snapshot.data() else { return }
+                    let user = User(dictonary: data)
+                    completion(user)
+                        }
+                    
+                    }
+                }
+            
+        }
+  
+        
+    }
+    
+    
 }

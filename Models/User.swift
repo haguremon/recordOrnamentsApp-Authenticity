@@ -7,7 +7,7 @@
 
 import Foundation
 import FirebaseAuth
-
+import UIKit
 
 struct User {
     let email: String
@@ -30,4 +30,8 @@ struct User {
         self.password = dictonary["password"] as? String ?? ""
         self.uid = dictonary["uid"] as? String ?? ""
     }
+}
+struct UpdateUser {
+    var name: String?
+    let profileImage: UIImage?
 }

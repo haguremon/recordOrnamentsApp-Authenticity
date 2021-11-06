@@ -9,6 +9,7 @@ import UIKit
 protocol TableViewCellDelegat: AnyObject {
     //コメントviewに行くにはFeedControllerのFeedCellのcommentButtonを押さないといけない
     func cell(_ cell: TableViewCell)
+    func textFieldShouldReturnCell(_ cell: TableViewCell) -> Bool
 }
 
 class TableViewCell: UITableViewCell {
@@ -44,15 +45,28 @@ class TableViewCell: UITableViewCell {
     
 }
 extension TableViewCell: UITextFieldDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-      //  delegat?.cell(self)
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        guard let delegat = delegat else { return true }
+//        return delegat.cell(self)
+//
+//
+//    }
+//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+//        delegat?.cell(self)
+//        return true
+//    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool  {
+        if  delegat?.textFieldShouldReturnCell(self) == true {
+            textField.resignFirstResponder()
+            return false
+        } else {
+            textField.resignFirstResponder()
+            return true
+        }
+        
+       
     }
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         delegat?.cell(self)
-        return true
-    }
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
 }

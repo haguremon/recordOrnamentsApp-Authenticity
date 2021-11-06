@@ -108,7 +108,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Rwb-OV-zSF">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="15" y="88" width="384" height="778"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="itN-La-7it">
                                     <size key="itemSize" width="128" height="128"/>
@@ -129,7 +129,7 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="header" reuseIdentifier="header" id="ZoI-9d-qAl" customClass="HeaderCollectionReusableView" customModule="recordOrnamentsApp" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="128" width="414" height="50"/>
+                                    <rect key="frame" x="0.0" y="128" width="384" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </collectionReusableView>
                             </collectionView>
@@ -137,13 +137,10 @@
                         <viewLayoutGuide key="safeArea" id="Y4O-k8-Z0a"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Rwb-OV-zSF" firstAttribute="trailing" secondItem="Y4O-k8-Z0a" secondAttribute="trailing" id="Hdh-2g-lHK"/>
-                            <constraint firstAttribute="bottom" secondItem="Rwb-OV-zSF" secondAttribute="bottom" id="Qch-2Q-0kH"/>
-                            <constraint firstAttribute="bottom" secondItem="Rwb-OV-zSF" secondAttribute="bottom" id="jeG-KY-dX7"/>
-                            <constraint firstItem="Rwb-OV-zSF" firstAttribute="trailing" secondItem="Y4O-k8-Z0a" secondAttribute="trailing" id="lt6-lV-6FM"/>
-                            <constraint firstItem="Rwb-OV-zSF" firstAttribute="leading" secondItem="Y4O-k8-Z0a" secondAttribute="leading" id="tMW-o8-0xe"/>
-                            <constraint firstItem="Rwb-OV-zSF" firstAttribute="leading" secondItem="Y4O-k8-Z0a" secondAttribute="leading" id="tT9-fZ-cEG"/>
-                            <constraint firstItem="Rwb-OV-zSF" firstAttribute="top" secondItem="Y4O-k8-Z0a" secondAttribute="top" id="xcH-2k-GhB"/>
+                            <constraint firstItem="Rwb-OV-zSF" firstAttribute="centerX" secondItem="1Gq-lC-HUE" secondAttribute="centerX" id="OmG-mq-ean"/>
+                            <constraint firstItem="Rwb-OV-zSF" firstAttribute="centerY" secondItem="1Gq-lC-HUE" secondAttribute="centerY" constant="29" id="fol-vj-gHm"/>
+                            <constraint firstItem="Rwb-OV-zSF" firstAttribute="top" secondItem="Y4O-k8-Z0a" secondAttribute="top" id="l71-dc-LY1"/>
+                            <constraint firstItem="Rwb-OV-zSF" firstAttribute="leading" secondItem="Y4O-k8-Z0a" secondAttribute="leading" constant="15" id="nIL-6B-sSi"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="NGl-p8-3QP"/>
@@ -153,7 +150,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5T6-nv-Uxb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2025" y="205"/>
+            <point key="canvasLocation" x="-2026.0869565217392" y="204.91071428571428"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="aCZ-G6-aar">
@@ -569,16 +566,25 @@
                                     <action selector="tappedChangePhoto:" destination="vYy-4r-ecO" eventType="touchUpInside" id="pGb-Pr-Sa4"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNT-qj-Ehq">
-                                <rect key="frame" x="334" y="196" width="60" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fNT-qj-Ehq">
+                                <rect key="frame" x="331" y="186" width="60" height="40"/>
                                 <color key="backgroundColor" red="0.1450980392" green="0.18039215689999999" blue="0.29411764709999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="G9u-QY-pKl"/>
-                                    <constraint firstAttribute="height" constant="30" id="lck-cU-iR6"/>
+                                    <constraint firstAttribute="height" constant="40" id="lck-cU-iR6"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="変更"/>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="写真変更">
+                                            <attributes>
+                                                <font key="NSFont" size="11" name=".HiraKakuInterface-W3"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
                                 <connections>
                                     <action selector="upDateAccountButton:" destination="vYy-4r-ecO" eventType="touchUpInside" id="sZZ-Lu-h39"/>
                                 </connections>
@@ -587,7 +593,7 @@
                         <viewLayoutGuide key="safeArea" id="9Da-L1-nb8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="9Da-L1-nb8" firstAttribute="trailing" secondItem="fNT-qj-Ehq" secondAttribute="trailing" constant="20" id="3ZX-px-7fY"/>
+                            <constraint firstItem="9Da-L1-nb8" firstAttribute="trailing" secondItem="fNT-qj-Ehq" secondAttribute="trailing" constant="23" id="3ZX-px-7fY"/>
                             <constraint firstItem="fZf-Dd-XuC" firstAttribute="leading" secondItem="9Da-L1-nb8" secondAttribute="leading" constant="20" id="8Cz-M3-OXZ"/>
                             <constraint firstItem="fZf-Dd-XuC" firstAttribute="top" secondItem="fNT-qj-Ehq" secondAttribute="bottom" constant="10" id="MAr-wN-3jG"/>
                             <constraint firstItem="Q09-1b-P2f" firstAttribute="top" secondItem="9Da-L1-nb8" secondAttribute="top" constant="35" id="Zmp-hs-oXr"/>

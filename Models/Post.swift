@@ -44,3 +44,8 @@ struct Submissions {
     var password: String?
     var isSetPassword: Bool?
 }
+
+struct ResetData {
+    var password: String?
+    var isSetPassword: Bool?
+}

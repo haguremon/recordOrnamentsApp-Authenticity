@@ -52,11 +52,13 @@ class OrnamentViewController: UIViewController {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
         configureNavigationBar()
+        
         print("hello")
         navigationController?.navigationBar.isTranslucent = true
-        collectionView.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-        view.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-       
+        collectionView.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1))
+        
         configureSearchController()
      
         setupSideMenu()
@@ -65,8 +67,8 @@ class OrnamentViewController: UIViewController {
    
         let refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(habdleRefresh), for: .valueChanged)
-        refresher.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-        refresher.tintColor = .secondaryLabel
+        refresher.backgroundColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
+        refresher.tintColor = .blue
         collectionView.refreshControl = refresher
 
     }
@@ -158,16 +160,17 @@ class OrnamentViewController: UIViewController {
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "登録した名前で検索できるよ"
         searchController.searchBar.tintColor = .label
-        searchController.searchBar.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        searchController.searchBar.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         searchController.searchBar.layer.borderColor = UIColor.systemBlue.cgColor
         searchController.searchBar.searchTextField.backgroundColor = .systemBackground
         searchController.searchBar.delegate = self
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
         navigationItem.searchController = searchController
         definesPresentationContext = false
     }
     
     private func configureNavigationBar() {
+        navigationItem.title = "ア　プ　リ　名"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                                             style: .done,
                                                             target: self,
@@ -223,6 +226,12 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: "header", withReuseIdentifier: "header")
+        collectionView.layer.cornerRadius = 10
+        collectionView.layer.masksToBounds = false
+        collectionView.layer.shadowOffset = CGSize(width: 7, height: 5)
+        collectionView.layer.shadowColor = #colorLiteral(red: 0.1294117719, green: 0.2156862766, blue: 0.06666667014, alpha: 1)
+        collectionView.layer.shadowRadius = 2
+        collectionView.layer.shadowOpacity = 0.5
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -238,7 +247,6 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
-        
         switch inSearchMode {
         case true:
             cell.setup(image: URL(string: filteredPosts[indexPath.row].imageUrl), imagename: filteredPosts[indexPath.row].imagename, setPassword: filteredPosts[indexPath.row].isSetPassword)
@@ -249,7 +257,6 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                 cell.setup(image: URL(string: posts[indexPath.row].imageUrl), imagename: posts[indexPath.row].imagename, setPassword: posts[indexPath.row].isSetPassword)
             }
         }
-        
         return cell
        
 }
@@ -272,7 +279,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     private func showDialog(user: User, post: Post) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
                alert.title = "パスワード"
-               alert.message = "ログイン時のパスワードを入力してください"
+               alert.message = "パスワードを入力してください"
 
                alert.addTextField(configurationHandler: {(textField) -> Void in
                    //textField.delegate = self
@@ -299,8 +306,9 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                     title: "パスワードを忘れた場合",
                     style: .default,
                     handler: { [ weak self ] _ in
-                        print("\(String(describing: self?.user?.password))")
-                
+               
+                        self?.resetMessage(withuser: user, withpsot: post)
+          
                 }))
             //キャンセルボタン
                alert.addAction(
@@ -318,6 +326,9 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                })
         
     }
+    
+    
+    
     
    
     private func openDetailsViewController(user: User, post: Post){
@@ -420,7 +431,7 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
                 
                 
             } catch  {
-                print(error,"ログアウトに失敗sました")
+                self.showErrorIfNeeded(error)
             }
             
         case .contact:
@@ -440,7 +451,8 @@ extension OrnamentViewController: AccountViewControllerDelegate {
             print("name")
     //MARK: - 11/6日やるやつ
         case .password:
-            print("password")
+            resetPasswordMessege()
+        
         case .deleteAccount:
             Auth.auth().currentUser?.delete {  (error) in
                       // エラーが無ければ、ログイン画面へ戻る
@@ -453,7 +465,7 @@ extension OrnamentViewController: AccountViewControllerDelegate {
                   }
             print("deleteAccount")
         case .exit:
-            viewController.didTapdismiss()
+            viewController.didTappedismiss()
         }
     }
     
@@ -494,4 +506,133 @@ extension OrnamentViewController: UISearchBarDelegate{
        // tableView.isHidden = true
     }
 }
+extension OrnamentViewController {
 
+func resetMessage(withuser user: User,withpsot post: Post){
+    
+    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+    alert.title = "パスワードをリセット"
+    alert.message = "パスワードをリセットしますか？"
+        
+           alert.addTextField(configurationHandler: {(textField) -> Void in
+               //textField.delegate = self
+               textField.textContentType = .newPassword
+
+           })
+           //追加ボタン
+           alert.addAction(
+               UIAlertAction(
+                   title: "入力完了",
+                   style: .default,
+                   handler: { [ weak self ] _ in
+                       if alert.textFields?.first?.text == user.email {
+                           let resuetdate = ResetData(password: nil, isSetPassword: false)
+                           PostService.resetPasswordPost(ownerUid: post, updatepost: resuetdate) { _ in
+                
+                           }
+                           self?.showMessage(withTitle: "パスワード", message: "パスワードがリセットされたました",handler: { [ weak self ] _ in
+                           
+                               self?.dismiss(animated: true, completion: {
+                                   DispatchQueue.main.async {
+                                       self?.fetchPosts()
+                                   }
+                                  
+                               })
+                           })
+                           
+                       } else {
+                           
+                           self?.showMessage(withTitle: "パスワード", message: "パスワードが違います")
+                       }
+    
+                
+                   })
+           )
+    
+        //キャンセルボタン
+           alert.addAction(
+           UIAlertAction(
+               title: "キャンセル",
+               style: .cancel)
+        )
+           //アラートが表示されるごとにprint
+           self.present(
+           alert,
+           animated: true)
+    
+}
+    func resetPasswordMessege() {
+    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+           alert.title = "パスワードリセット"
+           alert.message = "ログイン時のメールアドレスを入力してください"
+
+           alert.addTextField(configurationHandler: {(textField) -> Void in
+
+               textField.textContentType = .emailAddress
+
+           })
+           //追加ボタン
+           alert.addAction(
+               UIAlertAction(
+                   title: "入力完了",
+                   style: .default,
+                   handler: { [ weak self ] _ in
+                       guard let email =  alert.textFields?.first?.text else {
+                           self?.showMessage(withTitle: "エラー", message: "適切なメールアドレスが入力されていません")
+                          
+                           return
+                           
+                       }
+                       AuthService.resetPassword(withEmail: email) { error in
+                           
+                           if let error = error {
+                               self?.showErrorIfNeeded(error)
+                               return
+                           }
+                           
+                           do {
+                               
+                               try Auth.auth().signOut()
+                               
+                               self?.presentToViewController()
+                               DispatchQueue.main.async {
+                                   let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+                                   loginViewController.modalPresentationStyle = .fullScreen
+                                self?.present(loginViewController, animated: false, completion: nil)
+                                
+                               }
+                               
+                           } catch  {
+                               self?.showErrorIfNeeded(error)
+                           }
+                           
+                           
+                           
+                     
+                           
+                       }
+                           
+                       
+                   })
+           )
+    
+        //キャンセルボタン
+           alert.addAction(
+           UIAlertAction(
+               title: "キャンセル",
+               style: .cancel
+           )
+           )
+           //アラートが表示されるごとにprint
+           self.present(
+           alert,
+           animated: true,
+           completion: {
+               print("アラートが表示された")
+           })
+    
+
+    }
+
+
+}

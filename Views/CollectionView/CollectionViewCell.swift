@@ -14,6 +14,14 @@ class CollectionViewCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
+
+        iv.layer.cornerRadius = 13.0
+        iv.layer.borderWidth = 1
+        iv.layer.borderColor = #colorLiteral(red: 0.3305901885, green: 0.4503111243, blue: 0.7627663016, alpha: 1)
+        iv.layer.shadowColor = UIColor.black.cgColor
+        iv.layer.shadowOpacity = 0.8
+        iv.layer.shadowRadius = 8.0
+        iv.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         iv.backgroundColor = .lightGray
         return iv
     }()
@@ -21,7 +29,16 @@ class CollectionViewCell: UICollectionViewCell {
     private var blurEffectView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
-       // blurEffectView.isHidden = true
+        blurEffectView.contentMode = .scaleAspectFill
+        blurEffectView.clipsToBounds = true
+        blurEffectView.layer.cornerRadius = 13.0
+        blurEffectView.layer.borderWidth = 1
+        blurEffectView.layer.borderColor = #colorLiteral(red: 0.3305901885, green: 0.4503111243, blue: 0.7627663016, alpha: 1)
+        blurEffectView.layer.shadowColor = UIColor.black.cgColor
+        blurEffectView.layer.shadowOpacity = 0.8
+        blurEffectView.layer.shadowRadius = 8.0
+        blurEffectView.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        // blurEffectView.isHidden = true
         blurEffectView.alpha = 0.9
         return blurEffectView
     }()
@@ -29,12 +46,17 @@ class CollectionViewCell: UICollectionViewCell {
     
     private let imagename: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = .black
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        label.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
         // label.attributedText = NSAttributedString(
         label.lineBreakMode = .byWordWrapping
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 5.0
+        label.layer.borderWidth = 1
+        label.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        label.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.sizeToFit()
         return label
@@ -42,16 +64,18 @@ class CollectionViewCell: UICollectionViewCell {
         
     override init(frame: CGRect){
         super.init(frame: frame)
-        addSubview(imageView)
+        //addSubview(imageView)
+        contentView.addSubview(imageView)
         imageView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0,paddingRight: 0)
         imageView.setDimensions(height: self.bounds.height / 1.25, width: self.bounds.width)
         
-        imageView.addSubview(blurEffectView)
-        
+        //imageView.addSubview(blurEffectView)
+        contentView.addSubview(blurEffectView)
         blurEffectView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0,paddingRight: 0)
         blurEffectView.setDimensions(height: self.bounds.height / 1.25, width: self.bounds.width)
         
-        addSubview(imagename)
+        //addSubview(imagename)
+        contentView.addSubview(imagename)
         imagename.anchor(top: imageView.bottomAnchor,
                          left: leftAnchor,
                          bottom: bottomAnchor,
@@ -60,18 +84,16 @@ class CollectionViewCell: UICollectionViewCell {
                          paddingLeft: 0,
                          paddingBottom: 0,
                          paddingRight: 0)
-       
-
-        self.contentView.layer.masksToBounds = true
-        self.contentView.layer.cornerRadius = 10.0
-        
-        // UICollectionViewのおおもとの部分にはドロップシャドウに関する設定を行う
+        clipsToBounds = true
+        setup()
+   
+    }
+    private func setup() {
         self.layer.masksToBounds = false
         self.layer.shadowOffset = CGSize(width: 3, height: 7)
         self.layer.shadowRadius = 2
         self.layer.shadowOpacity = 0.5
-   
-    }
+      }
     
 
 

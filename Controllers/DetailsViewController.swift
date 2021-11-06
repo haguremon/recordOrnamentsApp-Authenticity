@@ -157,7 +157,7 @@ class DetailsViewController: UIViewController {
     private let passwordLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.adjustsFontSizeToFitWidth = true
         label.text = "パスワードを設定する"
         label.backgroundColor = .systemBackground
         label.textAlignment = .center
@@ -166,7 +166,7 @@ class DetailsViewController: UIViewController {
     private let memoLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.adjustsFontSizeToFitWidth = true
         label.text = "メモ"
         label.backgroundColor = .systemBackground
         label.textAlignment = .center
@@ -264,7 +264,7 @@ class DetailsViewController: UIViewController {
         
         view.addSubview(imagenameTextView)
         imagenameTextView.setDimensions(height: view.bounds.height / 12, width: view.bounds.width / 1.08)
-        imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 15)
+        imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
         imagenameTextView.centerX(inView: view)
         
         view.addSubview(imagenameCharacterCountLabel)
@@ -273,18 +273,18 @@ class DetailsViewController: UIViewController {
         
         
         photoImageView.setDimensions(height: view.bounds.height / 3, width: view.bounds.width)
-        photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 8)
+        photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
        
         let verticalStackView = UIStackView()
             verticalStackView.axis = .vertical
             verticalStackView.alignment = .fill
-            verticalStackView.spacing = 5
+            verticalStackView.spacing = 1
             view.addSubview(verticalStackView)
        
         verticalStackView.anchor(top: photoImageView.bottomAnchor,
-                                 paddingTop: 15)
+                                 paddingTop: 0)
         verticalStackView.centerX(inView: view)
         
         let stack = UIStackView(arrangedSubviews: [passwordLabel, checkButton])
@@ -292,7 +292,7 @@ class DetailsViewController: UIViewController {
     
         stack.axis = .horizontal
         //stack.distribution = .equalSpacing
-        stack.spacing = 0
+        stack.spacing = 2
         //これでstack内でのサイズがcheckButton.bounds.size.widthと同じになるらしい
         checkButton.bounds.size.width = checkButton.intrinsicContentSize.width
         passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
@@ -304,19 +304,19 @@ class DetailsViewController: UIViewController {
 
         
         view.addSubview(captionTextView)
-        captionTextView.anchor(top: verticalStackView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 2, paddingLeft: 5, paddingRight: 5, height: 100)
+        captionTextView.setDimensions(height: view.bounds.height / 6, width: view.bounds.width / 1.08)
+        captionTextView.anchor(top: verticalStackView.bottomAnchor, paddingTop: 2)
+        captionTextView.centerX(inView: view)
         
         view.addSubview(captionCharacterCountLabel)
         captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
-        
-        imagenameTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
-        
+                
         let stack2 = UIStackView(arrangedSubviews: [deleteButton, editButton])
         //縦の関係
     
         stack2.axis = .horizontal
 
-        stack2.spacing = 15
+        stack2.spacing = 30
         //これでstack内でのサイズがcheckButton.bounds.size.widthと同じになるらしい
         deleteButton.bounds.size.width = deleteButton.intrinsicContentSize.width
         editButton.bounds.size.width = editButton.intrinsicContentSize.width
@@ -327,11 +327,16 @@ class DetailsViewController: UIViewController {
         stack2.anchor(top: captionTextView.bottomAnchor,
                                  paddingTop: 7)
         stack2.centerX(inView: view)
-        deleteButton.setDimensions(height: view.bounds.height / 12, width: view.bounds.width / 3.5)
-        editButton.setDimensions(height: view.bounds.height / 12, width: view.bounds.width / 3.5)
-        deleteButton.layer.cornerRadius = deleteButton.bounds.width / 2
-        editButton.layer.cornerRadius = deleteButton.bounds.width / 2
+        deleteButton.setDimensions(height: view.bounds.height / 15, width: view.bounds.width / 3)
+        editButton.setDimensions(height: view.bounds.height / 15, width: view.bounds.width / 3)
+        deleteButton.layer.cornerRadius = view.bounds.width / 18
+        editButton.layer.cornerRadius = view.bounds.width / 18
 
-        
+        imagenameTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
+        imagenameTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
+        captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
+        captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
+    
+    
     }
 }

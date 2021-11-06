@@ -35,6 +35,12 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        messageLabel.isHidden = false
+        DispatchQueue.main.async {
+            self.messageLabel.text = "リセット用のメールを送りました!"
+        }
+        
+        
         showLoader(false)
     }
         

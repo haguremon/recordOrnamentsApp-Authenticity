@@ -40,6 +40,7 @@ class AccountViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     private var profileImage: UIImage?
+    private var updatename: String?
     
     @IBOutlet weak var upDateButton: UIButton!
     
@@ -47,7 +48,6 @@ class AccountViewController: UIViewController {
     
         DispatchQueue.main.async {
             self.profileImageButton.isEnabled = true
-            self.profileImageImageview.image = UIImage(systemName: "camera.circle")
             self.navigationItem.leftBarButtonItem?.isEnabled = true
         }
     
@@ -91,9 +91,9 @@ class AccountViewController: UIViewController {
         
         view.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         //navigationController?.navigationBar.backgroundColor = .gray
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "戻る", style: .done, target: self, action: #selector(didTapdismiss))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "戻る", style: .done, target: self, action: #selector(didTappedismiss))
         navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didTapdismiss))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didtappedSave))
   
         
         profileImageButton.layer.cornerRadius = 45
@@ -129,19 +129,25 @@ class AccountViewController: UIViewController {
     @IBAction func tappedChangePhoto(_ sender: UIButton) {
         print("tappedChangePhoto")
         
+    
     }
     
     private func configure(user: User) {
         profileImageImageview.sd_setImage(with: URL(string: user.profileImageUrl), completed: nil)
     }
     
-    @objc func didTapdismiss() {
+    @objc func didTappedismiss() {
         let transition = CATransition()
         transition.duration = 0.2
         transition.type = CATransitionType.push
         transition.subtype = CATransitionSubtype.fromRight
         view.window!.layer.add(transition, forKey: kCATransition)
         navigationController?.popToRootViewController(animated: false)
+    }
+    @objc func didtappedSave() {
+        
+        
+        
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
@@ -260,10 +266,29 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
 }
-extension AccountViewController: TableViewCellDelegat{
-    func cell(_ cell: TableViewCell) {
-        
-        navigationItem.leftBarButtonItem?.isEnabled = true
 
+extension AccountViewController: TableViewCellDelegat{
+    func textFieldShouldReturnCell(_ cell: TableViewCell) -> Bool {
+        if user?.name == cell.textField.text {
+            updatename = cell.textField.text
+            navigationItem.leftBarButtonItem?.isEnabled = false
+        return false
+        } else {
+            updatename = cell.textField.text
+            navigationItem.leftBarButtonItem?.isEnabled = true
+        return true
+        }
+    }
+    
+    func cell(_ cell: TableViewCell){
+        cell.textField.isEnabled = true
+        if user?.name == cell.textField.text {
+            updatename = cell.textField.text
+            navigationItem.leftBarButtonItem?.isEnabled = false
+        } else {
+            updatename = cell.textField.text
+            navigationItem.leftBarButtonItem?.isEnabled = true
+        }
+    
     }
 }

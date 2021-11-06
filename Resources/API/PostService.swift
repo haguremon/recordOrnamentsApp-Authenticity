@@ -59,6 +59,30 @@ struct  PostService {
         
     }
     
+    static func resetPasswordPost(ownerUid uid: Post,updatepost: ResetData, completion: @escaping(Post) -> Void) {
+        
+        //        let query = COLLETION_POSTS.whereField("ownerUid", isEqualTo: uid.ownerUid)
+                COLLETION_POSTS.document(uid.postId).updateData([ // アップデー
+                        "password": updatepost.password as Any,
+                        "isSetPassword": updatepost.isSetPassword as Any
+                    ]) { err in
+                        if let err = err { // エラーハンドリング
+                            print("Error updating document: \(err)")
+                        } else { // 書き換え成功ハンドリング
+                            
+                        COLLETION_POSTS.document(uid.postId).getDocument { (snapshot, _) in
+                        guard let snapshot = snapshot else { return }
+                        guard let data = snapshot.data() else { return }
+                        let post = Post(postId: snapshot.documentID, dictonary: data)
+                        completion(post)
+                            }
+                        
+                        }
+                    }
+                
+                
+            }
+    
     static func fetchPosts(forUser uid: String, completion: @escaping([Post]) -> Void) {
         //フィルーどのownerUidと引数が同じ時に
         let query = COLLETION_POSTS.whereField("ownerUid", isEqualTo: uid)

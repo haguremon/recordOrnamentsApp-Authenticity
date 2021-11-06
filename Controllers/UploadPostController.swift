@@ -29,6 +29,7 @@ class UploadPostController: UIViewController {
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.backgroundColor = .systemGray
+
         iv.isUserInteractionEnabled = true
         return iv
     }()
@@ -171,6 +172,7 @@ class UploadPostController: UIViewController {
     
     func showMessage2(withTitle title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
         alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
          
             self?.message(withTitle: "パスワード", message: "パスワードを入力してください")
@@ -195,7 +197,7 @@ class UploadPostController: UIViewController {
     private let passwordLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.adjustsFontSizeToFitWidth = true
         label.text = "パスワードを設定する"
         label.backgroundColor = .systemBackground
         label.textAlignment = .center
@@ -271,14 +273,14 @@ class UploadPostController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didTapDone))
         view.addSubview(imagenameTextView)
         imagenameTextView.setDimensions(height: view.bounds.height / 11, width: view.bounds.width)
-        imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 15)
+        imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
         imagenameTextView.centerX(inView: view)
         view.addSubview(characterCountLabel2)
         characterCountLabel2.anchor(bottom: imagenameTextView.bottomAnchor, right: view.rightAnchor,paddingBottom: 0, paddingRight: 14)
         view.addSubview(photoImageView)
         
-        photoImageView.setDimensions(height: view.bounds.height / 4, width: view.bounds.width)
-        photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 8)
+        photoImageView.setDimensions(height: view.bounds.height / 3, width: view.bounds.width)
+        photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 5)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
         
@@ -286,18 +288,17 @@ class UploadPostController: UIViewController {
         let verticalStackView = UIStackView()
             verticalStackView.axis = .vertical
             verticalStackView.alignment = .fill
-            verticalStackView.spacing = 7
+            verticalStackView.spacing = 10
             view.addSubview(verticalStackView)
        
         verticalStackView.anchor(top: photoImageView.bottomAnchor,
-                                 paddingTop: 1)
+                                 paddingTop: 0)
         verticalStackView.centerX(inView: view)
         
         let stack = UIStackView(arrangedSubviews: [passwordLabel, checkButton])
         //縦の関係
         stack.axis = .horizontal
         stack.spacing = 1
-        //これでstack内でのサイズがcheckButton.bounds.size.widthと同じになるらしい
         checkButton.bounds.size.width = checkButton.intrinsicContentSize.width
         passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
         //二つが左寄りに
@@ -307,10 +308,24 @@ class UploadPostController: UIViewController {
         verticalStackView.addArrangedSubview(stack)
         
         view.addSubview(captionTextView)
-        captionTextView.anchor(top: verticalStackView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 5, paddingRight: 5, height: 100)
+
+        captionTextView.setDimensions(height: view.bounds.height / 5.5, width: view.bounds.width / 1.08)
+        captionTextView.anchor(top: verticalStackView.bottomAnchor, paddingTop: 2)
+        captionTextView.centerX(inView: view)
+        
+        
         
         view.addSubview(characterCountLabel)
-        characterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: view.rightAnchor,paddingBottom: 0, paddingRight: 14)
+        characterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
+        
+       
+        
+        
+        imagenameTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
+        imagenameTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
+        captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
+        captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -326,7 +341,7 @@ extension UploadPostController {
             guard let userInfo = sender.userInfo else { return }
             let duration: Float = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
             UIView.animate(withDuration: TimeInterval(duration), animations: { () -> Void in
-                let transform = CGAffineTransform(translationX: 0, y: -150)
+                let transform = CGAffineTransform(translationX: 0, y: -165)
                 self.view.transform = transform
             })
         }
@@ -421,14 +436,16 @@ extension UploadPostController :UIImagePickerControllerDelegate, UINavigationCon
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             guard let selectedImage = info[.editedImage] as? UIImage else { return }
-        
+       
         self.selectedImage = selectedImage
         
+        //self.selectedImage?.size = CGSize(width: <#T##Int#>, height: <#T##Int#>)
+        //self.selectedImage.co
         //photoImageView.layer.cornerRadius = photoImageView.frame.width / 2
         photoImageView.layer.masksToBounds = true
-        photoImageView.layer.borderColor = UIColor.white.cgColor
+        photoImageView.layer.borderColor = UIColor.gray.cgColor
         photoImageView.layer.borderWidth = 2
-        photoImageView.image = selectedImage
+        photoImageView.image = self.selectedImage
         self.dismiss(animated: true, completion: nil)
 
     }
@@ -440,7 +457,7 @@ extension UploadPostController {
     func message(withTitle title: String, message: String){
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-
+        alert.view.setNeedsFocusUpdate()
                alert.addTextField(configurationHandler: {(textField) -> Void in
                    //textField.delegate = self
                    textField.textContentType = .emailAddress
