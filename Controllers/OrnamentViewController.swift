@@ -75,10 +75,7 @@ class OrnamentViewController: UIViewController {
     private func setupSideMenu() {
         let sideMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SideMenu") as? SideMenuViewController
         sideMenuViewController?.delegate = self
-       // sideMenuViewController?.user = self.user
-        UserService.fetchUser { user in
-            sideMenuViewController?.user = user
-        }
+        //sideMenuViewController?.user = self.user
         menu = SideMenuNavigationController(rootViewController: sideMenuViewController!)
         
         menu?.leftSide = true
@@ -98,7 +95,11 @@ class OrnamentViewController: UIViewController {
 //                    } else if Auth.auth().currentUser?.isEmailVerified == false {
 //                        let alert = UIAlertController(title: "確認用メールを送信しているので確認をお願いします。", message: "まだメール認証が完了していません。", preferredStyle: .alert)
 //                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [ weak self ] _ in
-//                            self?.presentToViewController()
+//                            let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+//                            loginViewController.modalPresentationStyle = .fullScreen
+//                            loginViewController.message = "確認用メールを確認してください"
+//                            loginViewController.email = self?.user?.email
+//                            self?.present(loginViewController, animated: false, completion: nil)
 //                        }))
 //                        self.present(alert, animated: true)
 //                    }
@@ -133,7 +134,7 @@ class OrnamentViewController: UIViewController {
     private func fetchPosts() {
         guard post == nil else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        PostService.fetchPosts(forUser: uid) { (posts) in
+        PostService.fetchPosts(self, forUser: uid) { (posts) in
             self.posts = posts
             //self.checkIfUserLikedPosts()
             self.collectionView.refreshControl?.endRefreshing()
@@ -362,7 +363,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     
     @objc func habdleRefresh(){
         posts.removeAll()
-        //ここでもう一回postsに入れる
+    
         fetchPosts()
         
         }
@@ -456,7 +457,7 @@ extension OrnamentViewController: AccountViewControllerDelegate {
         switch name {
         case .name:
             print("name")
-    //MARK: - 11/6日やるやつ
+
         case .password:
             resetPasswordMessege(viewController)
             
@@ -530,7 +531,7 @@ func resetMessage(withuser user: User,withpsot post: Post){
                    handler: { [ weak self ] _ in
                        if alert.textFields?.first?.text == user.email {
                            let resuetdate = ResetData(password: nil, isSetPassword: false)
-                           PostService.resetPasswordPost(ownerUid: post, updatepost: resuetdate) { _ in
+                           PostService.resetPasswordPost(self!, ownerUid: post, updatepost: resuetdate) { _ in
                 
                            }
                            self?.showMessage(withTitle: "パスワード", message: "パスワードがリセットされたました",handler: { [ weak self ] _ in

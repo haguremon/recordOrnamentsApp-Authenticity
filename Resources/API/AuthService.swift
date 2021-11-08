@@ -75,7 +75,10 @@ struct  AuthService {
         case .wrongPassword: message = "入力した認証情報でサインインできません"
         case .userDisabled: message = "このアカウントは無効です"
         case .weakPassword: message = "パスワードが脆弱すぎます"
-        // これは一例です。必要に応じて増減させてください
+        case .accountExistsWithDifferentCredential: message = "エラーが発生しました"
+        case .invalidDynamicLinkDomain: message = "エラーが発生しました"
+        
+            // これは一例です。必要に応じて増減させてください
         default: break
         }
         return message

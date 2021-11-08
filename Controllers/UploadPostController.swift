@@ -245,7 +245,6 @@ class UploadPostController: UIViewController {
             
             if let error = error {
                 self.showErrorIfNeeded(error)
-                print("DEBUG: Failed to upload post \(error.localizedDescription)")
                 return
             }
             print("成功やで")

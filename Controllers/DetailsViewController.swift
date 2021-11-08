@@ -98,7 +98,7 @@ class DetailsViewController: UIViewController {
     
     private func deletePost() {
         
-        PostService.deletePost(withPostId: post!.postId)
+        PostService.deletePost(self, withPostId: post!.postId)
         
     }
     
@@ -195,8 +195,6 @@ class DetailsViewController: UIViewController {
         self.user = user
         self.post = post
         super.init(nibName: nil, bundle: nil)
-        //guard let post = post else { return }
-        print(post.postId)
         imagenameTextView.placeholderLabel.isHidden = true
         captionTextView.placeholderLabel.isHidden = true
         DispatchQueue.main.async {
@@ -211,7 +209,7 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
    
-        configureUI()
+          configureUI()
           showLoader(true)
     }
    

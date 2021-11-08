@@ -29,12 +29,11 @@ struct  PostService {
         
             COLLETION_POSTS.addDocument(data: data, completion: completion)
             
-           // self.updateUserFeedAfterPost(postId: docRef.documentID)
+
         }
     }
-    static func updatePost(ownerUid uid: Post,updatepost: Submissions, completion: @escaping(Post) -> Void) {
+    static func updatePost(_ viewControllerw: UIViewController,ownerUid uid: Post,updatepost: Submissions, completion: @escaping(Post) -> Void) {
         
-//        let query = COLLETION_POSTS.whereField("ownerUid", isEqualTo: uid.ownerUid)
             
         COLLETION_POSTS.document(uid.postId).updateData([ // アップデート
                 "caption": updatepost.caption as Any,
@@ -43,7 +42,7 @@ struct  PostService {
                 "isSetPassword": updatepost.isSetPassword as Any
             ]) { err in
                 if let err = err { // エラーハンドリング
-                    print("Error updating document: \(err)")
+                    viewControllerw.showErrorIfNeeded(err)
                 } else { // 書き換え成功ハンドリング
                     
                 COLLETION_POSTS.document(uid.postId).getDocument { (snapshot, _) in
@@ -59,15 +58,14 @@ struct  PostService {
         
     }
     
-    static func resetPasswordPost(ownerUid uid: Post,updatepost: ResetData, completion: @escaping(Post) -> Void) {
-        
-        //        let query = COLLETION_POSTS.whereField("ownerUid", isEqualTo: uid.ownerUid)
+    static func resetPasswordPost(_ viewControllerw: UIViewController,ownerUid uid: Post,updatepost: ResetData, completion: @escaping(Post) -> Void) {
+  
                 COLLETION_POSTS.document(uid.postId).updateData([ // アップデー
                         "password": updatepost.password as Any,
                         "isSetPassword": updatepost.isSetPassword as Any
                     ]) { err in
                         if let err = err { // エラーハンドリング
-                            print("Error updating document: \(err)")
+                            viewControllerw.showErrorIfNeeded(err)
                         } else { // 書き換え成功ハンドリング
                             
                         COLLETION_POSTS.document(uid.postId).getDocument { (snapshot, _) in
@@ -83,11 +81,13 @@ struct  PostService {
                 
             }
     
-    static func fetchPosts(forUser uid: String, completion: @escaping([Post]) -> Void) {
+    static func fetchPosts(_ viewControllerw: UIViewController, forUser uid: String, completion: @escaping([Post]) -> Void) {
         //フィルーどのownerUidと引数が同じ時に
         let query = COLLETION_POSTS.whereField("ownerUid", isEqualTo: uid)
         //そのユーザーの情報を取得することができる
         query.getDocuments { (snapshot, error) in
+            viewControllerw.showErrorIfNeeded(error)
+            
             guard let documents = snapshot?.documents else { return }
             var posts = documents.map({Post(postId: $0.documentID, dictonary: $0.data())})
             //並び替え？
@@ -109,11 +109,11 @@ struct  PostService {
         }
     }
     
-    static func deletePost(withPostId postId: String) {
+    static func deletePost(_ viewControllerw: UIViewController,withPostId postId: String) {
         COLLETION_POSTS.document(postId).delete { error in
             
-            guard let error = error else { return }
-            print("\(error.localizedDescription)")
+            guard error != nil else { return viewControllerw.showErrorIfNeeded(error) }
+           
            
         }
         

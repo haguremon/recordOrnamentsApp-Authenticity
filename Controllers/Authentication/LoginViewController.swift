@@ -16,50 +16,90 @@ class LoginViewController: UIViewController {
     
     
     @IBOutlet  weak var emailTextField: UITextField!
-    var email: String? { didSet{ emailTextField.text = email } }
+    var email: String? = ""
    
     @IBOutlet  weak var passwordTextField: UITextField!
-    var password: String? { didSet{ passwordTextField.text = password }}
+    var password: String? = ""
     
     @IBOutlet private var loginButton: UIButton!
+    @IBOutlet private var SignupPageButton: UIButton!
     
     @IBOutlet private var messageLabel: UILabel!
     
-    var message: String?
+
+    var message: String? = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         movingBackground()
         messageLabel.isHidden = true
-        emailTextField.text = email
-        passwordTextField.text = password
+        congigureButtton()
+        congigureTextField()
+   
     }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        emailTextField.text = email
+        passwordTextField.text = password
+        messageLabel.isHidden = false
+        messageLabel.text = message
     }
+    
         
-    @IBAction func descriptionScreenButton(_ sender: UIButton) {
-        
-        performSegue(withIdentifier: "ModalSegue", sender: nil)
-        
-    }
     private func  congigureButtton() {
-        passwordTextField.textContentType = .newPassword
-        passwordTextField.isSecureTextEntry = true
-        
-        emailTextField.keyboardType = .emailAddress
-        
+      
+        loginButton.layer.shadowOffset = CGSize(width: 1, height: 1 )
         loginButton.isEnabled = false
-        
         loginButton.layer.shadowColor = UIColor.gray.cgColor
-        loginButton.layer.cornerRadius = 10
+        loginButton.layer.cornerRadius = 20
         loginButton.layer.shadowRadius = 5
         loginButton.layer.shadowOpacity = 1.0
+        loginButton.backgroundColor = #colorLiteral(red: 0.053540878, green: 0.01193358283, blue: 0.9903386235, alpha: 0.1031146523)
+        
+        
+        SignupPageButton.layer.shadowOffset = CGSize(width: 1, height: 1 )
+        SignupPageButton.isEnabled = true
+        SignupPageButton.layer.shadowColor = UIColor.gray.cgColor
+        SignupPageButton.layer.cornerRadius = 20
+        SignupPageButton.layer.shadowRadius = 5
+        SignupPageButton.layer.shadowOpacity = 1.0
+        SignupPageButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
+        
+
+        
+    }
+    private func congigureTextField() {
+        
+        emailTextField.keyboardType = .emailAddress
+        passwordTextField.textContentType = .newPassword
+        passwordTextField.isSecureTextEntry = true
+     
+        emailTextField.layer.borderWidth = 1
+        emailTextField.layer.borderColor = UIColor.secondaryLabel.cgColor
+        passwordTextField.layer.borderWidth = 1
+        passwordTextField.layer.borderColor = UIColor.secondaryLabel.cgColor
+        
+        emailTextField.returnKeyType = .continue
+        passwordTextField.returnKeyType = .done
+        
+        emailTextField.leftViewMode = .always
+        emailTextField.leftView = UIView(frame: .init(x: 0,
+                                                 y: 0,
+                                                 width: 10,
+                                                 height: 0))
+        passwordTextField.leftViewMode = .always
+        passwordTextField.leftView = UIView(frame: .init(x: 0,
+                                                 y: 0,
+                                                 width: 10,
+                                                 height: 0))
+        
+        
+        
         emailTextField.delegate = self
         passwordTextField.delegate = self
         
     }
+    
     
     private func movingBackground() {
         
@@ -78,19 +118,21 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginButton(_ sender: UIButton) {
-        handleLogin()
+        handleLogin(sender)
         
         
     }
-    private func handleLogin() {
+    private func handleLogin(_ sender: UIButton?) {
         guard let email = emailTextField.text else { return }
         guard let password = passwordTextField.text else { return }
         
         AuthService.logUserIn(withEmail: email, password: password) { [ weak self ] result, error in
             if let error = error {
+                sender?.showAnimation(false)
                 self?.showErrorIfNeeded(error)
                 return
             }
+            sender?.showAnimation(true)
             let ornamentViewController = self?.storyboard?.instantiateViewController(identifier: "OrnamentViewController") as! OrnamentViewController
             let navVC = UINavigationController(rootViewController: ornamentViewController)
             navVC.modalPresentationStyle = .fullScreen
@@ -158,17 +200,11 @@ class LoginViewController: UIViewController {
     }
     
     
-    
-    @IBAction func loginGuestButton(_ sender: Any) {
-        //消した時に保存さされないと警告を出す
-        presentToOrnamentViewController()
-        
-        
-    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
     @IBAction func goSignupPage(_ sender: UIButton) {
+        sender.showAnimation(true)
        
         presentToRegistrationViewController()
     }
@@ -207,12 +243,23 @@ extension LoginViewController: UITextFieldDelegate {
         let passwordIsEmpty = passwordTextField.text?.isEmpty ?? true
         if emailIsEmpty || passwordIsEmpty {
             loginButton.isEnabled = false
-            //loginButton.backgroundColor = UIColor.rgb(red: 180, green: 255, blue: 221)
+            loginButton.backgroundColor = #colorLiteral(red: 0.053540878, green: 0.01193358283, blue: 0.9903386235, alpha: 0.1972785596)
         } else {
             loginButton.isEnabled = true
-           // loginButton.backgroundColor = UIColor.rgb(red: 0, green: 255, blue: 150)
+            loginButton.backgroundColor = #colorLiteral(red: 0.03593228757, green: 0.01232904568, blue: 0.9763560891, alpha: 1)
         }
     }
-    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailTextField {
+            //nameEmailTextFieldでリターンが押された時にpasswordTextFieldのキーボードを開く
+            passwordTextField.becomeFirstResponder()
+        
+        } else if textField ==  passwordTextField {
+            //textFieldが押されたらログインボタンが起動する
+            handleLogin(nil)
+        }
+        
+        return true
+    }
     
 }

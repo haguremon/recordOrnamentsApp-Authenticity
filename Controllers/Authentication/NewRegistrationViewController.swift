@@ -36,9 +36,9 @@ class NewRegistrationViewController: UIViewController {
     @IBAction func tappedDismisButton(_ sender: Any) {
         let loginViewController = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
         loginViewController.modalPresentationStyle = .fullScreen
+        loginViewController.password = passwordTextField.text
+        loginViewController.email = emailTextField.text
         present(loginViewController, animated: true, completion: nil)
-        
-       // self.dismiss(animated: true, completion: nil)
     
     }
     
@@ -49,7 +49,7 @@ class NewRegistrationViewController: UIViewController {
         movingBackground()
         congigureButtton()
         messageLabel.isHidden = true
-        // profileImageView.addSubview(tap)
+   
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         
@@ -109,11 +109,11 @@ class NewRegistrationViewController: UIViewController {
 
     private func handleAuthToFirebase() {
         registerButton.isEnabled = false
-        guard let email = emailTextField.text, !email.isEmpty else { return }
-        guard let password = passwordTextField.text else { return showMessage(withTitle: "短いです", message: "7文字以上入力してください") }
+        guard let email = emailTextField.text, !email.isEmpty else { return showMessage(withTitle: "エラー", message: "適切なメールアドレスを入力してください") }
+        guard let password = passwordTextField.text, password.count >= 8 else { return showMessage(withTitle: "短いです", message: "8文字以上入力してください") }
               let name = userNameTextField.text ?? ""
         let authCredential = AuthCredentials(email: email, password: password, name: name, profileImage: selectedImage)
-        print("handleAuthToFirebase: \(authCredential)")
+
         AuthService.registerUser(self,withCredential: authCredential) { (error) in
             if let error = error {
                 self.showErrorIfNeeded(error)
@@ -129,47 +129,35 @@ class NewRegistrationViewController: UIViewController {
                 self.messageLabel.text = "認証後ログインしてください"
             }
             
-//            self.registerButton.isEnabled = true
-//            let ornamentViewController = self.storyboard?.instantiateViewController(identifier: "OrnamentViewController") as! OrnamentViewController
-//            let navVC = UINavigationController(rootViewController: ornamentViewController)
-//            navVC.modalPresentationStyle = .fullScreen
-//       self.present(navVC, animated: true, completion: nil)
         }
         
     }
-    private func transitionToOrnamentView() {
-        
-        
-    }
-    
+
     private func configureUI() {
  
     }
     private func  congigureButtton() {
         passwordTextField.textContentType = .newPassword
         passwordTextField.isSecureTextEntry = true
-        
         emailTextField.keyboardType = .emailAddress
-        
         userNameTextField.keyboardType = .namePhonePad
         
         registerButton.isEnabled = false
-        
+        registerButton.layer.shadowOffset = CGSize(width: 1, height: 1 )
         registerButton.layer.shadowColor = UIColor.gray.cgColor
-        registerButton.layer.cornerRadius = 10
+        registerButton.layer.cornerRadius = 20
         registerButton.layer.shadowRadius = 5
         registerButton.layer.shadowOpacity = 1.0
-        //registerButton.layer.cornerRadius = 10 //角を丸く
         registerButton.backgroundColor = UIColor(r: 180, g: 255, b: 211)
-       //registerButton.backgroundColor = UIColor.rgb(red: 180, green: 255, blue: 221)
+        
+        
+        
         profileImageButton.layer.cornerRadius = 45
         profileImageButton.imageView?.contentMode = .scaleToFill
         profileImageButton.imageView?.layer.cornerRadius = 45
         profileImageButton.layer.borderWidth = 0.7
         profileImageButton.layer.borderColor = UIColor.systemBackground.cgColor
-                // Horizontal 拡大
         profileImageButton.contentHorizontalAlignment = .fill
-//                // Vertical 拡大
         profileImageButton.contentVerticalAlignment = .fill
         
         userNameTextField.delegate = self

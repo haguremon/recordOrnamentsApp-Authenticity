@@ -83,7 +83,7 @@ class EditViewController: UIViewController {
     }()
     @objc func remove() {
         
-        PostService.deletePost(withPostId: post!.postId)
+        PostService.deletePost(self, withPostId: post!.postId)
         
     }
     private lazy var editButton: UIButton = {
@@ -197,7 +197,6 @@ class EditViewController: UIViewController {
         self.user = user
         self.post = post
         super.init(nibName: nil, bundle: nil)
-        //guard let post = post else { return }
         print(post.postId)
         imagenameTextView.placeholderLabel.isHidden = true
         captionTextView.placeholderLabel.isHidden = true
@@ -241,7 +240,7 @@ class EditViewController: UIViewController {
     
         let updatePost = Submissions(caption: caption, imagename: imagename,password: password,isSetPassword: setPassword)
         
-        PostService.updatePost(ownerUid: post, updatepost: updatePost) { post in
+        PostService.updatePost(self, ownerUid: post, updatepost: updatePost) { post in
             DispatchQueue.main.async {
                 
                 self.post = post

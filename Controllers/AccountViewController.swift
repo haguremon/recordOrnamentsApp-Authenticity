@@ -160,7 +160,7 @@ class AccountViewController: UIViewController {
         
         let updateUser = UpdateUser(name: updatename, profileImage: updateprofileImage)
         
-        UserService.updateUser(ownerUid: user!, updateUser: updateUser) { user in
+        UserService.updateUser(self, ownerUid: user!, updateUser: updateUser) { user in
             DispatchQueue.main.async {
                 //self.user = user
                 self.showLoader(false)

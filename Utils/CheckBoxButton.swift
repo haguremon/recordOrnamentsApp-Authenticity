@@ -37,12 +37,7 @@ class CheckBox: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//
-//
-//    }
-//
+
     override func layoutSubviews() {
         super.layoutSubviews()
         self.layer.cornerRadius = 10
