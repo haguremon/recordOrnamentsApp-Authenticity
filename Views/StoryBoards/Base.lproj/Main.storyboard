@@ -59,11 +59,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="9Bz-sy-R7b">
-                                <rect key="frame" x="100" y="29" width="159" height="140"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="k73-MF-p9k"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -71,16 +66,12 @@
                             <constraint firstItem="i4I-FQ-nqI" firstAttribute="trailing" secondItem="k73-MF-p9k" secondAttribute="trailing" id="6Wu-5Q-gaE"/>
                             <constraint firstItem="7Fc-Bw-JwR" firstAttribute="top" secondItem="i4I-FQ-nqI" secondAttribute="bottom" constant="10" id="9Pk-yJ-W6E"/>
                             <constraint firstItem="i4I-FQ-nqI" firstAttribute="top" secondItem="hr0-8f-UeL" secondAttribute="bottom" constant="8" symbolic="YES" id="AgN-RJ-SYU"/>
-                            <constraint firstItem="i4I-FQ-nqI" firstAttribute="top" secondItem="9Bz-sy-R7b" secondAttribute="bottom" constant="10" id="Es5-DL-wz1"/>
                             <constraint firstItem="i4I-FQ-nqI" firstAttribute="centerX" secondItem="k73-MF-p9k" secondAttribute="centerX" id="IwA-oy-gOU"/>
                             <constraint firstAttribute="trailing" secondItem="7Fc-Bw-JwR" secondAttribute="trailing" constant="26" id="J0b-sW-MG0"/>
                             <constraint firstItem="i4I-FQ-nqI" firstAttribute="leading" secondItem="k73-MF-p9k" secondAttribute="leading" id="Jb6-hS-Ztu"/>
-                            <constraint firstItem="9Bz-sy-R7b" firstAttribute="centerX" secondItem="jVO-VE-btU" secondAttribute="centerX" id="KXW-Xi-xFq"/>
                             <constraint firstItem="i4I-FQ-nqI" firstAttribute="leading" secondItem="k73-MF-p9k" secondAttribute="leading" id="KgN-3J-KZb"/>
                             <constraint firstItem="hr0-8f-UeL" firstAttribute="centerX" secondItem="jVO-VE-btU" secondAttribute="centerX" id="LcI-z4-gxd"/>
                             <constraint firstItem="i4I-FQ-nqI" firstAttribute="trailing" secondItem="k73-MF-p9k" secondAttribute="trailing" id="Oju-Ef-o2V"/>
-                            <constraint firstItem="9Bz-sy-R7b" firstAttribute="leading" secondItem="k73-MF-p9k" secondAttribute="leading" constant="100" id="S4d-UD-go6"/>
-                            <constraint firstItem="9Bz-sy-R7b" firstAttribute="top" secondItem="jVO-VE-btU" secondAttribute="top" constant="29" id="agd-ci-2TR"/>
                             <constraint firstItem="hr0-8f-UeL" firstAttribute="top" secondItem="qTj-x7-3N6" secondAttribute="bottom" constant="5" id="dzi-Fg-sMW"/>
                             <constraint firstItem="7Fc-Bw-JwR" firstAttribute="leading" secondItem="jVO-VE-btU" secondAttribute="leading" constant="120" id="hr8-Ef-muN"/>
                             <constraint firstItem="qTj-x7-3N6" firstAttribute="top" secondItem="jVO-VE-btU" secondAttribute="top" constant="45" id="joe-oH-zw9"/>
@@ -90,7 +81,6 @@
                     </view>
                     <size key="freeformSize" width="359" height="844"/>
                     <connections>
-                        <outlet property="activityIndicatorView" destination="9Bz-sy-R7b" id="d0P-Dn-9tJ"/>
                         <outlet property="imageView" destination="qTj-x7-3N6" id="Rmp-fK-c4O"/>
                         <outlet property="tableView" destination="i4I-FQ-nqI" id="wPt-xB-fte"/>
                         <outlet property="usernameLabel" destination="hr0-8f-UeL" id="7lG-CF-TUT"/>

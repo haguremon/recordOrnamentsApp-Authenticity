@@ -75,7 +75,10 @@ class OrnamentViewController: UIViewController {
     private func setupSideMenu() {
         let sideMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SideMenu") as? SideMenuViewController
         sideMenuViewController?.delegate = self
-        //sideMenuViewController?.user = self.user
+       // sideMenuViewController?.user = self.user
+        UserService.fetchUser { user in
+            sideMenuViewController?.user = user
+        }
         menu = SideMenuNavigationController(rootViewController: sideMenuViewController!)
         
         menu?.leftSide = true

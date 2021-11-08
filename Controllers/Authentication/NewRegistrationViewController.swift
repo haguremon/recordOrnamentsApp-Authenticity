@@ -14,7 +14,7 @@ class NewRegistrationViewController: UIViewController {
     
     @IBOutlet weak var profileImageButton: UIButton!
    
-    private var selectedImage: UIImage? = UIImage(systemName: "person")
+    private var selectedImage: UIImage? = UIImage(systemName: "person.circle.fill")
    
     @IBOutlet private var emailTextField: UITextField!
    

@@ -13,7 +13,6 @@ struct User {
     let email: String
     let name: String
     let profileImageUrl: String
-    let password: String
     let uid: String
     //これによって
     var isCurrentUser: Bool {
@@ -27,7 +26,6 @@ struct User {
         self.email = dictonary["email"] as? String ?? ""
         self.profileImageUrl = dictonary["profileImageUrl"] as? String ?? ""
         self.name = dictonary["name"] as? String ?? ""
-        self.password = dictonary["password"] as? String ?? ""
         self.uid = dictonary["uid"] as? String ?? ""
     }
 }
