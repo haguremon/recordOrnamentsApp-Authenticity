@@ -55,14 +55,14 @@ class SideMenuViewController: UIViewController {
         super.viewDidLoad()
         configureTableView()
         imageView.layer.cornerRadius = 45
-        imageView.layer.borderWidth = 0.8
-        imageView.layer.borderColor = UIColor.offBlackOrWhite.cgColor
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         imageView.contentMode = .scaleToFill
         activityIndicatorView.hidesWhenStopped = false
         activityIndicatorView.style = .large
-        usernameLabel.textColor = .black
-        tableView.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-        view.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        usernameLabel.textColor = .white
+        tableView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -94,16 +94,6 @@ class SideMenuViewController: UIViewController {
 
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension SideMenuViewController: UITableViewDataSource, UITableViewDelegate {
@@ -114,8 +104,14 @@ extension SideMenuViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
-        cell.textLabel?.textColor = .black
+        cell.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        cell.textLabel?.textColor = .white
+        cell.clipsToBounds = true
+        cell.layer.cornerRadius = 5.0
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        cell.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        
         cell.textLabel?.text = sideMenuItems[indexPath.row].rawValue
         return cell
     }

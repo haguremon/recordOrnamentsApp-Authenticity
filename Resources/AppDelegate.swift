@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            // appearance.configureWithDefaultBackground()
 
 //           appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.secondaryLabel]
-            appearance.backgroundColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
+            appearance.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
             appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
             // Large Title 用 NavigationBar の色設定
            // UINavigationBar.appearance().scrollEdgeAppearance = appearance
@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().standardAppearance = appearance
         } else {
             // iOS 13 未満はこれまで通り
-            UINavigationBar.appearance().barTintColor = .black
+            UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
         }
         return true
     }

@@ -29,6 +29,8 @@ class TableViewCell: UITableViewCell {
         // UICollectionViewのおおもとの部分にはドロップシャドウに関する設定を行う
         self.layer.masksToBounds = false
         self.layer.shadowOffset = CGSize(width: 3, height: 6)
+        self.layer.borderWidth = 1
+        self.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         self.layer.shadowRadius = 2
         self.layer.shadowOpacity = 0.3
         lable.textColor = .white
@@ -41,20 +43,14 @@ class TableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.endEditing(true)
+    }
   
     
 }
 extension TableViewCell: UITextFieldDelegate {
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        guard let delegat = delegat else { return true }
-//        return delegat.cell(self)
-//
-//
-//    }
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        delegat?.cell(self)
-//        return true
-//    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool  {
         if  delegat?.textFieldShouldReturnCell(self) == true {
             textField.resignFirstResponder()

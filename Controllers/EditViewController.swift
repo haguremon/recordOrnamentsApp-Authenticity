@@ -103,11 +103,15 @@ class EditViewController: UIViewController {
     func showMessage1(withTitle title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
-            self?.message(withTitle: "パスワード", message: "パスワードを入力してください")
-            
+    
             DispatchQueue.main.async {
-                self?.checkButton.isChecked = true
+                self?.message(withTitle: "パスワード", message: "パスワードを入力してください")
+
             }
+                
+         
+                self?.checkButton.isChecked = true
+            
            
         }))
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: { [ weak self ] _ in
@@ -116,8 +120,13 @@ class EditViewController: UIViewController {
             }
            
         }))
-        
-        present(alert, animated: true, completion: nil)
+//        DispatchQueue.main.async {
+//            self.present(alert, animated: true, completion: nil)
+//
+//        }
+        DispatchQueue.main.async(execute: {
+               self.present(alert, animated: true, completion: nil)
+           })
     }
     
     private lazy var imagenameTextView: InputTextView = {
@@ -456,6 +465,7 @@ extension EditViewController {
                alert.addTextField(configurationHandler: {(textField) -> Void in
                    //textField.delegate = self
                    textField.textContentType = .newPassword
+                   textField.placeholder = "パスワード"
 
                })
                //追加ボタン
@@ -482,9 +492,14 @@ extension EditViewController {
                    })
             )
                //アラートが表示されるごとにprint
-               self.present(
-               alert,
-               animated: true)
+        DispatchQueue.main.async {
+            self.present(
+                   alert,
+                   animated: true)
+        }
+       
+       
+       
         
     }
     

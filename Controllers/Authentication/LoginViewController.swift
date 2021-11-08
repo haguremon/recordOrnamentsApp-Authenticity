@@ -23,7 +23,9 @@ class LoginViewController: UIViewController {
     
     @IBOutlet private var loginButton: UIButton!
     
-    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet private var messageLabel: UILabel!
+    
+    var message: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,13 +37,6 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        messageLabel.isHidden = false
-        DispatchQueue.main.async {
-            self.messageLabel.text = "リセット用のメールを送りました!"
-        }
-        
-        
-        showLoader(false)
     }
         
     @IBAction func descriptionScreenButton(_ sender: UIButton) {
@@ -114,7 +109,7 @@ class LoginViewController: UIViewController {
                alert.addTextField(configurationHandler: {(textField) -> Void in
                    textField.delegate = self
                    textField.textContentType = .emailAddress
-
+                   textField.placeholder = "パスワード"
                })
                //追加ボタン
                alert.addAction(

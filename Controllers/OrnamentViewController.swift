@@ -55,9 +55,9 @@ class OrnamentViewController: UIViewController {
         
         print("hello")
         navigationController?.navigationBar.isTranslucent = true
-        collectionView.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
-        view.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1))
+        collectionView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1))
         
         configureSearchController()
      
@@ -67,8 +67,8 @@ class OrnamentViewController: UIViewController {
    
         let refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(habdleRefresh), for: .valueChanged)
-        refresher.backgroundColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
-        refresher.tintColor = .blue
+        refresher.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        refresher.tintColor = .label
         collectionView.refreshControl = refresher
 
     }
@@ -160,11 +160,11 @@ class OrnamentViewController: UIViewController {
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "登録した名前で検索できるよ"
         searchController.searchBar.tintColor = .label
-        searchController.searchBar.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        searchController.searchBar.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         searchController.searchBar.layer.borderColor = UIColor.systemBlue.cgColor
         searchController.searchBar.searchTextField.backgroundColor = .systemBackground
         searchController.searchBar.delegate = self
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
         navigationItem.searchController = searchController
         definesPresentationContext = false
     }
@@ -227,11 +227,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
         collectionView.dataSource = self
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: "header", withReuseIdentifier: "header")
         collectionView.layer.cornerRadius = 10
-        collectionView.layer.masksToBounds = false
-        collectionView.layer.shadowOffset = CGSize(width: 7, height: 5)
-        collectionView.layer.shadowColor = #colorLiteral(red: 0.1294117719, green: 0.2156862766, blue: 0.06666667014, alpha: 1)
-        collectionView.layer.shadowRadius = 2
-        collectionView.layer.shadowOpacity = 0.5
+      
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -270,21 +266,26 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
         
         if post.isSetPassword {
             showDialog(user: user, post: post)
-               }
+               
+        }
         
         openDetailsViewController(user: user, post: post)
             
         }
     
     private func showDialog(user: User, post: Post) {
+
+        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-               alert.title = "パスワード"
+               
+        alert.title = "パスワード"
                alert.message = "パスワードを入力してください"
 
                alert.addTextField(configurationHandler: {(textField) -> Void in
                    //textField.delegate = self
                    textField.textContentType = .emailAddress
                    textField.isSecureTextEntry = true
+                   textField.placeholder = "パスワード"
                })
                //追加ボタン
                alert.addAction(
@@ -342,7 +343,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     //viewForSupplementaryをつけることができるヘッダーやフッターなので
     
     fileprivate func extractedFunc(_ indexPath: IndexPath, _ header1: HeaderCollectionReusableView) -> UICollectionReusableView {
-
+    
             return header1
         }
                                    
@@ -350,6 +351,9 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                      withReuseIdentifier: "header",
                                                                      for: indexPath) as! HeaderCollectionReusableView
+       
+        header.headerLabel.text = " 保管場所 "
+        
         return extractedFunc(indexPath, header)
     }
     
@@ -451,8 +455,8 @@ extension OrnamentViewController: AccountViewControllerDelegate {
             print("name")
     //MARK: - 11/6日やるやつ
         case .password:
-            resetPasswordMessege()
-        
+            resetPasswordMessege(viewController)
+            
         case .deleteAccount:
             Auth.auth().currentUser?.delete {  (error) in
                       // エラーが無ければ、ログイン画面へ戻る
@@ -472,10 +476,6 @@ extension OrnamentViewController: AccountViewControllerDelegate {
     
     
 }
-
-
-
-
 
 // extension OrnamentViewController : UITextFieldDelegate {
 // }
@@ -517,7 +517,7 @@ func resetMessage(withuser user: User,withpsot post: Post){
            alert.addTextField(configurationHandler: {(textField) -> Void in
                //textField.delegate = self
                textField.textContentType = .newPassword
-
+               textField.placeholder = "パスワード"
            })
            //追加ボタン
            alert.addAction(
@@ -561,15 +561,17 @@ func resetMessage(withuser user: User,withpsot post: Post){
            animated: true)
     
 }
-    func resetPasswordMessege() {
+    
+    func resetPasswordMessege(_ accountViewController: AccountViewController) {
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+           alert.view.setNeedsLayout()
            alert.title = "パスワードリセット"
            alert.message = "ログイン時のメールアドレスを入力してください"
 
            alert.addTextField(configurationHandler: {(textField) -> Void in
 
                textField.textContentType = .emailAddress
-
+               textField.placeholder = "メールアドレス"
            })
            //追加ボタン
            alert.addAction(
@@ -590,25 +592,13 @@ func resetMessage(withuser user: User,withpsot post: Post){
                                return
                            }
                            
-                           do {
+                           DispatchQueue.main.async {
+                               accountViewController.messageLabel.isHidden = false
+                               accountViewController.messageLabel.text = "リセット用のメールを送りました!"
                                
-                               try Auth.auth().signOut()
                                
-                               self?.presentToViewController()
-                               DispatchQueue.main.async {
-                                   let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
-                                   loginViewController.modalPresentationStyle = .fullScreen
-                                self?.present(loginViewController, animated: false, completion: nil)
-                                
-                               }
-                               
-                           } catch  {
-                               self?.showErrorIfNeeded(error)
                            }
                            
-                           
-                           
-                     
                            
                        }
                            

@@ -22,17 +22,36 @@ struct UserService {
             
         }
     }
-    static func updateUser(ownerUid user: User,updateUser: UpdateUser, image: UIImage?, completion: @escaping(User) -> Void) {
+    
+    static func updateUser(ownerUid user: User,updateUser: UpdateUser, completion: @escaping(User) -> Void) {
         
-//        let query = COLLETION_POSTS.whereField("ownerUid", isEqualTo: uid.ownerUid)
-        ImageUploader.uploadImage(image: image) { (profileImageUrl) in
-            COLLETION_POSTS.document(user.uid).updateData([ // アップデート
+            if updateUser.profileImage == nil {
+            COLLECTION_USERS.document(user.uid).updateData([
+                    "name": updateUser.name as Any
+                ]) { err in
+                    if let err = err {
+                        print("Error updating document: \(err)")
+                    } else { 
+                        
+                    COLLECTION_USERS.document(user.uid).getDocument { (snapshot, _) in
+                    guard let snapshot = snapshot else { return }
+                    guard let data = snapshot.data() else { return }
+                    let user = User(dictonary: data)
+                    completion(user)
+                        }
+                    }
+                }
+        
+        } else {
+            
+        ImageUploader.uploadImage(image: updateUser.profileImage) { (profileImageUrl) in
+            COLLECTION_USERS.document(user.uid).updateData([
                     "name": updateUser.name as Any,
                     "profileImageUrl": profileImageUrl as Any
                 ]) { err in
-                    if let err = err { // エラーハンドリング
+                    if let err = err {
                         print("Error updating document: \(err)")
-                    } else { // 書き換え成功ハンドリング
+                    } else {
                         
                     COLLECTION_USERS.document(user.uid).getDocument { (snapshot, _) in
                     guard let snapshot = snapshot else { return }
@@ -49,5 +68,5 @@ struct UserService {
         
     }
     
-    
+}
 }

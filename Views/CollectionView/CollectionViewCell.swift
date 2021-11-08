@@ -46,10 +46,10 @@ class CollectionViewCell: UICollectionViewCell {
     
     private let imagename: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
+        label.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         // label.attributedText = NSAttributedString(
         label.lineBreakMode = .byWordWrapping
         label.clipsToBounds = true

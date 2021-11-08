@@ -33,24 +33,25 @@ class AccountViewController: UIViewController {
     
     weak var delegate: AccountViewControllerDelegate?
     
-    @IBOutlet weak var imageView: UIImageView!
-    
     @IBOutlet weak var profileImageButton: UIButton!
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var profileImage: UIImage?
+    @IBOutlet weak var messageLabel: UILabel!
+    
+    private var updateprofileImage: UIImage?
+    
     private var updatename: String?
+    private var profileImageUrl: String?
+    
     
     @IBOutlet weak var upDateButton: UIButton!
     
     @IBAction func upDateAccountButton(_ sender: Any) {
-    
-        DispatchQueue.main.async {
-            self.profileImageButton.isEnabled = true
-            self.navigationItem.leftBarButtonItem?.isEnabled = true
-        }
-    
+       
+        showMessage1(withTitle: "写真", message: "プロフィール画像を変更しますか？")
+        
+     
     }
     private var profileImageImageview: UIImageView = {
         let imageview = UIImageView()
@@ -80,28 +81,33 @@ class AccountViewController: UIViewController {
         tableView.delegate = self
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         
-        
         tableView.isScrollEnabled = false
         tableView.scrollsToTop = false
-        tableView.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        tableView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         
     }
     private func configureUI() {
+        messageLabel.isHidden = true
         navigationItem.title = "アカウント"
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1))
         
-        view.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         //navigationController?.navigationBar.backgroundColor = .gray
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "戻る", style: .done, target: self, action: #selector(didTappedismiss))
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didtappedSave))
   
         
         profileImageButton.layer.cornerRadius = 45
         profileImageButton.imageView?.contentMode = .scaleToFill
         profileImageButton.imageView?.layer.cornerRadius = 45
-        profileImageButton.layer.borderWidth = 0.7
-        profileImageButton.layer.borderColor = UIColor.systemBackground.cgColor
+        profileImageButton.layer.borderWidth = 1
+        profileImageButton.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         profileImageButton.isEnabled = false
+        profileImageButton.contentHorizontalAlignment = .fill
+//                // Vertical 拡大
+        profileImageButton.contentVerticalAlignment = .fill
+        
         upDateButton.layer.cornerRadius = 5
         upDateButton.layer.shadowRadius = 5
         upDateButton.layer.shadowOpacity = 1.0
@@ -112,28 +118,27 @@ class AccountViewController: UIViewController {
         
         profileImageButton.contentVerticalAlignment = .fill
         DispatchQueue.main.async {
-            
             self.profileImageButton.imageView?.addSubview(self.profileImageImageview)
             self.profileImageImageview.setDimensions(
                 height: self.profileImageButton.frame.height,
                 width: self.profileImageButton.frame.width
             )
-           // self.navigationItem.leftBarButtonItem?.isEnabled = true
-
+            
         }
-        
-        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+                tap.cancelsTouchesInView = false
+                view.addGestureRecognizer(tap)
+            
         
     }
-    
-    @IBAction func tappedChangePhoto(_ sender: UIButton) {
-        print("tappedChangePhoto")
-        
-    
-    }
+    @objc public func dismissKeyboard() {
+          view.endEditing(true)
+      }
     
     private func configure(user: User) {
         profileImageImageview.sd_setImage(with: URL(string: user.profileImageUrl), completed: nil)
+        updatename = user.name
+        profileImageUrl = user.profileImageUrl
     }
     
     @objc func didTappedismiss() {
@@ -145,14 +150,34 @@ class AccountViewController: UIViewController {
         navigationController?.popToRootViewController(animated: false)
     }
     @objc func didtappedSave() {
+        showLoader(true)
+        navigationItem.leftBarButtonItem?.isEnabled = false
+        if user!.name == updatename && updateprofileImage == nil {
+            showLoader(false)
+            navigationItem.leftBarButtonItem?.isEnabled = true
+            return
+        }
         
+        let updateUser = UpdateUser(name: updatename, profileImage: updateprofileImage)
         
+        UserService.updateUser(ownerUid: user!, updateUser: updateUser) { user in
+            DispatchQueue.main.async {
+                //self.user = user
+                self.showLoader(false)
+                self.navigationItem.leftBarButtonItem?.isEnabled = false
+            }
         
+        }
+          
+           
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-        tableView.endEditing(true)
-    }
+        
+        
+        
+//
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        self.view.endEditing(true)
+//    }
     
 }
 
@@ -224,7 +249,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectItem = accountMenus[indexPath.section]
-        //ここでの通知をViewControllernに伝えてその内容をViewControllerでやる
+       
         delegate?.didSelectMeunItem(self, name: selectItem)
     
     
@@ -266,25 +291,97 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
 }
+//  MARK: -UIImagePickerControllerDelegate
+extension AccountViewController :UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            guard let selectedImage = info[.editedImage] as? UIImage else { return }
+        self.updateprofileImage = selectedImage
+        
+        profileImageImageview.image = selectedImage
+  
+        self.dismiss(animated: true) {
+            DispatchQueue.main.async {
+                self.navigationItem.leftBarButtonItem?.isEnabled = true
+            }
+        }
+    }
+    
+    func showMessage1(withTitle title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "カメラで撮影", style: .default, handler: { [ weak self ] _ in
+            self?.setCamera()
+        }))
+        alert.addAction(UIAlertAction(title: "写真を選択", style: .default, handler: { [ weak self ] _ in
+            self?.setAlbum()
+        }))
+        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+   private func setCamera(){
+    
+        let camera = UIImagePickerController.SourceType.camera
+        let picker = UIImagePickerController()
+        if UIImagePickerController.isSourceTypeAvailable(camera) {
+           
+            picker.sourceType = camera
+            picker.delegate = self
+            picker.allowsEditing = true
+    
+            present(picker, animated: true, completion: nil)
+            
+       }  else {
+
+            picker.delegate = self
+            picker.allowsEditing = true
+
+            present(picker, animated: true, completion: nil)
+        }
+
+    
+    }
+    
+    private func setAlbum(){
+         print("tap")
+         
+         let picker = UIImagePickerController()
+             picker.delegate = self
+             picker.allowsEditing = true
+
+             present(picker, animated: true, completion: nil)
+         }
+
+    
+}
+
+
+
 
 extension AccountViewController: TableViewCellDelegat{
     func textFieldShouldReturnCell(_ cell: TableViewCell) -> Bool {
         if user?.name == cell.textField.text {
             updatename = cell.textField.text
+            if updateprofileImage == nil {
             navigationItem.leftBarButtonItem?.isEnabled = false
-        return false
+            }
+            return false
         } else {
             updatename = cell.textField.text
             navigationItem.leftBarButtonItem?.isEnabled = true
-        return true
+            return true
         }
+       
+
     }
     
     func cell(_ cell: TableViewCell){
         cell.textField.isEnabled = true
         if user?.name == cell.textField.text {
             updatename = cell.textField.text
+            if updateprofileImage == nil {
             navigationItem.leftBarButtonItem?.isEnabled = false
+            }
         } else {
             updatename = cell.textField.text
             navigationItem.leftBarButtonItem?.isEnabled = true

@@ -275,6 +275,7 @@
 		CF829F56272A94F7000F6DC1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CF829F57272A94F7000F6DC1 /* StoryBoards */,
 				CF1D710A27328B8F00DB31A0 /* TableView */,
 				CF829F5C272A94F7000F6DC1 /* CollectionView */,
 			);
@@ -296,7 +297,6 @@
 				CF829F5D272A94F7000F6DC1 /* CollectionViewLayout.swift */,
 				CF829F5E272A94F7000F6DC1 /*  HeaderCollectionReusable.swift */,
 				CF829F5F272A94F7000F6DC1 /* CollectionViewCell.swift */,
-				CF829F57272A94F7000F6DC1 /* StoryBoards */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";

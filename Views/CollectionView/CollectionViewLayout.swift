@@ -40,8 +40,8 @@ class  CollectionViewLayout {
         section.boundarySupplementaryItems =
             [
                 .init(layoutSize: .init(
-                        widthDimension: .fractionalWidth(1),
-                        heightDimension: .absolute(0.5)),
+                        widthDimension: .fractionalWidth(0.95),
+                        heightDimension: .absolute(45)),
                       elementKind: "header" ,
                       alignment: .top)
                 
