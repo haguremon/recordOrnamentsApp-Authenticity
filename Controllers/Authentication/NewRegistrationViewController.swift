@@ -33,7 +33,7 @@ class NewRegistrationViewController: UIViewController {
         handleAuthToFirebase()
     }
     
-    @IBAction func tappedDismisButton(_ sender: Any) {
+    @IBAction func tappedDismiss(_ sender: Any) {
         let loginViewController = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
         loginViewController.modalPresentationStyle = .fullScreen
         loginViewController.password = passwordTextField.text
@@ -120,8 +120,19 @@ class NewRegistrationViewController: UIViewController {
                 self.registerButton.isEnabled = true
                 return
             }
-                self.showMessage(withTitle: "認証", message: "入力したメールアドレス宛に確認メールを送信しました")
-        
+            self.showMessage(withTitle: "認証", message: "入力したメールアドレス宛に確認メールを送信しました") { [ weak self ] _ in
+                DispatchQueue.main.async {
+                   
+                    let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+                    loginViewController.modalPresentationStyle = .fullScreen
+                    loginViewController.password = self?.passwordTextField.text
+                    loginViewController.email = self?.emailTextField.text
+                    loginViewController.message = "確認メールを認証してください"
+                    loginViewController.isLogged = true
+                    self?.present(loginViewController, animated: true, completion: nil)
+                    
+                }
+            }
                 self.showErrorIfNeeded(error)
             DispatchQueue.main.async {
                 self.messageLabel.isHidden = false

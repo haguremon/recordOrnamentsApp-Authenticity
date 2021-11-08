@@ -22,11 +22,12 @@ class LoginViewController: UIViewController {
     var password: String? = ""
     
     @IBOutlet private var loginButton: UIButton!
+    var isLogged: Bool? = false
+    
     @IBOutlet private var SignupPageButton: UIButton!
     
-    @IBOutlet private var messageLabel: UILabel!
     
-
+    @IBOutlet private var messageLabel: UILabel!
     var message: String? = ""
     
     override func viewDidLoad() {
@@ -43,6 +44,7 @@ class LoginViewController: UIViewController {
         passwordTextField.text = password
         messageLabel.isHidden = false
         messageLabel.text = message
+        loginButton.isEnabled = isLogged!
     }
     
         
