@@ -12,7 +12,7 @@ class CollectionViewCell: UICollectionViewCell {
     
     private var imageView: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
+        iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
 
         iv.layer.cornerRadius = 13.0

@@ -32,6 +32,8 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        passwordTextField.textContentType = .newPassword
+        passwordTextField.isSecureTextEntry = true
         movingBackground()
         messageLabel.isHidden = true
         congigureButtton()
@@ -73,8 +75,7 @@ class LoginViewController: UIViewController {
     private func congigureTextField() {
         
         emailTextField.keyboardType = .emailAddress
-        passwordTextField.textContentType = .newPassword
-        passwordTextField.isSecureTextEntry = true
+        
      
         emailTextField.layer.borderWidth = 1
         emailTextField.layer.borderColor = UIColor.secondaryLabel.cgColor
@@ -248,7 +249,7 @@ extension LoginViewController: UITextFieldDelegate {
             loginButton.backgroundColor = #colorLiteral(red: 0.053540878, green: 0.01193358283, blue: 0.9903386235, alpha: 0.1972785596)
         } else {
             loginButton.isEnabled = true
-            loginButton.backgroundColor = #colorLiteral(red: 0.9999213815, green: 0.005613924935, blue: 0.1496604383, alpha: 0.2514228063)
+            loginButton.backgroundColor = #colorLiteral(red: 0.053540878, green: 0.01193358283, blue: 0.9903386235, alpha: 1)
         }
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

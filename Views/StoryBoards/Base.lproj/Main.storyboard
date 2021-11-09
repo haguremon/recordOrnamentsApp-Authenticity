@@ -111,7 +111,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Rwb-OV-zSF">
-                                <rect key="frame" x="15" y="88" width="384" height="778"/>
+                                <rect key="frame" x="15" y="88" width="384" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="itN-La-7it">
                                     <size key="itemSize" width="128" height="128"/>
@@ -141,9 +141,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Rwb-OV-zSF" firstAttribute="centerX" secondItem="1Gq-lC-HUE" secondAttribute="centerX" id="OmG-mq-ean"/>
-                            <constraint firstItem="Rwb-OV-zSF" firstAttribute="centerY" secondItem="1Gq-lC-HUE" secondAttribute="centerY" constant="29" id="fol-vj-gHm"/>
                             <constraint firstItem="Rwb-OV-zSF" firstAttribute="top" secondItem="Y4O-k8-Z0a" secondAttribute="top" id="l71-dc-LY1"/>
                             <constraint firstItem="Rwb-OV-zSF" firstAttribute="leading" secondItem="Y4O-k8-Z0a" secondAttribute="leading" constant="15" id="nIL-6B-sSi"/>
+                            <constraint firstItem="Y4O-k8-Z0a" firstAttribute="bottom" secondItem="Rwb-OV-zSF" secondAttribute="bottom" id="yhP-fp-WIC"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="NGl-p8-3QP"/>
@@ -221,7 +221,7 @@
                                                             <constraint firstAttribute="height" constant="55" id="V9F-Od-6aF"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                                        <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -406,7 +406,7 @@
                                     <color key="titleShadowColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="tappedDismisButton:" destination="rWb-eY-Jr7" eventType="touchUpInside" id="Xrm-K3-mYT"/>
+                                    <action selector="tappedDismiss:" destination="rWb-eY-Jr7" eventType="touchUpInside" id="l3z-7J-Kr1"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="pO5-RT-vvV">
@@ -428,7 +428,7 @@
                                                     <constraint firstAttribute="height" constant="55" id="0FO-Fx-uQp"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                                <textInputTraits key="textInputTraits"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -445,7 +445,7 @@
                                                 <rect key="frame" x="0.0" y="24" width="304" height="55"/>
                                                 <color key="backgroundColor" red="0.61350012460000003" green="0.70585143569999997" blue="0.65597041869999995" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -615,7 +615,7 @@
         <!--Navigation Controller-->
         <scene sceneID="vuJ-QU-Y4z">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="1h8-j4-uW9" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1h8-j4-uW9" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="2NT-PX-MrL">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -623,7 +623,6 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9wd-bx-cwy">
-                        <rect key="frame" x="0.0" y="813" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>

@@ -34,14 +34,13 @@ class TableViewCell: UITableViewCell {
         self.layer.shadowRadius = 2
         self.layer.shadowOpacity = 0.3
         lable.textColor = .white
-        textField.textColor = .green
+        textField.textColor = .black
         textField.delegate = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.endEditing(true)

@@ -26,7 +26,7 @@ class UploadPostController: UIViewController {
     //
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
+        iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
         iv.backgroundColor = .systemGray
 
@@ -216,7 +216,7 @@ class UploadPostController: UIViewController {
         configureUI()
         imagenameTextView.delegate = self
         captionTextView.delegate = self
-        
+        navigationController?.navigationBar.tintColor = .green
     }
     
     // MARK: - Actions
@@ -271,14 +271,14 @@ class UploadPostController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didTapDone))
         view.addSubview(imagenameTextView)
-        imagenameTextView.setDimensions(height: view.bounds.height / 11, width: view.bounds.width)
+        imagenameTextView.setDimensions(height: view.bounds.height / 13, width: view.bounds.width / 1.08)
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
         imagenameTextView.centerX(inView: view)
         view.addSubview(characterCountLabel2)
         characterCountLabel2.anchor(bottom: imagenameTextView.bottomAnchor, right: view.rightAnchor,paddingBottom: 0, paddingRight: 14)
         view.addSubview(photoImageView)
         
-        photoImageView.setDimensions(height: view.bounds.height / 3, width: view.bounds.width)
+        photoImageView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 5)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10

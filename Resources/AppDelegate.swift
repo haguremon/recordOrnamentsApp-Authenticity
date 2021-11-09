@@ -11,24 +11,18 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {        
         FirebaseApp.configure()
         if #available(iOS 13.0, *) {
            let appearance = UINavigationBarAppearance()
-           // appearance.configureWithDefaultBackground()
-
-//           appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.secondaryLabel]
             appearance.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
             appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-            // Large Title 用 NavigationBar の色設定
-           // UINavigationBar.appearance().scrollEdgeAppearance = appearance
-            // 通常の NavigationBar の色設定
+     
             UINavigationBar.appearance().standardAppearance = appearance
         } else {
-            // iOS 13 未満はこれまで通り
             UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
         }
+
         return true
     }
     

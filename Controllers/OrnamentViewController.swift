@@ -52,8 +52,7 @@ class OrnamentViewController: UIViewController {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
         configureNavigationBar()
-        
-        print("hello")
+        navigationController?.navigationBar.tintColor = .green
         navigationController?.navigationBar.isTranslucent = true
         collectionView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
@@ -224,7 +223,7 @@ extension OrnamentViewController: UploadPostControllerDelegate{
 //MARK: -CollectionView
 extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     private func setupCollectionView() {
-        collectionView.collectionViewLayout = collectionViewLayout.ornamentCollectionViewLayout()
+        collectionView.collectionViewLayout = collectionViewLayout.ornamentCollectionViewLayout(collectionView: collectionView)
 
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.delegate = self

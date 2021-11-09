@@ -10,20 +10,20 @@ import UIKit
 
 final class  CollectionViewLayout {
     
-    func  ornamentCollectionViewLayout() -> UICollectionViewLayout {
+    func  ornamentCollectionViewLayout(collectionView: UICollectionView) -> UICollectionViewLayout {
         
         let layout = UICollectionViewCompositionalLayout { [ weak self ] (index ,env) in
-            self?.ornamentCategories()
+            self?.ornamentCategories(collectionView)
         }
         
         
         return layout
     }
-    private func ornamentCategories() -> NSCollectionLayoutSection {
+    private func ornamentCategories(_ collectionView: UICollectionView ) -> NSCollectionLayoutSection {
         
         let item = NSCollectionLayoutItem(layoutSize: .init(
             widthDimension: .fractionalWidth(0.5),
-            heightDimension: .absolute(170)))
+            heightDimension: .absolute(collectionView.bounds.width / 2)))
         
         item.contentInsets = .init(top: 2, leading: 5, bottom: 10, trailing: 5)
         

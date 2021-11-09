@@ -45,6 +45,8 @@ class NewRegistrationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        passwordTextField.textContentType = .newPassword
+        passwordTextField.isSecureTextEntry = true
        
         movingBackground()
         congigureButtton()
@@ -155,13 +157,13 @@ class NewRegistrationViewController: UIViewController {
 
     private func  congigureButtton() {
   
-        registerButton.isEnabled = true
+        registerButton.isEnabled = false
         registerButton.layer.shadowOffset = CGSize(width: 1, height: 1 )
         registerButton.layer.shadowColor = UIColor.gray.cgColor
         registerButton.layer.cornerRadius = 20
         registerButton.layer.shadowRadius = 5
         registerButton.layer.shadowOpacity = 1.0
-        registerButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
+        registerButton.backgroundColor = #colorLiteral(red: 0.9999213815, green: 0.005613924935, blue: 0.1496604383, alpha: 0.2514228063)
         
         
         
@@ -178,8 +180,6 @@ class NewRegistrationViewController: UIViewController {
     private func congigureTextField() {
         
         emailTextField.keyboardType = .emailAddress
-        passwordTextField.textContentType = .newPassword
-        passwordTextField.isSecureTextEntry = true
         userNameTextField.keyboardType = .default
         
         emailTextField.returnKeyType = .continue

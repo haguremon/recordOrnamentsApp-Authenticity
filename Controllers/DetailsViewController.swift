@@ -38,7 +38,7 @@ class DetailsViewController: UIViewController {
     }
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
+        iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
         iv.backgroundColor = .systemGray
         iv.isUserInteractionEnabled = true
@@ -105,7 +105,7 @@ class DetailsViewController: UIViewController {
     
     private lazy var editButton: UIButton = {
         let button = UIButton()
-        button.setTitle("編集完了", for: .normal)
+        button.setTitle("編集", for: .normal)
         button.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
         button.backgroundColor = .blue
         button.layer.shadowColor = UIColor.gray.cgColor
@@ -208,8 +208,9 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-   
-          configureUI()
+        navigationController?.navigationBar.tintColor = .green
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1))
+        configureUI()
           showLoader(true)
     }
    
@@ -250,7 +251,8 @@ class DetailsViewController: UIViewController {
     //    // MARK: - Helpers
     func configureUI(){
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        
         imagenameTextView.layer.borderWidth = 1
         imagenameTextView.layer.borderColor = UIColor.gray.cgColor
         captionTextView.layer.borderWidth = 1
@@ -259,9 +261,10 @@ class DetailsViewController: UIViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapClose))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "編集", style: .done, target: self, action: #selector(editingMode))
+        navigationItem.rightBarButtonItem?.tintColor = .red
         
         view.addSubview(imagenameTextView)
-        imagenameTextView.setDimensions(height: view.bounds.height / 12, width: view.bounds.width / 1.08)
+        imagenameTextView.setDimensions(height: view.bounds.height / 13, width: view.bounds.width / 1.08)
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
         imagenameTextView.centerX(inView: view)
         
@@ -270,7 +273,7 @@ class DetailsViewController: UIViewController {
         view.addSubview(photoImageView)
         
         
-        photoImageView.setDimensions(height: view.bounds.height / 3, width: view.bounds.width)
+        photoImageView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
@@ -309,7 +312,7 @@ class DetailsViewController: UIViewController {
         view.addSubview(captionCharacterCountLabel)
         captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
                 
-        let stack2 = UIStackView(arrangedSubviews: [deleteButton, editButton])
+        let stack2 = UIStackView(arrangedSubviews: [editButton, deleteButton])
         //縦の関係
     
         stack2.axis = .horizontal

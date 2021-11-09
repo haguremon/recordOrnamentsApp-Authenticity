@@ -42,7 +42,7 @@ class EditViewController: UIViewController {
     }
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
+        iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
         iv.backgroundColor = .systemGray
         iv.isUserInteractionEnabled = true

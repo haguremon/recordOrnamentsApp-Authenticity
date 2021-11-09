@@ -94,9 +94,10 @@ class AccountViewController: UIViewController {
         view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         //navigationController?.navigationBar.backgroundColor = .gray
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "戻る", style: .done, target: self, action: #selector(didTappedismiss))
+        navigationItem.rightBarButtonItem?.tintColor = .green
         navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didtappedSave))
-  
+        navigationItem.leftBarButtonItem?.tintColor = .red
         
         profileImageButton.layer.cornerRadius = 45
         profileImageButton.imageView?.contentMode = .scaleToFill
@@ -172,12 +173,6 @@ class AccountViewController: UIViewController {
            
     }
         
-        
-        
-//
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.view.endEditing(true)
-//    }
     
 }
 
@@ -200,6 +195,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         cell.backgroundColor = #colorLiteral(red: 0.1358366907, green: 0.1817382276, blue: 0.3030198812, alpha: 1)
         cell.lable.text = accountMenus[indexPath.section].rawValue
+        
         var content = cell.defaultContentConfiguration()
         content.text = accountMenus[indexPath.section].rawValue
         content.textProperties.alignment = .center
@@ -294,7 +290,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
 //  MARK: -UIImagePickerControllerDelegate
 extension AccountViewController :UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            guard let selectedImage = info[.editedImage] as? UIImage else { return }
+            guard let selectedImage = info[.editedImage] as? UIImage else {
+                
+                self.navigationItem.leftBarButtonItem?.isEnabled = false
+                return
+                
+            }
         self.updateprofileImage = selectedImage
         
         profileImageImageview.image = selectedImage
