@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class  CollectionViewLayout {
+final class  CollectionViewLayout {
     
     func  ornamentCollectionViewLayout() -> UICollectionViewLayout {
         

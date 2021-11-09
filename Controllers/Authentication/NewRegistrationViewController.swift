@@ -29,8 +29,8 @@ class NewRegistrationViewController: UIViewController {
     @IBOutlet weak var label: UILabel!
    
     @IBAction func tappedRegisterButton(_ sender: UIButton) {
-        print("tap")
-        handleAuthToFirebase()
+    
+        handleAuthToFirebase(sender)
     }
     
     @IBAction func tappedDismiss(_ sender: Any) {
@@ -48,6 +48,7 @@ class NewRegistrationViewController: UIViewController {
        
         movingBackground()
         congigureButtton()
+        congigureTextField()
         messageLabel.isHidden = true
    
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -107,8 +108,13 @@ class NewRegistrationViewController: UIViewController {
              present(picker, animated: true, completion: nil)
          }
 
-    private func handleAuthToFirebase() {
+    private func handleAuthToFirebase(_ sender: UIButton?) {
         registerButton.isEnabled = false
+        
+        emailTextField.resignFirstResponder()
+        userNameTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        
         guard let email = emailTextField.text, !email.isEmpty else { return showMessage(withTitle: "エラー", message: "適切なメールアドレスを入力してください") }
         guard let password = passwordTextField.text, password.count >= 8 else { return showMessage(withTitle: "短いです", message: "8文字以上入力してください") }
               let name = userNameTextField.text ?? ""
@@ -118,9 +124,11 @@ class NewRegistrationViewController: UIViewController {
             if let error = error {
                 self.showErrorIfNeeded(error)
                 self.registerButton.isEnabled = true
+                sender?.showAnimation(false)
                 return
             }
             self.showMessage(withTitle: "認証", message: "入力したメールアドレス宛に確認メールを送信しました") { [ weak self ] _ in
+                sender?.showAnimation(true)
                 DispatchQueue.main.async {
                    
                     let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
@@ -144,38 +152,75 @@ class NewRegistrationViewController: UIViewController {
         
     }
 
-    private func configureUI() {
- 
-    }
+
     private func  congigureButtton() {
-        passwordTextField.textContentType = .newPassword
-        passwordTextField.isSecureTextEntry = true
-        emailTextField.keyboardType = .emailAddress
-        userNameTextField.keyboardType = .namePhonePad
-        
-        registerButton.isEnabled = false
+  
+        registerButton.isEnabled = true
         registerButton.layer.shadowOffset = CGSize(width: 1, height: 1 )
         registerButton.layer.shadowColor = UIColor.gray.cgColor
         registerButton.layer.cornerRadius = 20
         registerButton.layer.shadowRadius = 5
         registerButton.layer.shadowOpacity = 1.0
-        registerButton.backgroundColor = UIColor(r: 180, g: 255, b: 211)
+        registerButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
         
         
         
         profileImageButton.layer.cornerRadius = 45
         profileImageButton.imageView?.contentMode = .scaleToFill
         profileImageButton.imageView?.layer.cornerRadius = 45
-        profileImageButton.layer.borderWidth = 0.7
-        profileImageButton.layer.borderColor = UIColor.systemBackground.cgColor
+        profileImageButton.layer.borderWidth = 1
+        profileImageButton.layer.borderColor = UIColor.green.cgColor
         profileImageButton.contentHorizontalAlignment = .fill
         profileImageButton.contentVerticalAlignment = .fill
         
-        userNameTextField.delegate = self
-        emailTextField.delegate = self
-        passwordTextField.delegate = self
         
     }
+    private func congigureTextField() {
+        
+        emailTextField.keyboardType = .emailAddress
+        passwordTextField.textContentType = .newPassword
+        passwordTextField.isSecureTextEntry = true
+        userNameTextField.keyboardType = .default
+        
+        emailTextField.returnKeyType = .continue
+        passwordTextField.returnKeyType = .continue
+        userNameTextField.returnKeyType = .done
+        
+        passwordTextField.layer.borderWidth = 1
+        passwordTextField.layer.borderColor = UIColor.secondaryLabel.cgColor
+        userNameTextField.layer.borderWidth = 1
+        userNameTextField.layer.borderColor = UIColor.secondaryLabel.cgColor
+        emailTextField.layer.borderWidth = 1
+        emailTextField.layer.borderColor = UIColor.secondaryLabel.cgColor
+        
+        
+
+        emailTextField.leftViewMode = .always
+        emailTextField.leftView = UIView(frame: .init(x: 0,
+                                                 y: 0,
+                                                 width: 10,
+                                                 height: 0))
+        passwordTextField.leftViewMode = .always
+        passwordTextField.leftView = UIView(frame: .init(x: 0,
+                                                 y: 0,
+                                                 width: 10,
+                                                 height: 0))
+        userNameTextField.leftViewMode = .always
+        userNameTextField.leftView = UIView(frame: .init(x: 0,
+                                                 y: 0,
+                                                 width: 10,
+                                                 height: 0))
+        
+       
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        userNameTextField.delegate = self
+        
+    }
+    
+    
+    
+    
     private func movingBackground() {
         
         
@@ -219,12 +264,31 @@ extension NewRegistrationViewController :UITextFieldDelegate { //可読性の向
        let usernameIsEmpty = userNameTextField.text?.isEmpty ?? true
        if emailIsEmpty || passwordIsEmpty || usernameIsEmpty {
            registerButton.isEnabled = false
-           registerButton.backgroundColor = UIColor(r: 180, g: 255, b: 221)
+           registerButton.backgroundColor = #colorLiteral(red: 0.9999213815, green: 0.005613924935, blue: 0.1496604383, alpha: 0.2514228063)
        } else {
            registerButton.isEnabled = true
-          registerButton.backgroundColor = UIColor(r: 0, g: 255, b: 150)
+          registerButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
        }
    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailTextField {
+           
+            passwordTextField.becomeFirstResponder()
+        
+        } else if textField ==  passwordTextField {
+           
+            userNameTextField.becomeFirstResponder()
+
+        } else {
+            
+            handleAuthToFirebase(nil)
+        }
+        
+        return true
+    }
+    
+    
+    
 
 
 }

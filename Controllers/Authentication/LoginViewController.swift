@@ -126,7 +126,7 @@ class LoginViewController: UIViewController {
     }
     private func handleLogin(_ sender: UIButton?) {
         guard let email = emailTextField.text else { return }
-        guard let password = passwordTextField.text else { return }
+        guard let password = passwordTextField.text, password.count >= 8 else { return }
         
         AuthService.logUserIn(withEmail: email, password: password) { [ weak self ] result, error in
             if let error = error {
@@ -248,7 +248,7 @@ extension LoginViewController: UITextFieldDelegate {
             loginButton.backgroundColor = #colorLiteral(red: 0.053540878, green: 0.01193358283, blue: 0.9903386235, alpha: 0.1972785596)
         } else {
             loginButton.isEnabled = true
-            loginButton.backgroundColor = #colorLiteral(red: 0.03593228757, green: 0.01232904568, blue: 0.9763560891, alpha: 1)
+            loginButton.backgroundColor = #colorLiteral(red: 0.9999213815, green: 0.005613924935, blue: 0.1496604383, alpha: 0.2514228063)
         }
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
