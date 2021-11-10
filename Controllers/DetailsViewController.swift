@@ -48,12 +48,22 @@ class DetailsViewController: UIViewController {
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
-        iv.clipsToBounds = true
         iv.backgroundColor = .systemGray
-        iv.isUserInteractionEnabled = true
+        iv.layer.masksToBounds = true
+        iv.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        iv.layer.borderWidth = 1
         return iv
     }()
+    private let shadowView: UIView = {
     
+        let view = UIView()
+        view.layer.cornerRadius = 10
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = .zero
+        view.layer.shadowOpacity = 0.8
+        view.layer.shadowRadius = 8
+        return view
+    }()
     private lazy var checkButton: CheckBox = {
         let button = CheckBox()
         button.addTarget(self, action: #selector(setPassword), for: .touchUpInside)
@@ -141,20 +151,29 @@ class DetailsViewController: UIViewController {
     
     private lazy var imagenameTextView: InputTextView = {
         let tv = InputTextView()
-        tv.placeholderText = "名前を変更する"
+        tv.placeholderText = "名前"
         tv.textColor = .black
         tv.backgroundColor = .white
         tv.text = ""
         tv.isEditable = false
         tv.isSelectable = false
         tv.placeholderShouldCenter = true
-        tv.returnKeyType = .next
+        tv.layer.masksToBounds = false
+        
+        tv.layer.borderWidth = 1
+        tv.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        tv.layer.shadowColor = UIColor.black.cgColor
+        tv.layer.shadowOpacity = 0.8
+        tv.layer.shadowRadius = 8.0
+        tv.layer.shadowOffset = .zero
         
         return tv
     }()
     private lazy var captionTextView: InputTextView = {
         let tv = InputTextView()
-        tv.placeholderText = "メモを変更する"
+        tv.placeholderText = "メモ"
+        tv.layer.borderWidth = 1
+        tv.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         tv.font = UIFont.systemFont(ofSize: 20)
         tv.textColor = .black
         tv.text = ""
@@ -162,7 +181,7 @@ class DetailsViewController: UIViewController {
         tv.isEditable = false
         tv.isSelectable = false
         tv.placeholderShouldCenter = false
-        tv.returnKeyType = .done
+ 
         return tv
     }()
     private let passwordLabel: UILabel = {
@@ -170,7 +189,7 @@ class DetailsViewController: UIViewController {
         label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         label.text = "パスワードを設定する"
-        label.backgroundColor = .white
+        label.backgroundColor = .clear
         label.textAlignment = .center
         return label
     }()
@@ -179,7 +198,7 @@ class DetailsViewController: UIViewController {
         label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         label.text = "メモ"
-        label.backgroundColor = .white
+        label.backgroundColor = .clear
         label.textAlignment = .center
         return label
     }()
@@ -260,13 +279,17 @@ class DetailsViewController: UIViewController {
     
         // MARK: - Helpers
     func configureUI(){
+//        imagenameTextView.layer.masksToBounds = false
+//
+//        imagenameTextView.layer.borderWidth = 1
+//        imagenameTextView.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+//        imagenameTextView.layer.shadowColor = UIColor.black.cgColor
+//        imagenameTextView.layer.shadowOpacity = 0.8
+//        imagenameTextView.layer.shadowRadius = 8.0
+//        imagenameTextView.layer.shadowOffset = CGSize(width: 5, height: 6)
         
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        
-        imagenameTextView.layer.borderWidth = 1
-        imagenameTextView.layer.borderColor = UIColor.gray.cgColor
-        captionTextView.layer.borderWidth = 1
-        captionTextView.layer.borderColor = UIColor.gray.cgColor
+  
         navigationItem.title = "詳細"
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapClose))
@@ -280,12 +303,17 @@ class DetailsViewController: UIViewController {
         
         view.addSubview(imagenameCharacterCountLabel)
         imagenameCharacterCountLabel.anchor(bottom: imagenameTextView.bottomAnchor, right: imagenameTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
-        view.addSubview(photoImageView)
-        
-        
+       // view.addSubview(photoImageView)
+        view.addSubview(shadowView)
+        shadowView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
+        shadowView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
+        shadowView.centerX(inView: view)
+        shadowView.addSubview(photoImageView)
         photoImageView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
         photoImageView.centerX(inView: view)
+        
+       
         photoImageView.layer.cornerRadius = 10
        
         let verticalStackView = UIStackView()
@@ -295,7 +323,7 @@ class DetailsViewController: UIViewController {
             view.addSubview(verticalStackView)
        
         verticalStackView.anchor(top: photoImageView.bottomAnchor,
-                                 paddingTop: 0)
+                                 paddingTop: 2)
         verticalStackView.centerX(inView: view)
         
         let stack = UIStackView(arrangedSubviews: [passwordLabel, checkButton])
@@ -346,7 +374,8 @@ class DetailsViewController: UIViewController {
         imagenameTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
         captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
         captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
-    
+        
+       
     
     }
 }

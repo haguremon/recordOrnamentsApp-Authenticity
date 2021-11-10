@@ -125,9 +125,10 @@ class LoginViewController: UIViewController {
         
         
     }
+    
     private func handleLogin(_ sender: UIButton?) {
         guard let email = emailTextField.text else { return }
-        guard let password = passwordTextField.text, password.count >= 8 else { return }
+        guard let password = passwordTextField.text, password.count >= 8 else { return showMessage(withTitle: "パスワード", message: "パスワードが8文字以下です", handler: nil) }
         
         AuthService.logUserIn(withEmail: email, password: password) { [ weak self ] result, error in
             if let error = error {

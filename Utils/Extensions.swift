@@ -173,6 +173,17 @@ extension UIButton {
     
 }
 extension UIView {
+    func addShadow(width: Double,
+                   height: Double,
+                   shadowOpacity: Float,
+                   shadowRadius: CGFloat ) {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: width, height: height)
+        layer.shadowOpacity = shadowOpacity
+        layer.shadowRadius = shadowRadius
+        clipsToBounds = false
+       
+    }
     
     func anchor(top: NSLayoutYAxisAnchor? = nil,
                 left: NSLayoutXAxisAnchor? = nil,

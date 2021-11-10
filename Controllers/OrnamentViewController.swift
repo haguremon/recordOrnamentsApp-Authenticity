@@ -172,7 +172,7 @@ class OrnamentViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "ア　プ　リ　名"
+        navigationItem.title = "お　き　も　の"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                                             style: .done,
                                                             target: self,

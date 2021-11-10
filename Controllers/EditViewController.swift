@@ -346,7 +346,7 @@ class EditViewController: UIViewController {
         view.addSubview(captionCharacterCountLabel)
         captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
                 
-        let stack2 = UIStackView(arrangedSubviews: [deleteButton, editButton])
+        let stack2 = UIStackView(arrangedSubviews: [editButton, deleteButton])
         //縦の関係
     
         stack2.axis = .horizontal
