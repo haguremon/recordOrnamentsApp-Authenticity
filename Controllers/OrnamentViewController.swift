@@ -59,30 +59,23 @@ class OrnamentViewController: UIViewController {
         setStatusBarBackgroundColor(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1))
         
         configureSearchController()
-     
         setupSideMenu()
         setupCollectionView()
         fetchPosts()
-   
+        fetchUser()
+        
         let refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(habdleRefresh), for: .valueChanged)
         refresher.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         refresher.tintColor = .label
         collectionView.refreshControl = refresher
-
     }
-    private func setupSideMenu() {
-        let sideMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SideMenu") as? SideMenuViewController
-        sideMenuViewController?.delegate = self
-        //sideMenuViewController?.user = self.user
-        menu = SideMenuNavigationController(rootViewController: sideMenuViewController!)
-        
-        menu?.leftSide = true
-        menu?.settings = makeSettings()
-        SideMenuManager.default.leftMenuNavigationController = menu
-        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
-        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showLoader(true)
+     
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showLoader(false)
@@ -105,6 +98,19 @@ class OrnamentViewController: UIViewController {
 //                }
 //            })
 //        }
+    }
+
+ 
+    private func setupSideMenu() {
+        let sideMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SideMenu") as? SideMenuViewController
+        sideMenuViewController?.delegate = self
+        sideMenuViewController?.user = self.user
+        menu = SideMenuNavigationController(rootViewController: sideMenuViewController!)
+        menu?.leftSide = true
+        menu?.settings = makeSettings()
+        SideMenuManager.default.leftMenuNavigationController = menu
+        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
+      
     }
     
     
@@ -140,14 +146,7 @@ class OrnamentViewController: UIViewController {
         }
     }
     
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        showLoader(true)
-        fetchUser()
-        fetchPosts()
-        
-    }
+
     //loginSegue
     private func presentToViewController() {
         
@@ -212,6 +211,21 @@ extension OrnamentViewController: UploadPostControllerDelegate{
         controller.navigationController?.popViewController(animated: true)
         self.habdleRefresh()
         
+    }
+    
+}
+
+
+// MARK: - DetailsViewControllerDelegate
+extension OrnamentViewController: DetailsViewControllerDelegate {
+    
+    func controllerDidFinishEditingPost(_ controller: UIViewController) {
+        controller.navigationController?.popToRootViewController(animated: true)
+        self.habdleRefresh()
+    }
+    func controllerDidFinishdeletePost(_ controller: DetailsViewController) {
+        controller.navigationController?.popViewController(animated: true)
+        self.habdleRefresh()
     }
     
 }
@@ -338,7 +352,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     private func openDetailsViewController(user: User, post: Post){
         
         let detailsViewController = DetailsViewController(user: user, post: post)
-        
+        detailsViewController.delegate = self
         navigationController?.pushViewController(detailsViewController, animated: true)
       
     }
@@ -369,13 +383,13 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                                    
     }
                                    
-                                   
         //MARK: -SideMeun
 
 extension OrnamentViewController: SideMenuNavigationControllerDelegate {
     
     private func makeSettings() -> SideMenuSettings {
         var settings = SideMenuSettings()
+        settings.menuWidth = view.bounds.width / 1.5
         //動作を指定
         settings.presentationStyle = .menuSlideIn
         //メニューの陰影度
@@ -400,6 +414,7 @@ extension OrnamentViewController: SideMenuNavigationControllerDelegate {
 
 //MARK: - SideMenuViewControllerDelegate
 extension OrnamentViewController: SideMenuViewControllerDelegate {
+
     func didSelectMeunItem(name: SideMenuItem) {
         menu?.dismiss(animated: false, completion:nil)
         //サイドメニューが閉じた時に移動する
@@ -419,7 +434,9 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
                 let accoutViewController = self.storyboard?.instantiateViewController(withIdentifier: "AccountViewController") as! AccountViewController
                 accoutViewController.modalPresentationStyle = .fullScreen
                 accoutViewController.delegate = self
-                accoutViewController.user = self.user
+                let  sideMenuViewController = self.menu?.viewControllers.first as! SideMenuViewController
+                accoutViewController.delegate = sideMenuViewController as? AccountViewControllerDelegate
+                accoutViewController.user = sideMenuViewController.user
                 let transition = CATransition()
                    transition.duration = 0.2
                    transition.type = CATransitionType.push
@@ -450,6 +467,11 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
 //MARK: - AccountViewControllerDelegate
 
 extension OrnamentViewController: AccountViewControllerDelegate {
+
+    func controllerDidFinishUpDateUser(){
+        //fetchUser()
+    }
+    
     func didSelectMeunItem(_ viewController: AccountViewController, name: AccountMenu) {
         
        
@@ -480,15 +502,11 @@ extension OrnamentViewController: AccountViewControllerDelegate {
     
 }
 
-// extension OrnamentViewController : UITextFieldDelegate {
-// }
-
 
 // MARK: - UISearchResultsUpdating
 extension OrnamentViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        //1文字でも含まれてたら検索できる
         filteredPosts = posts.filter({$0.imagename.contains(searchText)})
 
        self.collectionView.reloadData()

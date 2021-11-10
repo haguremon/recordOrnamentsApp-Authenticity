@@ -10,6 +10,7 @@ import UIKit
 
 protocol AccountViewControllerDelegate: AnyObject {
     func didSelectMeunItem(_ viewController: AccountViewController, name: AccountMenu)
+    func controllerDidFinishUpDateUser()
 }
 
 enum AccountMenu: String,CaseIterable{
@@ -45,7 +46,7 @@ class AccountViewController: UIViewController {
     private var profileImageUrl: String?
     
     
-    @IBOutlet weak var upDateButton: UIButton!
+    @IBOutlet weak var upDateImageButton: UIButton!
     
     @IBAction func upDateAccountButton(_ sender: Any) {
        
@@ -66,8 +67,7 @@ class AccountViewController: UIViewController {
         configureUI()
         configureTableView()
     }
-    
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.hidesBackButton = true
@@ -99,19 +99,20 @@ class AccountViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didtappedSave))
         navigationItem.leftBarButtonItem?.tintColor = .red
         
-        profileImageButton.layer.cornerRadius = 45
+       
+        
         profileImageButton.imageView?.contentMode = .scaleToFill
-        profileImageButton.imageView?.layer.cornerRadius = 45
-        profileImageButton.layer.borderWidth = 1
-        profileImageButton.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        profileImageButton.imageView?.layer.cornerRadius = profileImageButton.bounds.width / 2.25
+        profileImageButton.imageView?.layer.borderWidth = 1
+        profileImageButton.imageView?.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         profileImageButton.isEnabled = false
         profileImageButton.contentHorizontalAlignment = .fill
 //                // Vertical 拡大
         profileImageButton.contentVerticalAlignment = .fill
         
-        upDateButton.layer.cornerRadius = 5
-        upDateButton.layer.shadowRadius = 5
-        upDateButton.layer.shadowOpacity = 1.0
+        upDateImageButton.layer.cornerRadius = 5
+        upDateImageButton.layer.shadowRadius = 5
+        upDateImageButton.layer.shadowOpacity = 1.0
         
         // Horizontal 拡大
         profileImageButton.contentHorizontalAlignment = .fill
@@ -148,7 +149,8 @@ class AccountViewController: UIViewController {
         transition.type = CATransitionType.push
         transition.subtype = CATransitionSubtype.fromRight
         view.window!.layer.add(transition, forKey: kCATransition)
-        navigationController?.popToRootViewController(animated: false)
+       
+        navigationController?.popToRootViewController(animated: true)
     }
     @objc func didtappedSave() {
         showLoader(true)
@@ -167,7 +169,7 @@ class AccountViewController: UIViewController {
                 self.showLoader(false)
                 self.navigationItem.leftBarButtonItem?.isEnabled = false
             }
-        
+            self.delegate?.controllerDidFinishUpDateUser()
         }
           
            
@@ -195,12 +197,12 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         cell.backgroundColor = #colorLiteral(red: 0.1358366907, green: 0.1817382276, blue: 0.3030198812, alpha: 1)
         cell.lable.text = accountMenus[indexPath.section].rawValue
-        
+       
         var content = cell.defaultContentConfiguration()
         content.text = accountMenus[indexPath.section].rawValue
         content.textProperties.alignment = .center
         content.textProperties.color = .white
-        
+        content.textProperties.font = UIFont.boldSystemFont(ofSize: cell.bounds.height / 3.5)
         let selectionView = UIView()
         cell.selectedBackgroundView = selectionView
         
@@ -255,13 +257,13 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         switch accountMenus[indexPath.section] {
             
         case .name:
-            return 80
+            return profileImageButton.bounds.height / 1.4
         case .password:
-            return 40
+            return profileImageButton.bounds.height / 1.9
         case .deleteAccount:
-            return 35
+            return profileImageButton.bounds.height / 2.5
         case .exit:
-           return 40
+           return profileImageButton.bounds.height / 1.9
         }
     }
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -283,7 +285,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 7.5
+        return profileImageButton.bounds.height / 10
     }
     
 }

@@ -7,9 +7,16 @@
 
 import UIKit
 
+protocol EditViewControllerDelegate: AnyObject {
+    func controllerDidFinishUploadingPost(_ controller: EditViewController)
+}
+
+
 class EditViewController: UIViewController {
-    //
-    //    // MARK: - Properties
+   
+    weak var delegate: EditViewControllerDelegate?
+    
+    // MARK: - Properties
     
     var user: User?
     var post: Post? {
@@ -53,9 +60,9 @@ class EditViewController: UIViewController {
         let button = CheckBox()
 
         button.addTarget(self, action: #selector(setPassword), for: .touchUpInside)
-       // button.backgroundColor = .clear
+      
         button.layer.shadowColor = UIColor.gray.cgColor
-        //button.isChecked = false
+       
         button.bounds.size.width = 15
         button.bounds.size.height = 30
         button.backgroundColor = .clear
@@ -82,10 +89,30 @@ class EditViewController: UIViewController {
         return button
     }()
     @objc func remove() {
+        let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "削除する", style: .default, handler: { [ weak self ] _ in
+           
+            DispatchQueue.main.async {
+                self?.deletePost()
+            }
+            self?.delegate?.controllerDidFinishUploadingPost(self!)
+        
+        }))
+        
+        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
+        
+        present(alert, animated: true, completion: nil)
+        
+        
+    }
+    private func deletePost() {
         
         PostService.deletePost(self, withPostId: post!.postId)
         
     }
+    
+    
     private lazy var editButton: UIButton = {
         let button = UIButton()
         button.setTitle("編集完了", for: .normal)
@@ -120,10 +147,7 @@ class EditViewController: UIViewController {
             }
            
         }))
-//        DispatchQueue.main.async {
-//            self.present(alert, animated: true, completion: nil)
-//
-//        }
+
         DispatchQueue.main.async(execute: {
                self.present(alert, animated: true, completion: nil)
            })
@@ -218,6 +242,7 @@ class EditViewController: UIViewController {
         imagenameTextView.delegate = self
         captionTextView.delegate = self
         print("viewDidLoad")
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1))
     }
 
         
@@ -246,8 +271,8 @@ class EditViewController: UIViewController {
                 self.post = post
     
             }
-            //self.navigationController?.popViewController(animated: true)
-            self.navigationController?.popToRootViewController(animated: true)
+            self.delegate?.controllerDidFinishUploadingPost(self)
+         
         
         }
         

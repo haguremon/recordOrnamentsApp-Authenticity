@@ -7,6 +7,13 @@
 
 import UIKit
 
+protocol DetailsViewControllerDelegate: AnyObject {
+    func controllerDidFinishdeletePost(_ controller: DetailsViewController)
+    func controllerDidFinishEditingPost(_ controller: UIViewController)
+
+}
+
+
 class DetailsViewController: UIViewController {
     
     // MARK: - Properties
@@ -14,6 +21,8 @@ class DetailsViewController: UIViewController {
     
     var post: Post? { didSet { configurepost(post: post) } }
    
+    weak var delegate: DetailsViewControllerDelegate?
+    
     private func configurepost(post: Post?){
         
         guard let post = post else { return }
@@ -85,13 +94,13 @@ class DetailsViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.deletePost()
             }
-            self?.didTapClose()
+            self?.delegate?.controllerDidFinishdeletePost(self!)
         
         }))
         
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
         
-        present(alert, animated: false, completion: nil)
+        present(alert, animated: true, completion: nil)
         
         
     }
@@ -133,7 +142,8 @@ class DetailsViewController: UIViewController {
     private lazy var imagenameTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "名前を変更する"
-        tv.textColor = .label
+        tv.textColor = .black
+        tv.backgroundColor = .white
         tv.text = ""
         tv.isEditable = false
         tv.isSelectable = false
@@ -146,8 +156,9 @@ class DetailsViewController: UIViewController {
         let tv = InputTextView()
         tv.placeholderText = "メモを変更する"
         tv.font = UIFont.systemFont(ofSize: 20)
-        tv.textColor = .label
+        tv.textColor = .black
         tv.text = ""
+        tv.backgroundColor = .white
         tv.isEditable = false
         tv.isSelectable = false
         tv.placeholderShouldCenter = false
@@ -156,26 +167,26 @@ class DetailsViewController: UIViewController {
     }()
     private let passwordLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         label.text = "パスワードを設定する"
-        label.backgroundColor = .systemBackground
+        label.backgroundColor = .white
         label.textAlignment = .center
         return label
     }()
     private let memoLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         label.text = "メモ"
-        label.backgroundColor = .systemBackground
+        label.backgroundColor = .white
         label.textAlignment = .center
         return label
     }()
     
     private let captionCharacterCountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .secondaryLabel
+        label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/300"
         return label
@@ -183,7 +194,7 @@ class DetailsViewController: UIViewController {
     
     private let imagenameCharacterCountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .secondaryLabel
+        label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/15"
         return label
@@ -242,16 +253,15 @@ class DetailsViewController: UIViewController {
     @objc func editingMode() {
        
         let editViewController = EditViewController(user: self.user!, post: self.post!)
-        
-        navigationController?.pushViewController(editViewController, animated: false)
+        editViewController.delegate = self
+        navigationController?.pushViewController(editViewController, animated: true)
     
     }
     
-    //
-    //    // MARK: - Helpers
+        // MARK: - Helpers
     func configureUI(){
         
-        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         imagenameTextView.layer.borderWidth = 1
         imagenameTextView.layer.borderColor = UIColor.gray.cgColor
@@ -292,23 +302,22 @@ class DetailsViewController: UIViewController {
         //縦の関係
     
         stack.axis = .horizontal
-        //stack.distribution = .equalSpacing
+
         stack.spacing = 2
-        //これでstack内でのサイズがcheckButton.bounds.size.widthと同じになるらしい
+
         checkButton.bounds.size.width = checkButton.intrinsicContentSize.width
         passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
-        //二つが左寄りに
+
         stack.alignment = .fill
         
         verticalStackView.addArrangedSubview(stack)
         verticalStackView.addArrangedSubview(memoLabel)
 
-        
         view.addSubview(captionTextView)
         captionTextView.setDimensions(height: view.bounds.height / 6, width: view.bounds.width / 1.08)
         captionTextView.anchor(top: verticalStackView.bottomAnchor, paddingTop: 2)
         captionTextView.centerX(inView: view)
-        
+       
         view.addSubview(captionCharacterCountLabel)
         captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
                 
@@ -340,4 +349,15 @@ class DetailsViewController: UIViewController {
     
     
     }
+}
+//MARK: - EditViewControllerDelegate
+
+extension DetailsViewController: EditViewControllerDelegate {
+    
+    func controllerDidFinishUploadingPost(_ controller: EditViewController) {
+        
+        self.delegate?.controllerDidFinishEditingPost(controller)
+    
+    }
+    
 }

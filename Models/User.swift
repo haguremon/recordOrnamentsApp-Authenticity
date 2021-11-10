@@ -32,9 +32,5 @@ struct User {
 struct UpdateUser {
     var name: String?
     var profileImage: UIImage?
-//    init(name: String?,profileImage: UIImage?){
-//        self.name = name
-//        self.profileImage = profileImage
-//
-//    }
+
 }

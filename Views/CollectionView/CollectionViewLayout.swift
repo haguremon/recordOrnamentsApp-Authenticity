@@ -5,7 +5,6 @@
 //  Created by IwasakIYuta on 2021/09/24.
 //
 
-import Foundation
 import UIKit
 
 final class  CollectionViewLayout {
@@ -23,7 +22,7 @@ final class  CollectionViewLayout {
         
         let item = NSCollectionLayoutItem(layoutSize: .init(
             widthDimension: .fractionalWidth(0.5),
-            heightDimension: .absolute(collectionView.bounds.width / 2)))
+            heightDimension: .absolute(collectionView.bounds.width / 1.80)))
         
         item.contentInsets = .init(top: 2, leading: 5, bottom: 10, trailing: 5)
         
@@ -32,7 +31,6 @@ final class  CollectionViewLayout {
             widthDimension: .fractionalWidth(1),
             heightDimension: .estimated(1000)),                     subitems: [item])
         
-        //group.contentInsets = .init(top: 2, leading: 5, bottom: 0, trailing: 2)
         
         
         let section = NSCollectionLayoutSection(group: group)
@@ -41,7 +39,7 @@ final class  CollectionViewLayout {
             [
                 .init(layoutSize: .init(
                         widthDimension: .fractionalWidth(0.95),
-                        heightDimension: .absolute(45)),
+                        heightDimension: .absolute(collectionView.bounds.height / 14)),
                       elementKind: "header" ,
                       alignment: .top)
                 

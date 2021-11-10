@@ -8,7 +8,9 @@
 import JGProgressHUD
 import UIKit
 
+
 extension UIViewController {
+    
     static let hud = JGProgressHUD(style: .dark)
     //インジゲーターの処理
     func showLoader(_ show: Bool) {
