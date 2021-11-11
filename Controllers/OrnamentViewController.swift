@@ -31,6 +31,10 @@ class OrnamentViewController: UIViewController {
     
     @IBOutlet private var collectionView: UICollectionView!
     private let searchController = UISearchController(searchResultsController: nil)
+    private var searchBar: UISearchBar {
+        searchController.searchBar
+    }
+    
     private var inSearchMode: Bool {
         return searchController.isActive && !searchController.searchBar.text!.isEmpty
     }
@@ -52,11 +56,10 @@ class OrnamentViewController: UIViewController {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
         configureNavigationBar()
-        navigationController?.navigationBar.tintColor = .green
-        navigationController?.navigationBar.isTranslucent = true
+        self.overrideUserInterfaceStyle = .light
         collectionView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1))
+        view.backgroundColor = .white
+        setStatusBarBackgroundColor(.white)
         
         configureSearchController()
         setupSideMenu()
@@ -66,7 +69,7 @@ class OrnamentViewController: UIViewController {
         
         let refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(habdleRefresh), for: .valueChanged)
-        refresher.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        refresher.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         refresher.tintColor = .label
         collectionView.refreshControl = refresher
     }
@@ -118,7 +121,7 @@ class OrnamentViewController: UIViewController {
         // configurenavigationController()
         print("check1")
         if Auth.auth().currentUser == nil  {
-            //ログイン中じゃない場合はLoginControllerに移動する
+    
             
             
             DispatchQueue.main.async {
@@ -141,7 +144,7 @@ class OrnamentViewController: UIViewController {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         PostService.fetchPosts(self, forUser: uid) { (posts) in
             self.posts = posts
-            //self.checkIfUserLikedPosts()
+            
             self.collectionView.refreshControl?.endRefreshing()
         }
     }
@@ -160,27 +163,44 @@ class OrnamentViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
+
+        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 0.1984944123)
+        searchBar.searchTextField.textColor = .black
+        searchBar.searchTextField.tintColor = .black
+        searchBar.delegate = self
         searchController.searchBar.placeholder = "登録した名前で検索できるよ"
-        searchController.searchBar.tintColor = .label
-        searchController.searchBar.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        searchController.searchBar.layer.borderColor = UIColor.systemBlue.cgColor
-        searchController.searchBar.searchTextField.backgroundColor = .systemBackground
-        searchController.searchBar.delegate = self
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+        
+//        searchController.searchBar.tintColor = .black
+//        searchController.searchBar.barTintColor = .black
+       
+        searchBar.setupSearchBar()
+//        searchController.searchBar.tintColor = UIColor.black
+//        searchController.searchBar.searchTextField.tintColor = .black
+//        searchController.searchBar.searchTextField.textColor = .black
+//        searchController.searchBar.layer.borderColor = UIColor.systemGray.cgColor
+//        searchController.searchBar.searchTextField.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 0.1984944123)
+//        searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         definesPresentationContext = false
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "お　き　も　の"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
+        //navigationItem.title = "お　き　も　の"
+        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.tintColor = .black
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus.circle.fill"),
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(didTapPostToButton))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "sidebar.left"),
+        navigationItem.rightBarButtonItem?.tintColor = .green
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "sidebar.squares.left"),
                                                            style: .done,
                                                            target: self,
                                                            action: #selector(createSideMenuButton))
+    
+        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        
     }
     
     @objc private func didTapPostToButton() {

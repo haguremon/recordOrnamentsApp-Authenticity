@@ -83,22 +83,19 @@ class AccountViewController: UIViewController {
         
         tableView.isScrollEnabled = false
         tableView.scrollsToTop = false
-        tableView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        tableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
     }
     private func configureUI() {
         messageLabel.isHidden = true
         navigationItem.title = "アカウント"
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1))
-        
-        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        //navigationController?.navigationBar.backgroundColor = .gray
+        setStatusBarBackgroundColor(.white)
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        //navigationController?.navigationBar.tintColor = .black
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "戻る", style: .done, target: self, action: #selector(didTappedismiss))
-        navigationItem.rightBarButtonItem?.tintColor = .green
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+        navigationItem.rightBarButtonItem?.tintColor = .red
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didtappedSave))
-        navigationItem.leftBarButtonItem?.tintColor = .red
-        
+        navigationItem.leftBarButtonItem?.tintColor = .blue
        
         
         profileImageButton.imageView?.contentMode = .scaleToFill
@@ -197,13 +194,15 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         cell.backgroundColor = #colorLiteral(red: 0.1358366907, green: 0.1817382276, blue: 0.3030198812, alpha: 1)
         cell.lable.text = accountMenus[indexPath.section].rawValue
-       
+        cell.selectionStyle = .default
+      
         var content = cell.defaultContentConfiguration()
         content.text = accountMenus[indexPath.section].rawValue
         content.textProperties.alignment = .center
         content.textProperties.color = .white
         content.textProperties.font = UIFont.boldSystemFont(ofSize: cell.bounds.height / 3.5)
         let selectionView = UIView()
+       
         cell.selectedBackgroundView = selectionView
         
         switch accountMenus[indexPath.section] {
@@ -217,13 +216,14 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             cell.textField.text = user.name
             cell.textField.isEnabled = true
             cell.delegat = self
+            cell.contentView.layer.cornerRadius = 15
             cell.layer.cornerRadius = 15
             return cell
             
         case .password:
-            
             selectionView.backgroundColor = UIColor.blue
             cell.layer.cornerRadius = 10
+            cell.contentView.layer.cornerRadius = 10
             content.textProperties.color = #colorLiteral(red: 0, green: 0.7300020456, blue: 0.8954316974, alpha: 1)
             cell.contentConfiguration = content
             return cell
@@ -232,6 +232,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             
             selectionView.backgroundColor = #colorLiteral(red: 0.982794106, green: 0.4097733498, blue: 0.4362072051, alpha: 1)
             cell.layer.cornerRadius = 5
+            cell.contentView.layer.cornerRadius = 5
             content.textProperties.color = .red
             content.textProperties.font = UIFont.systemFont(ofSize: 14)
             cell.contentConfiguration = content
@@ -239,6 +240,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         case .exit:
             selectionView.backgroundColor = .gray
             cell.layer.cornerRadius = 15
+            cell.contentView.layer.cornerRadius = 15
             cell.contentConfiguration = content
             return cell
         }
@@ -267,7 +269,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        
+
         switch accountMenus[indexPath.section] {
         case .name:
             return nil
@@ -275,7 +277,7 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             return indexPath
         }
      }
-    
+//
     
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

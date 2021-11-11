@@ -63,9 +63,9 @@ class SideMenuViewController: UIViewController {
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         imageView.contentMode = .scaleToFill
-        tableView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        usernameLabel.tintColor = .white
-        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        tableView.backgroundColor = .white
+        usernameLabel.tintColor = .label
+        view.backgroundColor = .white
     
     }
     override func viewWillAppear(_ animated: Bool) {

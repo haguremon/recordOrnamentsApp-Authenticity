@@ -25,7 +25,6 @@ class TableViewCell: UITableViewCell {
         // Initialization code
         self.contentView.layer.masksToBounds = true
         self.contentView.layer.cornerRadius = 5
-        
         // UICollectionViewのおおもとの部分にはドロップシャドウに関する設定を行う
         self.layer.masksToBounds = false
         self.layer.shadowOffset = CGSize(width: 3, height: 6)

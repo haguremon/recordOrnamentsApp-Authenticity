@@ -13,15 +13,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {        
         FirebaseApp.configure()
-        if #available(iOS 13.0, *) {
-           let appearance = UINavigationBarAppearance()
-            appearance.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
-            appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-     
-            UINavigationBar.appearance().standardAppearance = appearance
-        } else {
-            UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
-        }
+        
+//        
+//        if #available(iOS 13.0, *) {
+//     
+//            let appearance = UINavigationBarAppearance()
+//            appearance.backgroundColor = .white
+//            appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+//
+//            UINavigationBar.appearance().standardAppearance = appearance
+//        } else {
+//            UINavigationBar.appearance().backgroundColor = .white
+//            UINavigationBar.appearance().barTintColor = .black
+//        }
 
         return true
     }

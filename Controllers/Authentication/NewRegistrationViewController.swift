@@ -163,8 +163,9 @@ class NewRegistrationViewController: UIViewController {
         registerButton.layer.cornerRadius = 20
         registerButton.layer.shadowRadius = 5
         registerButton.layer.shadowOpacity = 1.0
-        registerButton.backgroundColor = #colorLiteral(red: 0.9999213815, green: 0.005613924935, blue: 0.1496604383, alpha: 0.2514228063)
-        
+        registerButton.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        registerButton.layer.borderWidth = 0.8
+        registerButton.layer.borderColor = UIColor.black.cgColor
         
         
         profileImageButton.layer.cornerRadius = 45
@@ -264,7 +265,7 @@ extension NewRegistrationViewController :UITextFieldDelegate { //可読性の向
        let usernameIsEmpty = userNameTextField.text?.isEmpty ?? true
        if emailIsEmpty || passwordIsEmpty || usernameIsEmpty {
            registerButton.isEnabled = false
-           registerButton.backgroundColor = #colorLiteral(red: 0.9999213815, green: 0.005613924935, blue: 0.1496604383, alpha: 0.2514228063)
+           registerButton.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
        } else {
            registerButton.isEnabled = true
           registerButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
