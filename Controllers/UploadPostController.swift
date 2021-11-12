@@ -13,15 +13,17 @@ protocol UploadPostControllerDelegate: AnyObject {
 }
 //画面を選択したらここに移動して　メモ等をfirebaseに保存する
 class UploadPostController: UIViewController {
- 
-    // MARK: - Properties
+    //
+    //    // MARK: - Properties
     weak var delegate: UploadPostControllerDelegate?
     var currentUser: User?
- 
+    //
+    //
     var selectedImage: UIImage? {
         didSet{ photoImageView.image = selectedImage }
     }
-  
+    //
+    //
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
@@ -92,6 +94,7 @@ class UploadPostController: UIViewController {
     
     }
     private func setAlbum(){
+         print("tap")
          
          let picker = UIImagePickerController()
              picker.delegate = self
@@ -106,9 +109,8 @@ class UploadPostController: UIViewController {
         let tv = InputTextView()
         tv.placeholderText = "名前を付ける"
         tv.font = UIFont.systemFont(ofSize: 16)
-        tv.textColor = .black
+        tv.textColor = .label
         tv.text = ""
-        tv.backgroundColor = .white
         tv.delegate = self
         tv.placeholderShouldCenter = false
         tv.returnKeyType = .next
@@ -119,10 +121,9 @@ class UploadPostController: UIViewController {
         let tv = InputTextView()
         tv.placeholderText = "メモをする"
         tv.font = UIFont.systemFont(ofSize: 16)
-        tv.textColor = .black
+        tv.textColor = .label
         tv.text = ""
         tv.delegate = self
-        tv.backgroundColor = .white
         tv.placeholderShouldCenter = false
         tv.returnKeyType = .done
         return tv
@@ -130,7 +131,7 @@ class UploadPostController: UIViewController {
     
     private let characterCountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .gray
+        label.textColor = .secondaryLabel
         label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/300"
         return label
@@ -138,16 +139,16 @@ class UploadPostController: UIViewController {
     
     private let characterCountLabel2: UILabel = {
         let label = UILabel()
-        label.textColor = .gray
+        label.textColor = .secondaryLabel
         label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/15"
         return label
     }()
     private lazy var checkButton: CheckBox = {
         let button = CheckBox()
-
+        //button.setTitle("写真を追加する", for: .normal)
         button.addTarget(self, action: #selector(setPassword), for: .touchUpInside)
-
+       // button.backgroundColor = .clear
         button.layer.shadowColor = UIColor.gray.cgColor
         button.isChecked = false
         button.bounds.size.width = 15
@@ -159,8 +160,14 @@ class UploadPostController: UIViewController {
     @objc func setPassword() {
         
         if checkButton.isChecked {
+        
         showMessage2(withTitle: "パスワード", message: "画像タップ時にパスワードが要求されます")
+        } else {
+            
+            print(checkButton.isChecked)
+        
         }
+
     }
     
     func showMessage2(withTitle title: String, message: String) {
@@ -174,6 +181,7 @@ class UploadPostController: UIViewController {
                 self?.checkButton.isChecked = true
             }
             
+            //self?.post?.isSetPassword = true
         }))
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: { [ weak self ] _ in
             DispatchQueue.main.async {
@@ -188,10 +196,10 @@ class UploadPostController: UIViewController {
     
     private let passwordLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .label
         label.adjustsFontSizeToFitWidth = true
         label.text = "パスワードを設定する"
-        label.backgroundColor = .clear
+        label.backgroundColor = .systemBackground
         label.textAlignment = .center
         return label
     }()
@@ -252,8 +260,8 @@ class UploadPostController: UIViewController {
     //
     //    // MARK: - Helpers
     func configureUI(){
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1))
-        view.backgroundColor = .white
+        
+        view.backgroundColor = .systemBackground
         imagenameTextView.layer.borderWidth = 1
         imagenameTextView.layer.borderColor = UIColor.gray.cgColor
         captionTextView.layer.borderWidth = 1
@@ -267,7 +275,7 @@ class UploadPostController: UIViewController {
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
         imagenameTextView.centerX(inView: view)
         view.addSubview(characterCountLabel2)
-        characterCountLabel2.anchor(bottom: imagenameTextView.bottomAnchor, right: imagenameTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
+        characterCountLabel2.anchor(bottom: imagenameTextView.bottomAnchor, right: view.rightAnchor,paddingBottom: 0, paddingRight: 14)
         view.addSubview(photoImageView)
         
         photoImageView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
@@ -477,11 +485,14 @@ extension UploadPostController {
                        }
                    })
             )
+               //アラートが表示されるごとにprint
                self.present(
                alert,
                animated: true)
         
     }
-
+    
+    
+    
     
 }

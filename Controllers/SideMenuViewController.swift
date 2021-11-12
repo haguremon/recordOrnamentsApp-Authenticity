@@ -11,7 +11,6 @@ import FirebaseAuth
 
 protocol SideMenuViewControllerDelegate: AnyObject {
     func didSelectMeunItem(name: SideMenuItem)
-
 }
 
 
@@ -56,16 +55,15 @@ class SideMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateImageView = imageView
-        usernameLabel.font = UIFont.boldSystemFont(ofSize: imageView.bounds.height / 7)
+        
         configureTableView()
-        fetchUser()
-        imageView.layer.cornerRadius = view.bounds.width / 8.25
+        imageView.layer.cornerRadius = 45
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         imageView.contentMode = .scaleToFill
-        tableView.backgroundColor = .white
-        usernameLabel.tintColor = .label
-        view.backgroundColor = .white
+        tableView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        usernameLabel.tintColor = .white
+        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
     
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -78,7 +76,7 @@ class SideMenuViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        fetchUser()
     }
     
     private func activeIndicatorView(){
@@ -100,11 +98,15 @@ class SideMenuViewController: UIViewController {
         tableView.isScrollEnabled = false
         tableView.scrollsToTop = false
     }
-     func fetchUser() {
+    private func fetchUser() {
         //コールバックを使ってProfileControllerのプロパティに代入する
         UserService.fetchUser { user in
             self.user = user
         }
+        DispatchQueue.main.async {
+           
+        }
+       
         
     }
 
@@ -127,8 +129,6 @@ extension SideMenuViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         cell.textLabel?.textColor = .white
-        cell.textLabel?.textAlignment = .center
-        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: cell.bounds.height / 3.5)
         cell.clipsToBounds = true
         cell.layer.cornerRadius = 5.0
         cell.layer.borderWidth = 1
@@ -139,7 +139,7 @@ extension SideMenuViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        imageView.bounds.height / 1.5
+        70
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

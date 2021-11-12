@@ -31,10 +31,6 @@ class OrnamentViewController: UIViewController {
     
     @IBOutlet private var collectionView: UICollectionView!
     private let searchController = UISearchController(searchResultsController: nil)
-    private var searchBar: UISearchBar {
-        searchController.searchBar
-    }
-    
     private var inSearchMode: Bool {
         return searchController.isActive && !searchController.searchBar.text!.isEmpty
     }
@@ -56,29 +52,37 @@ class OrnamentViewController: UIViewController {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
         configureNavigationBar()
-        self.overrideUserInterfaceStyle = .light
+        navigationController?.navigationBar.tintColor = .green
+        navigationController?.navigationBar.isTranslucent = true
         collectionView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        view.backgroundColor = .white
-        setStatusBarBackgroundColor(.white)
+        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1))
         
         configureSearchController()
+     
         setupSideMenu()
         setupCollectionView()
         fetchPosts()
-        fetchUser()
-        
+   
         let refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(habdleRefresh), for: .valueChanged)
-        refresher.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        refresher.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         refresher.tintColor = .label
         collectionView.refreshControl = refresher
+
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        showLoader(true)
-     
+    private func setupSideMenu() {
+        let sideMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SideMenu") as? SideMenuViewController
+        sideMenuViewController?.delegate = self
+        sideMenuViewController?.user = self.user
+        menu = SideMenuNavigationController(rootViewController: sideMenuViewController!)
+        
+        menu?.leftSide = true
+        menu?.settings = makeSettings()
+        SideMenuManager.default.leftMenuNavigationController = menu
+        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
+        
     }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showLoader(false)
@@ -102,26 +106,13 @@ class OrnamentViewController: UIViewController {
 //            })
 //        }
     }
-
- 
-    private func setupSideMenu() {
-        let sideMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SideMenu") as? SideMenuViewController
-        sideMenuViewController?.delegate = self
-        sideMenuViewController?.user = self.user
-        menu = SideMenuNavigationController(rootViewController: sideMenuViewController!)
-        menu?.leftSide = true
-        menu?.settings = makeSettings()
-        SideMenuManager.default.leftMenuNavigationController = menu
-        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
-      
-    }
     
     
     func checkIfUserIsLoggedIn() {
         // configurenavigationController()
         print("check1")
         if Auth.auth().currentUser == nil  {
-    
+            //ログイン中じゃない場合はLoginControllerに移動する
             
             
             DispatchQueue.main.async {
@@ -144,12 +135,19 @@ class OrnamentViewController: UIViewController {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         PostService.fetchPosts(self, forUser: uid) { (posts) in
             self.posts = posts
-            
+            //self.checkIfUserLikedPosts()
             self.collectionView.refreshControl?.endRefreshing()
         }
     }
     
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showLoader(true)
+        fetchUser()
+        fetchPosts()
+        
+    }
     //loginSegue
     private func presentToViewController() {
         
@@ -163,44 +161,27 @@ class OrnamentViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
-
-        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 0.1984944123)
-        searchBar.searchTextField.textColor = .black
-        searchBar.searchTextField.tintColor = .black
-        searchBar.delegate = self
         searchController.searchBar.placeholder = "登録した名前で検索できるよ"
-        
-//        searchController.searchBar.tintColor = .black
-//        searchController.searchBar.barTintColor = .black
-       
-        searchBar.setupSearchBar()
-//        searchController.searchBar.tintColor = UIColor.black
-//        searchController.searchBar.searchTextField.tintColor = .black
-//        searchController.searchBar.searchTextField.textColor = .black
-//        searchController.searchBar.layer.borderColor = UIColor.systemGray.cgColor
-//        searchController.searchBar.searchTextField.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 0.1984944123)
-//        searchController.searchBar.delegate = self
+        searchController.searchBar.tintColor = .label
+        searchController.searchBar.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        searchController.searchBar.layer.borderColor = UIColor.systemBlue.cgColor
+        searchController.searchBar.searchTextField.backgroundColor = .systemBackground
+        searchController.searchBar.delegate = self
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
         navigationItem.searchController = searchController
         definesPresentationContext = false
     }
     
     private func configureNavigationBar() {
-        //navigationItem.title = "お　き　も　の"
-        navigationController?.navigationBar.backgroundColor = .white
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.tintColor = .black
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus.circle.fill"),
+        navigationItem.title = "ア　プ　リ　名"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(didTapPostToButton))
-        navigationItem.rightBarButtonItem?.tintColor = .green
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "sidebar.squares.left"),
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "sidebar.left"),
                                                            style: .done,
                                                            target: self,
                                                            action: #selector(createSideMenuButton))
-    
-        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
-        
     }
     
     @objc private func didTapPostToButton() {
@@ -236,21 +217,6 @@ extension OrnamentViewController: UploadPostControllerDelegate{
 }
 
 
-// MARK: - DetailsViewControllerDelegate
-extension OrnamentViewController: DetailsViewControllerDelegate {
-    
-    func controllerDidFinishEditingPost(_ controller: UIViewController) {
-        controller.navigationController?.popToRootViewController(animated: true)
-        self.habdleRefresh()
-    }
-    func controllerDidFinishdeletePost(_ controller: DetailsViewController) {
-        controller.navigationController?.popViewController(animated: true)
-        self.habdleRefresh()
-    }
-    
-}
-
-
 
 
 
@@ -259,7 +225,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     private func setupCollectionView() {
         collectionView.collectionViewLayout = collectionViewLayout.ornamentCollectionViewLayout(collectionView: collectionView)
 
-        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(OrnamentCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: "header", withReuseIdentifier: "header")
@@ -279,7 +245,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! OrnamentCollectionViewCell
         switch inSearchMode {
         case true:
             cell.setup(image: URL(string: filteredPosts[indexPath.row].imageUrl), imagename: filteredPosts[indexPath.row].imagename, setPassword: filteredPosts[indexPath.row].isSetPassword)
@@ -372,7 +338,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     private func openDetailsViewController(user: User, post: Post){
         
         let detailsViewController = DetailsViewController(user: user, post: post)
-        detailsViewController.delegate = self
+        
         navigationController?.pushViewController(detailsViewController, animated: true)
       
     }
@@ -403,13 +369,13 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                                    
     }
                                    
+                                   
         //MARK: -SideMeun
 
 extension OrnamentViewController: SideMenuNavigationControllerDelegate {
     
     private func makeSettings() -> SideMenuSettings {
         var settings = SideMenuSettings()
-        settings.menuWidth = view.bounds.width / 1.5
         //動作を指定
         settings.presentationStyle = .menuSlideIn
         //メニューの陰影度
@@ -434,7 +400,6 @@ extension OrnamentViewController: SideMenuNavigationControllerDelegate {
 
 //MARK: - SideMenuViewControllerDelegate
 extension OrnamentViewController: SideMenuViewControllerDelegate {
-
     func didSelectMeunItem(name: SideMenuItem) {
         menu?.dismiss(animated: false, completion:nil)
         //サイドメニューが閉じた時に移動する
@@ -455,6 +420,7 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
                 accoutViewController.modalPresentationStyle = .fullScreen
                 accoutViewController.delegate = self
                 let  sideMenuViewController = self.menu?.viewControllers.first as! SideMenuViewController
+                print("\(sideMenuViewController.user?.name)")
                 accoutViewController.delegate = sideMenuViewController as? AccountViewControllerDelegate
                 accoutViewController.user = sideMenuViewController.user
                 let transition = CATransition()
@@ -487,46 +453,49 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
 //MARK: - AccountViewControllerDelegate
 
 extension OrnamentViewController: AccountViewControllerDelegate {
-
-    func controllerDidFinishUpDateUser(){
-        //fetchUser()
+    func controllerDidFinishUpDateUser() {
+        fetchUser()
     }
-    
+
+
     func didSelectMeunItem(_ viewController: AccountViewController, name: AccountMenu) {
-        
-       
+        print("tapppe")
+
         switch name {
         case .name:
             print("name")
 
         case .password:
             resetPasswordMessege(viewController)
-            
+
         case .deleteAccount:
             Auth.auth().currentUser?.delete {  (error) in
                       // エラーが無ければ、ログイン画面へ戻る
                       if error == nil {
                           self.presentToViewController()
                       }else{
-                          
+
                           self.showErrorIfNeeded(error)
                       }
                   }
-            print("deleteAccount")
         case .exit:
             viewController.didTappedismiss()
         }
     }
-    
-    
-    
+
+
+
 }
+
+// extension OrnamentViewController : UITextFieldDelegate {
+// }
 
 
 // MARK: - UISearchResultsUpdating
 extension OrnamentViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
+        //1文字でも含まれてたら検索できる
         filteredPosts = posts.filter({$0.imagename.contains(searchText)})
 
        self.collectionView.reloadData()

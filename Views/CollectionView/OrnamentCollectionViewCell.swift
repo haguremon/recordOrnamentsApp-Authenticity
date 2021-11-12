@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {
+class OrnamentCollectionViewCell: UICollectionViewCell {
     
     
     private var imageView: UIImageView = {
