@@ -295,7 +295,7 @@ class DetailsViewController: UIViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapClose))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "編集", style: .done, target: self, action: #selector(editingMode))
-        navigationItem.rightBarButtonItem?.tintColor = .red
+        navigationItem.rightBarButtonItem?.tintColor = .blue
         
         view.addSubview(imagenameTextView)
         imagenameTextView.setDimensions(height: view.bounds.height / 13, width: view.bounds.width / 1.08)

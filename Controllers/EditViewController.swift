@@ -72,7 +72,7 @@ class EditViewController: UIViewController {
     @objc func setPassword() {
         
         if checkButton.isChecked {
-        showMessage1(withTitle: "パスワード", message: "パスワードが要求されます")
+        showMessage1(withTitle: "パスワード", message: "保管場所でパスワードが要求されます")
         }
     }
     
@@ -241,8 +241,7 @@ class EditViewController: UIViewController {
         configureUI()
         imagenameTextView.delegate = self
         captionTextView.delegate = self
-        print("viewDidLoad")
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1))
+
     }
 
         
@@ -256,12 +255,17 @@ class EditViewController: UIViewController {
         
         imagenameTextView.resignFirstResponder()
         captionTextView.resignFirstResponder()
-        
-        guard let imagename = imagenameTextView.text else { return }
-        guard let caption = captionTextView.text else { return }
+        self.showLoader(true)
+        let imagename = imagenameTextView.text
+        let caption = captionTextView.text
         let setPassword = checkButton.isChecked
         let password = password.text
-        guard let post = post else { return }
+        guard let post = post else {
+            self.showLoader(false)
+            self.showMessage(withTitle: "エラー", message: "編集できません", handler: nil)
+            return
+            
+        }
     
         let updatePost = Submissions(caption: caption, imagename: imagename,password: password,isSetPassword: setPassword)
         
@@ -271,6 +275,7 @@ class EditViewController: UIViewController {
                 self.post = post
     
             }
+            self.showLoader(false)
             self.delegate?.controllerDidFinishUploadingPost(self)
          
         
@@ -288,13 +293,14 @@ class EditViewController: UIViewController {
     //    // MARK: - Helpers
     func configureUI(){
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         imagenameTextView.layer.borderWidth = 1
         imagenameTextView.layer.borderColor = UIColor.gray.cgColor
         captionTextView.layer.borderWidth = 1
         captionTextView.layer.borderColor = UIColor.gray.cgColor
         
         navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
         
         view.addSubview(imagenameTextView)

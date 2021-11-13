@@ -102,11 +102,11 @@ class AccountViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "戻る", style: .done, target: self, action: #selector(didTappedismiss))
         navigationItem.rightBarButtonItem?.tintColor = .green
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didtappedSave))
-        navigationItem.leftBarButtonItem?.tintColor = .red
+        navigationItem.leftBarButtonItem?.tintColor = .blue
         
-        profileImageButton.layer.cornerRadius = view.bounds.width / 8.25
+        profileImageButton.layer.cornerRadius = view.bounds.width / 7
         profileImageButton.imageView?.contentMode = .scaleToFill
-        profileImageButton.imageView?.layer.cornerRadius = view.bounds.width / 8.25
+        profileImageButton.imageView?.layer.cornerRadius = view.bounds.width / 7
         profileImageButton.layer.borderWidth = 1
         profileImageButton.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         profileImageButton.isEnabled = false
@@ -273,7 +273,7 @@ extension AccountViewController: UICollectionViewDataSource, UICollectionViewDel
         case .exit:
             cell.accountMenuLabel.text = accountMenus[indexPath.section].rawValue
             cell.layer.cornerRadius = cell.bounds.height / 2.5
-          
+            cell.accountMenuLabel.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
 
             return cell
         }

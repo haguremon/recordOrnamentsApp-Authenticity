@@ -85,7 +85,7 @@ class SideMenuViewController: UIViewController {
         activityIndicatorView.startAnimating()
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.style = .large
-        activityIndicatorView.tintColor = .white
+        activityIndicatorView.tintColor = .black
     }
     private func inactiveIndicatorView(){
         activityIndicatorView.stopAnimating()

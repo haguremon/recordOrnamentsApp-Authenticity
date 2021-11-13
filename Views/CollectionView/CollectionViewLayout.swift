@@ -23,7 +23,7 @@ final class  CollectionViewLayout {
         
         let item = NSCollectionLayoutItem(layoutSize: .init(
             widthDimension: .fractionalWidth(0.5),
-            heightDimension: .absolute(collectionView.bounds.width / 2)))
+            heightDimension: .absolute(collectionView.bounds.width / 1.8)))
         
         item.contentInsets = .init(top: 2, leading: 5, bottom: 10, trailing: 5)
         
@@ -41,7 +41,7 @@ final class  CollectionViewLayout {
             [
                 .init(layoutSize: .init(
                         widthDimension: .fractionalWidth(0.95),
-                        heightDimension: .absolute(45)),
+                        heightDimension: .absolute(collectionView.bounds.width / 5.25)),
                       elementKind: "header" ,
                       alignment: .top)
                 
@@ -57,13 +57,13 @@ final class  CollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { [ weak self ] (index ,env) in
             if index == 0 {
                 
-                return  self?.descriptionCategories(collectionView.bounds.height / 7)
+                return  self?.descriptionCategories(collectionView.bounds.height / 6)
             } else if index == 2 {
                 
                 return  self?.descriptionCategories(collectionView.bounds.height / 10)
             }
             
-            return  self?.descriptionCategories(collectionView.bounds.height / 9)
+            return  self?.descriptionCategories(collectionView.bounds.height / 8)
         }
         
         

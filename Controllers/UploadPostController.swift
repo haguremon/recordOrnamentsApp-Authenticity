@@ -161,7 +161,7 @@ class UploadPostController: UIViewController {
         
         if checkButton.isChecked {
         
-        showMessage2(withTitle: "パスワード", message: "画像タップ時にパスワードが要求されます")
+        showMessage2(withTitle: "パスワード", message: "保管場所でパスワードが要求されます")
         } else {
             
             print(checkButton.isChecked)
@@ -269,7 +269,8 @@ class UploadPostController: UIViewController {
         navigationItem.title = "保管"
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didTapDone))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didTapDone))
+        navigationItem.rightBarButtonItem?.tintColor = .blue
         view.addSubview(imagenameTextView)
         imagenameTextView.setDimensions(height: view.bounds.height / 13, width: view.bounds.width / 1.08)
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
