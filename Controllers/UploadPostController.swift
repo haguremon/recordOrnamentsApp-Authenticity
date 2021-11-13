@@ -53,6 +53,7 @@ class UploadPostController: UIViewController {
     
     @objc func addPhoto() {
         
+        addPhotoButton.showAnimation(true)
         showMessage1(withTitle: "写真", message: "写真を追加しますか？")
  
         
@@ -216,7 +217,7 @@ class UploadPostController: UIViewController {
         configureUI()
         imagenameTextView.delegate = self
         captionTextView.delegate = self
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.507245183, green: 0.5042337179, blue: 0.5095626116, alpha: 0.520540149)
     }
     
     // MARK: - Actions

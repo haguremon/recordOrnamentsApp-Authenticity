@@ -299,8 +299,8 @@ class EditViewController: UIViewController {
         captionTextView.layer.borderWidth = 1
         captionTextView.layer.borderColor = UIColor.gray.cgColor
         
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149))
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.507245183, green: 0.5042337179, blue: 0.5095626116, alpha: 0.520540149)
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.507245183, green: 0.5042337179, blue: 0.5095626116, alpha: 0.520540149))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
         
         view.addSubview(imagenameTextView)

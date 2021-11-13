@@ -58,8 +58,12 @@ class OrnamentViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = true
         collectionView.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149))
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
+        
+        
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
+        
+       
         
         configureSearchController()
         setupSideMenu()
@@ -163,7 +167,6 @@ class OrnamentViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
-       // searchController.self.searchBar.searchTextField.textColor = .systemPurple
         searchBar.barTintColor = .black
         searchBar.searchTextField.backgroundColor = .white
         searchBar.searchTextField.textColor = .black
@@ -188,7 +191,10 @@ class OrnamentViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationItem.title = "お　き　も　の"
-        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        
+        //let image = UIImage(systemName: "plus.app")
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus.app"),
                                                             style: .done,
                                                             target: self,

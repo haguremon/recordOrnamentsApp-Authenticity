@@ -97,6 +97,10 @@ class DetailsViewController: UIViewController {
         return button
     }()
     @objc func remove() {
+        DispatchQueue.main.async {
+            self.deleteButton.showAnimation(true)
+        }
+       
         let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "削除する", style: .default, handler: { [ weak self ] _ in
@@ -146,7 +150,7 @@ class DetailsViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
         
-        present(alert, animated: false, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     private lazy var imagenameTextView: InputTextView = {
@@ -239,8 +243,8 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.tintColor = .black
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149))
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.507245183, green: 0.5042337179, blue: 0.5095626116, alpha: 0.520540149)
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.507245183, green: 0.5042337179, blue: 0.5095626116, alpha: 0.520540149))
         configureUI()
           showLoader(true)
     }
@@ -262,7 +266,10 @@ class DetailsViewController: UIViewController {
     
     
     @objc func didTapDone() {
-
+        DispatchQueue.main.async {
+            self.editButton.showAnimation(true)
+        }
+        
         showEditModeMessage()
         
        

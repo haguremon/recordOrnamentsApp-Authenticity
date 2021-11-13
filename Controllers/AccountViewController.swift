@@ -85,7 +85,8 @@ class AccountViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(AccountCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.collectionViewLayout = collectionViewLayout.accountCollectionViewLayout(collectionView)
+        
+        collectionView.collectionViewLayout = collectionViewLayout.accountCollectionViewLayout(profileImageButton.bounds.width)
         
         collectionView.isScrollEnabled = false
         collectionView.scrollsToTop = false

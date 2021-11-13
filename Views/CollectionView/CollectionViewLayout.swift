@@ -41,7 +41,7 @@ final class  CollectionViewLayout {
             [
                 .init(layoutSize: .init(
                         widthDimension: .fractionalWidth(0.95),
-                        heightDimension: .absolute(collectionView.bounds.width / 5.25)),
+                        heightDimension: .absolute(45)),
                       elementKind: "header" ,
                       alignment: .top)
                 
@@ -52,18 +52,18 @@ final class  CollectionViewLayout {
     }
     // Description
     
-    func  accountCollectionViewLayout(_ collectionView: UICollectionView ) -> UICollectionViewLayout {
+    func  accountCollectionViewLayout(_ cgFloat: CGFloat) -> UICollectionViewLayout {
         
         let layout = UICollectionViewCompositionalLayout { [ weak self ] (index ,env) in
             if index == 0 {
                 
-                return  self?.descriptionCategories(collectionView.bounds.height / 6)
+                return  self?.descriptionCategories(cgFloat / 1.5)
             } else if index == 2 {
                 
-                return  self?.descriptionCategories(collectionView.bounds.height / 10)
+                return  self?.descriptionCategories(cgFloat / 2.6)
             }
             
-            return  self?.descriptionCategories(collectionView.bounds.height / 8)
+            return  self?.descriptionCategories(cgFloat / 2)
         }
         
         
