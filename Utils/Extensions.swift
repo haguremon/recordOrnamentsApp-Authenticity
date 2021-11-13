@@ -63,6 +63,21 @@ extension UIViewController {
     
 }
 
+extension UITextField {
+ //クリアボタン
+  var rightButton: UIButton? {
+      return value(forKey: "_clearButton") as? UIButton
+  }
+ //虫眼鏡
+  var lupeImageView: UIImageView? {
+    return leftView as? UIImageView
+  }
+    var textField: UITextField? {
+        return value(forKey:"_searchField") as? UITextField
+    }
+}
+
+
 extension UIColor {
     convenience init(r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat = 1.0) {
         self.init(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: a)
@@ -314,4 +329,19 @@ extension UIWindow {
     func endIgnoringInteractionEvents() {
         viewWithTag(10000)?.removeFromSuperview()
     }
+}
+extension UIButton {
+  func becomeImageAlwaysTemplate() {
+      if let image = image(for: .highlighted) {
+        let paintedImage = image.withRenderingMode(.alwaysTemplate)
+          setImage(paintedImage, for: .normal)
+        setImage(paintedImage, for: .highlighted)
+    }
+  }
+}
+
+extension UIImageView {
+  func becomeImageAlwaysTemplate() {
+      image = image?.withRenderingMode(.alwaysTemplate)
+  }
 }

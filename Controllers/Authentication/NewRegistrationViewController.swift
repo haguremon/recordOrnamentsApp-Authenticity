@@ -36,7 +36,6 @@ class NewRegistrationViewController: UIViewController {
     @IBAction func tappedDismiss(_ sender: Any) {
         let loginViewController = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
         loginViewController.modalPresentationStyle = .fullScreen
-        loginViewController.password = passwordTextField.text
         loginViewController.email = emailTextField.text
         present(loginViewController, animated: true, completion: nil)
     
@@ -135,10 +134,8 @@ class NewRegistrationViewController: UIViewController {
                    
                     let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
                     loginViewController.modalPresentationStyle = .fullScreen
-                    loginViewController.password = self?.passwordTextField.text
                     loginViewController.email = self?.emailTextField.text
                     loginViewController.message = "確認メールを認証してください"
-                    loginViewController.isLogged = true
                     self?.present(loginViewController, animated: true, completion: nil)
                     
                 }
@@ -163,13 +160,12 @@ class NewRegistrationViewController: UIViewController {
         registerButton.layer.cornerRadius = 20
         registerButton.layer.shadowRadius = 5
         registerButton.layer.shadowOpacity = 1.0
-        registerButton.backgroundColor = #colorLiteral(red: 0.9999213815, green: 0.005613924935, blue: 0.1496604383, alpha: 0.2514228063)
+        registerButton.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         
         
-        
-        profileImageButton.layer.cornerRadius = 45
+        profileImageButton.layer.cornerRadius = view.bounds.width / 8.25
         profileImageButton.imageView?.contentMode = .scaleToFill
-        profileImageButton.imageView?.layer.cornerRadius = 45
+        profileImageButton.imageView?.layer.cornerRadius = view.bounds.width / 8.25
         profileImageButton.layer.borderWidth = 1
         profileImageButton.layer.borderColor = UIColor.green.cgColor
         profileImageButton.contentHorizontalAlignment = .fill
@@ -264,7 +260,7 @@ extension NewRegistrationViewController :UITextFieldDelegate { //可読性の向
        let usernameIsEmpty = userNameTextField.text?.isEmpty ?? true
        if emailIsEmpty || passwordIsEmpty || usernameIsEmpty {
            registerButton.isEnabled = false
-           registerButton.backgroundColor = #colorLiteral(red: 0.9999213815, green: 0.005613924935, blue: 0.1496604383, alpha: 0.2514228063)
+           registerButton.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
        } else {
            registerButton.isEnabled = true
           registerButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)

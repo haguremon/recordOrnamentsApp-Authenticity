@@ -19,10 +19,10 @@ class LoginViewController: UIViewController {
     var email: String? = ""
    
     @IBOutlet  weak var passwordTextField: UITextField!
-    var password: String? = ""
+
     
     @IBOutlet private var loginButton: UIButton!
-    var isLogged: Bool? = false
+
     
     @IBOutlet private var SignupPageButton: UIButton!
     
@@ -43,10 +43,8 @@ class LoginViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         emailTextField.text = email
-        passwordTextField.text = password
         messageLabel.isHidden = false
         messageLabel.text = message
-        loginButton.isEnabled = isLogged!
     }
     
         
@@ -58,7 +56,7 @@ class LoginViewController: UIViewController {
         loginButton.layer.cornerRadius = 20
         loginButton.layer.shadowRadius = 5
         loginButton.layer.shadowOpacity = 1.0
-        loginButton.backgroundColor = #colorLiteral(red: 0.053540878, green: 0.01193358283, blue: 0.9903386235, alpha: 0.1031146523)
+        loginButton.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         
         
         SignupPageButton.layer.shadowOffset = CGSize(width: 1, height: 1 )
@@ -246,7 +244,7 @@ extension LoginViewController: UITextFieldDelegate {
         let passwordIsEmpty = passwordTextField.text?.isEmpty ?? true
         if emailIsEmpty || passwordIsEmpty {
             loginButton.isEnabled = false
-            loginButton.backgroundColor = #colorLiteral(red: 0.053540878, green: 0.01193358283, blue: 0.9903386235, alpha: 0.1972785596)
+            loginButton.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         } else {
             loginButton.isEnabled = true
             loginButton.backgroundColor = #colorLiteral(red: 0.053540878, green: 0.01193358283, blue: 0.9903386235, alpha: 1)

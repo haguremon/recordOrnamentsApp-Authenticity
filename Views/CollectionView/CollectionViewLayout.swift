@@ -55,17 +55,25 @@ final class  CollectionViewLayout {
     func  accountCollectionViewLayout(_ collectionView: UICollectionView ) -> UICollectionViewLayout {
         
         let layout = UICollectionViewCompositionalLayout { [ weak self ] (index ,env) in
-            self?.descriptionCategories(collectionView)
+            if index == 0 {
+                
+                return  self?.descriptionCategories(collectionView.bounds.height / 7)
+            } else if index == 2 {
+                
+                return  self?.descriptionCategories(collectionView.bounds.height / 10)
+            }
+            
+            return  self?.descriptionCategories(collectionView.bounds.height / 9)
         }
         
         
         return layout
     }
-    private func descriptionCategories(_ collectionView: UICollectionView) -> NSCollectionLayoutSection {
+    private func descriptionCategories(_ height: CGFloat) -> NSCollectionLayoutSection {
         //3 アイテムを作成
         let item = NSCollectionLayoutItem(layoutSize: .init(
             widthDimension: .fractionalWidth(1), //グループの100%
-            heightDimension: .absolute(collectionView.bounds.height / 9)))//絶対値150の高さ
+            heightDimension: .absolute(height)))//絶対値150の高さ
         // 4推定値1000（高さ）と幅が100%のグループが作成されるため　contentInsetsを使って間を開けてアイテムをちゃんと表示させるようにする
         item.contentInsets = .init(top: 0, leading: 5, bottom: 10, trailing: 5)
         

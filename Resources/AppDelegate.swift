@@ -15,12 +15,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         if #available(iOS 13.0, *) {
            let appearance = UINavigationBarAppearance()
-            appearance.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+            appearance.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
             appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-     
             UINavigationBar.appearance().standardAppearance = appearance
         } else {
-            UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+            UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         }
 
         return true

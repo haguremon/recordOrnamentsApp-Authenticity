@@ -52,8 +52,8 @@ class AccountViewController: UIViewController {
     
     @IBOutlet weak var upDateButton: UIButton!
     
-    @IBAction func upDateAccountButton(_ sender: Any) {
-       
+    @IBAction func upDateAccountButton(_ sender: UIButton) {
+        sender.showAnimation(true)
         showMessage1(withTitle: "写真", message: "プロフィール画像を変更しますか？")
         
      
@@ -89,25 +89,24 @@ class AccountViewController: UIViewController {
         
         collectionView.isScrollEnabled = false
         collectionView.scrollsToTop = false
-        collectionView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        collectionView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
     }
     private func configureUI() {
         messageLabel.isHidden = true
         navigationItem.title = "アカウント"
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1))
-        
-        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149))
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         //navigationController?.navigationBar.backgroundColor = .gray
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "戻る", style: .done, target: self, action: #selector(didTappedismiss))
         navigationItem.rightBarButtonItem?.tintColor = .green
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didtappedSave))
         navigationItem.leftBarButtonItem?.tintColor = .red
         
-        profileImageButton.layer.cornerRadius = 45
+        profileImageButton.layer.cornerRadius = view.bounds.width / 8.25
         profileImageButton.imageView?.contentMode = .scaleToFill
-        profileImageButton.imageView?.layer.cornerRadius = 45
+        profileImageButton.imageView?.layer.cornerRadius = view.bounds.width / 8.25
         profileImageButton.layer.borderWidth = 1
         profileImageButton.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         profileImageButton.isEnabled = false
@@ -173,13 +172,39 @@ class AccountViewController: UIViewController {
                 self.showLoader(false)
                 self.navigationItem.leftBarButtonItem?.isEnabled = false
             }
-        
+            self.delegate?.controllerDidFinishUpDateUser()
         }
           
            
     }
+    private func showRemoveDialog() {
+        let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "削除する", style: .default, handler: { [ weak self ] _ in
+            self?.deleteAccount()
+        }))
         
+        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
+        
+        present(alert, animated: true, completion: nil)
+        
+        
+    }
     
+    private func deleteAccount(){
+        
+        Auth.auth().currentUser?.delete {  (error) in
+
+            if error == nil {
+                self.presentToViewController()
+            } else {
+                
+                self.showErrorIfNeeded(error)
+            }
+        }
+        
+        
+    }
 }
 
 
@@ -188,21 +213,28 @@ class AccountViewController: UIViewController {
 //MARK: - UITableViewDelegate
 extension AccountViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
- 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         accountMenus.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! AccountCollectionViewCell
       
+        cell.clipsToBounds = true
+        cell.textField.text = accountMenus[indexPath.section].rawValue
         
-        cell.textField.text = accountMenus[indexPath.row].rawValue
-        cell.nameLabel.text = accountMenus[indexPath.row].rawValue
-        let selectionView = UIView()
-        cell.selectedBackgroundView = selectionView
+        cell.nameLabel.font = UIFont.boldSystemFont(ofSize: cell.bounds.height / 2.7)
+        
+        cell.textField.font = UIFont.boldSystemFont(ofSize: cell.bounds.height / 2.25)
 
-        switch accountMenus[indexPath.row] {
+        cell.accountMenuLabel.font = UIFont.boldSystemFont(ofSize: cell.bounds.height / 2.5)
+
+        
+        switch accountMenus[indexPath.section] {
             
         case .name:
             
@@ -213,34 +245,36 @@ extension AccountViewController: UICollectionViewDataSource, UICollectionViewDel
             cell.accountMenuLabel.isHidden = true
             cell.textField.textAlignment = .center
             cell.textField.backgroundColor = #colorLiteral(red: 0.3305901885, green: 0.4503111243, blue: 0.7627663016, alpha: 1)
+            cell.nameLabel.text = " ニックネーム "
             cell.textField.text = user.name
             cell.textField.isEnabled = true
             cell.delegat = self
-            cell.layer.cornerRadius = 15
-            
+            cell.layer.cornerRadius = cell.bounds.height / 4
+            cell.contentView.layer.cornerRadius = cell.bounds.height / 4
             return cell
             
         case .password:
             
-            selectionView.backgroundColor = UIColor.blue
-            cell.layer.cornerRadius = 10
-            cell.accountMenuLabel.text = accountMenus[indexPath.row].rawValue
+
+            cell.layer.cornerRadius = cell.bounds.height / 2.5
+            cell.accountMenuLabel.text = accountMenus[indexPath.section].rawValue
             cell.accountMenuLabel.tintColor = #colorLiteral(red: 0, green: 0.7300020456, blue: 0.8954316974, alpha: 1)
-        
+            cell.accountMenuLabel.textColor = #colorLiteral(red: 0, green: 0.7300020456, blue: 0.8954316974, alpha: 1)
             return cell
             
         case .deleteAccount:
            
-            selectionView.backgroundColor = #colorLiteral(red: 0.982794106, green: 0.4097733498, blue: 0.4362072051, alpha: 1)
-            cell.layer.cornerRadius = 5
-            cell.accountMenuLabel.text = accountMenus[indexPath.row].rawValue
+            cell.layer.cornerRadius = cell.bounds.height / 3
+            cell.accountMenuLabel.text = accountMenus[indexPath.section].rawValue
             cell.accountMenuLabel.tintColor = .red
-            cell.accountMenuLabel.font = UIFont.systemFont(ofSize: 14)
+            cell.accountMenuLabel.textColor = .red
+            cell.accountMenuLabel.font = UIFont.systemFont(ofSize: cell.bounds.height / 2.5)
             return cell
         case .exit:
-            cell.accountMenuLabel.text = accountMenus[indexPath.row].rawValue
-    
-            cell.layer.cornerRadius = 15
+            cell.accountMenuLabel.text = accountMenus[indexPath.section].rawValue
+            cell.layer.cornerRadius = cell.bounds.height / 2.5
+          
+
             return cell
         }
         
@@ -248,22 +282,14 @@ extension AccountViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        switch accountMenus[indexPath.row] {
+        switch accountMenus[indexPath.section] {
             
         case .name:
             print("")
         case .password:
             resetPasswordMessege(self)
         case .deleteAccount:
-            Auth.auth().currentUser?.delete {  (error) in
-                      // エラーが無ければ、ログイン画面へ戻る
-                      if error == nil {
-                          self.presentToViewController()
-                      }else{
-
-                          self.showErrorIfNeeded(error)
-                      }
-                  }
+            showRemoveDialog()
         case .exit:
             didTappedismiss()
         }

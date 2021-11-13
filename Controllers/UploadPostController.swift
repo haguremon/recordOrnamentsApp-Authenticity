@@ -216,7 +216,7 @@ class UploadPostController: UIViewController {
         configureUI()
         imagenameTextView.delegate = self
         captionTextView.delegate = self
-        navigationController?.navigationBar.tintColor = .green
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
     }
     
     // MARK: - Actions

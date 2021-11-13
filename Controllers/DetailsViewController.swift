@@ -7,6 +7,13 @@
 
 import UIKit
 
+protocol DetailsViewControllerDelegate: AnyObject {
+    func controllerDidFinishdeletePost(_ controller: DetailsViewController)
+    func controllerDidFinishEditingPost(_ controller: UIViewController)
+
+}
+
+
 class DetailsViewController: UIViewController {
     
     // MARK: - Properties
@@ -14,6 +21,8 @@ class DetailsViewController: UIViewController {
     
     var post: Post? { didSet { configurepost(post: post) } }
    
+    weak var delegate: DetailsViewControllerDelegate?
+    
     private func configurepost(post: Post?){
         
         guard let post = post else { return }
@@ -39,12 +48,22 @@ class DetailsViewController: UIViewController {
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
-        iv.clipsToBounds = true
         iv.backgroundColor = .systemGray
-        iv.isUserInteractionEnabled = true
+        iv.layer.masksToBounds = true
+        iv.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        iv.layer.borderWidth = 1
         return iv
     }()
+    private let shadowView: UIView = {
     
+        let view = UIView()
+        view.layer.cornerRadius = 10
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = .zero
+        view.layer.shadowOpacity = 0.8
+        view.layer.shadowRadius = 8
+        return view
+    }()
     private lazy var checkButton: CheckBox = {
         let button = CheckBox()
         button.addTarget(self, action: #selector(setPassword), for: .touchUpInside)
@@ -85,13 +104,13 @@ class DetailsViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.deletePost()
             }
-            self?.didTapClose()
+            self?.delegate?.controllerDidFinishdeletePost(self!)
         
         }))
         
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
         
-        present(alert, animated: false, completion: nil)
+        present(alert, animated: true, completion: nil)
         
         
     }
@@ -132,50 +151,61 @@ class DetailsViewController: UIViewController {
     
     private lazy var imagenameTextView: InputTextView = {
         let tv = InputTextView()
-        tv.placeholderText = "名前を変更する"
-        tv.textColor = .label
+        tv.placeholderText = "名前"
+        tv.textColor = .black
+        tv.backgroundColor = .white
         tv.text = ""
         tv.isEditable = false
         tv.isSelectable = false
         tv.placeholderShouldCenter = true
-        tv.returnKeyType = .next
+        tv.layer.masksToBounds = false
+        
+        tv.layer.borderWidth = 1
+        tv.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        tv.layer.shadowColor = UIColor.black.cgColor
+        tv.layer.shadowOpacity = 0.8
+        tv.layer.shadowRadius = 8.0
+        tv.layer.shadowOffset = .zero
         
         return tv
     }()
     private lazy var captionTextView: InputTextView = {
         let tv = InputTextView()
-        tv.placeholderText = "メモを変更する"
+        tv.placeholderText = "メモ"
+        tv.layer.borderWidth = 1
+        tv.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         tv.font = UIFont.systemFont(ofSize: 20)
-        tv.textColor = .label
+        tv.textColor = .black
         tv.text = ""
+        tv.backgroundColor = .white
         tv.isEditable = false
         tv.isSelectable = false
         tv.placeholderShouldCenter = false
-        tv.returnKeyType = .done
+ 
         return tv
     }()
     private let passwordLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         label.text = "パスワードを設定する"
-        label.backgroundColor = .systemBackground
+        label.backgroundColor = .clear
         label.textAlignment = .center
         return label
     }()
     private let memoLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         label.text = "メモ"
-        label.backgroundColor = .systemBackground
+        label.backgroundColor = .clear
         label.textAlignment = .center
         return label
     }()
     
     private let captionCharacterCountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .secondaryLabel
+        label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/300"
         return label
@@ -183,7 +213,7 @@ class DetailsViewController: UIViewController {
     
     private let imagenameCharacterCountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .secondaryLabel
+        label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/15"
         return label
@@ -208,8 +238,9 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.tintColor = .green
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1))
+        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149))
         configureUI()
           showLoader(true)
     }
@@ -242,21 +273,24 @@ class DetailsViewController: UIViewController {
     @objc func editingMode() {
        
         let editViewController = EditViewController(user: self.user!, post: self.post!)
-        
-        navigationController?.pushViewController(editViewController, animated: false)
+        editViewController.delegate = self
+        navigationController?.pushViewController(editViewController, animated: true)
     
     }
     
-    //
-    //    // MARK: - Helpers
+        // MARK: - Helpers
     func configureUI(){
+//        imagenameTextView.layer.masksToBounds = false
+//
+//        imagenameTextView.layer.borderWidth = 1
+//        imagenameTextView.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+//        imagenameTextView.layer.shadowColor = UIColor.black.cgColor
+//        imagenameTextView.layer.shadowOpacity = 0.8
+//        imagenameTextView.layer.shadowRadius = 8.0
+//        imagenameTextView.layer.shadowOffset = CGSize(width: 5, height: 6)
         
-        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        
-        imagenameTextView.layer.borderWidth = 1
-        imagenameTextView.layer.borderColor = UIColor.gray.cgColor
-        captionTextView.layer.borderWidth = 1
-        captionTextView.layer.borderColor = UIColor.gray.cgColor
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+  
         navigationItem.title = "詳細"
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapClose))
@@ -270,12 +304,17 @@ class DetailsViewController: UIViewController {
         
         view.addSubview(imagenameCharacterCountLabel)
         imagenameCharacterCountLabel.anchor(bottom: imagenameTextView.bottomAnchor, right: imagenameTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
-        view.addSubview(photoImageView)
-        
-        
+       // view.addSubview(photoImageView)
+        view.addSubview(shadowView)
+        shadowView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
+        shadowView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
+        shadowView.centerX(inView: view)
+        shadowView.addSubview(photoImageView)
         photoImageView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
         photoImageView.centerX(inView: view)
+        
+       
         photoImageView.layer.cornerRadius = 10
        
         let verticalStackView = UIStackView()
@@ -285,30 +324,29 @@ class DetailsViewController: UIViewController {
             view.addSubview(verticalStackView)
        
         verticalStackView.anchor(top: photoImageView.bottomAnchor,
-                                 paddingTop: 0)
+                                 paddingTop: 2)
         verticalStackView.centerX(inView: view)
         
         let stack = UIStackView(arrangedSubviews: [passwordLabel, checkButton])
         //縦の関係
     
         stack.axis = .horizontal
-        //stack.distribution = .equalSpacing
+
         stack.spacing = 2
-        //これでstack内でのサイズがcheckButton.bounds.size.widthと同じになるらしい
+
         checkButton.bounds.size.width = checkButton.intrinsicContentSize.width
         passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
-        //二つが左寄りに
+
         stack.alignment = .fill
         
         verticalStackView.addArrangedSubview(stack)
         verticalStackView.addArrangedSubview(memoLabel)
 
-        
         view.addSubview(captionTextView)
         captionTextView.setDimensions(height: view.bounds.height / 6, width: view.bounds.width / 1.08)
         captionTextView.anchor(top: verticalStackView.bottomAnchor, paddingTop: 2)
         captionTextView.centerX(inView: view)
-        
+       
         view.addSubview(captionCharacterCountLabel)
         captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
                 
@@ -337,7 +375,19 @@ class DetailsViewController: UIViewController {
         imagenameTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
         captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
         captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
-    
+        
+       
     
     }
+}
+//MARK: - EditViewControllerDelegate
+
+extension DetailsViewController: EditViewControllerDelegate {
+    
+    func controllerDidFinishUploadingPost(_ controller: EditViewController) {
+        
+        self.delegate?.controllerDidFinishEditingPost(controller)
+    
+    }
+    
 }
