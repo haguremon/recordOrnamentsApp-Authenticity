@@ -10,6 +10,8 @@ import Lottie
 
 
 class NewRegistrationViewController: UIViewController {
+    
+    // MARK: - Properties
     @IBOutlet private var animationView: UIView!
     
     @IBOutlet weak var profileImageButton: UIButton!
@@ -43,6 +45,7 @@ class NewRegistrationViewController: UIViewController {
     NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
+    
     // MARK: - Actions
      @IBAction func tappedRegisterButton(_ sender: UIButton) {
      

@@ -13,8 +13,8 @@ protocol EditViewControllerDelegate: AnyObject {
 
 
 class EditViewController: UIViewController {
-   
-   
+    
+    
     
     // MARK: - Properties
     
@@ -23,15 +23,15 @@ class EditViewController: UIViewController {
     var post: Post? {
         
         didSet {
-           
+            
             configurepost(post: post)
- }
+        }
         
-         
+        
     }
     weak var delegate: EditViewControllerDelegate?
-   
-
+    
+    
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
@@ -44,24 +44,17 @@ class EditViewController: UIViewController {
     
     private lazy var checkButton: CheckBox = {
         let button = CheckBox()
-
+        
         button.addTarget(self, action: #selector(setPassword), for: .touchUpInside)
-      
+        
         button.layer.shadowColor = UIColor.gray.cgColor
-       
+        
         button.bounds.size.width = 15
         button.bounds.size.height = 30
         button.backgroundColor = .clear
         return button
     }()
-    
-    @objc func setPassword() {
-        
-        if checkButton.isChecked {
-        editViewshowMessage(withTitle: "パスワード", message: "保存した写真に非表示になり、保管場所でパスワードが要求されます")
-        }
-    }
-    
+
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
         button.setTitle("削除", for: .normal)
@@ -74,7 +67,7 @@ class EditViewController: UIViewController {
         
         return button
     }()
-
+    
     
     private lazy var editButton: UIButton = {
         let button = UIButton()
@@ -131,7 +124,7 @@ class EditViewController: UIViewController {
         label.backgroundColor = .white
         label.text = "メモ"
         label.adjustsFontSizeToFitWidth = true
-
+        
         label.textAlignment = .center
         return label
     }()
@@ -156,7 +149,7 @@ class EditViewController: UIViewController {
         label.isEnabled = true
         return label
     }()
-        
+    
     // MARK: - Lifecycle
     init(user: User, post: Post){
         self.user = user
@@ -169,7 +162,7 @@ class EditViewController: UIViewController {
             self.configurepost(post: post)
         }
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -181,18 +174,18 @@ class EditViewController: UIViewController {
         configureUI()
         imagenameTextView.delegate = self
         captionTextView.delegate = self
-
-    }
-
         
+    }
+    
+    
     // MARK: - Actions
     
     private func configurepost(post: Post?){
-
+        
         guard let post = post else { return }
         
         if post.imagename == "" {
-        imagenameTextView.placeholderLabel.isHidden = false
+            imagenameTextView.placeholderLabel.isHidden = false
         }
         if post.caption == "" {
             
@@ -207,16 +200,26 @@ class EditViewController: UIViewController {
         imagenameCharacterCountLabel.text = "\(imagenameTextView.text.count)/15"
         captionCharacterCountLabel.text = "\(captionTextView.text.count)/300"
     }
+    
+    @objc func setPassword() {
+        
+        if checkButton.isChecked {
+            editViewshowMessage(withTitle: "パスワード", message: "保存した写真に非表示になり、保管場所でパスワードが要求されます")
+        }
+    }
+    
+    
+    
     @objc func remove() {
         let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
-
+        
         alert.addAction(UIAlertAction(title: "削除する", style: .default, handler: { [ weak self ] _ in
-           
+            
             DispatchQueue.main.async {
                 self?.deletePost()
             }
             self?.delegate?.controllerDidFinishUploadingPost(self!)
-        
+            
         }))
         
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
@@ -236,34 +239,34 @@ class EditViewController: UIViewController {
     func editViewshowMessage(withTitle title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
-    
+            
             DispatchQueue.main.async {
                 self?.message(withTitle: "パスワード", message: "パスワードを入力してください")
-
-            }
                 
-         
-                self?.checkButton.isChecked = true
+            }
             
-           
+            
+            self?.checkButton.isChecked = true
+            
+            
         }))
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: { [ weak self ] _ in
             DispatchQueue.main.async {
                 self?.checkButton.isChecked = false
             }
-           
+            
         }))
-
+        
         DispatchQueue.main.async(execute: {
-               self.present(alert, animated: true, completion: nil)
-           })
+            self.present(alert, animated: true, completion: nil)
+        })
     }
     
     
     
     @objc func didTapCancel(){
         self.navigationController?.popViewController(animated: true)
-    
+        
     }
     
     private func upDatePost() {
@@ -281,26 +284,26 @@ class EditViewController: UIViewController {
             return
             
         }
-    
+        
         let updatePost = Submissions(caption: caption, imagename: imagename,password: password,isSetPassword: setPassword)
         
         PostService.updatePost(self, ownerUid: post, updatepost: updatePost) { post in
             DispatchQueue.main.async {
                 self.networkCheck()
                 self.post = post
-    
+                
             }
             self.showLoader(false)
             self.delegate?.controllerDidFinishUploadingPost(self)
-         
-        
+            
+            
         }
         
-
+        
     }
     
     @objc func didTapDone() {
-       
+        
         upDatePost()
     }
     
@@ -313,8 +316,8 @@ class EditViewController: UIViewController {
         captionTextView.layer.borderWidth = 1
         captionTextView.layer.borderColor = UIColor.gray.cgColor
         
-      
-       
+        
+        
         view.addSubview(imagenameTextView)
         imagenameTextView.setDimensions(height: view.bounds.height / 12, width: view.bounds.width / 1.08)
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
@@ -329,34 +332,32 @@ class EditViewController: UIViewController {
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
-       
+        
         let verticalStackView = UIStackView()
-            verticalStackView.axis = .vertical
-            verticalStackView.alignment = .fill
-            verticalStackView.spacing = 1
-            view.addSubview(verticalStackView)
-
+        verticalStackView.axis = .vertical
+        verticalStackView.alignment = .fill
+        verticalStackView.spacing = 1
+        view.addSubview(verticalStackView)
+        
         verticalStackView.anchor(top: photoImageView.bottomAnchor,
                                  paddingTop: 0)
         verticalStackView.centerX(inView: view)
         
         let stack = UIStackView(arrangedSubviews: [passwordLabel, checkButton])
-        //縦の関係
-    
         stack.axis = .horizontal
-        //stack.distribution = .equalSpacing
+       
         stack.spacing = 2
         checkButton.bounds.size.width = checkButton.intrinsicContentSize.width
         passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
-        //二つが左寄りに
+    
         stack.alignment = .fill
         
         verticalStackView.addArrangedSubview(stack)
         verticalStackView.addArrangedSubview(memoLabel)
-
+        
         
         view.addSubview(captionTextView)
-
+        
         captionTextView.setDimensions(height: view.bounds.height / 6, width: view.bounds.width / 1.08)
         captionTextView.anchor(top: verticalStackView.bottomAnchor, paddingTop: 2)
         captionTextView.centerX(inView: view)
@@ -364,22 +365,21 @@ class EditViewController: UIViewController {
         
         view.addSubview(captionCharacterCountLabel)
         captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
-                
+        
         let stack2 = UIStackView(arrangedSubviews: [editButton, deleteButton])
-        //縦の関係
-    
+        
         stack2.axis = .horizontal
-
+        
         stack2.spacing = 30
-        //これでstack内でのサイズがcheckButton.bounds.size.widthと同じになるらしい
+      
         deleteButton.bounds.size.width = deleteButton.intrinsicContentSize.width
         editButton.bounds.size.width = editButton.intrinsicContentSize.width
-        //二つが左寄りに
+
         stack2.alignment = .fill
         view.addSubview(stack2)
-   
+        
         stack2.anchor(top: captionTextView.bottomAnchor,
-                                 paddingTop: 7)
+                      paddingTop: 7)
         stack2.centerX(inView: view)
         
         deleteButton.setDimensions(height: view.bounds.height / 15, width: view.bounds.width / 3)
@@ -428,23 +428,23 @@ extension EditViewController {
             self.view.transform = .identity
         })
     }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
     
     func checkMaxLength(_ textView: UITextView){
-
+        
         switch textView {
         case imagenameTextView:
             if (textView.text.count) > 15 {
                 textView.deleteBackward()
             }
         case captionTextView:
-
+            
             if (textView.text.count) > 300 {
-    
+                
                 textView.deleteBackward()
             }
             
@@ -452,7 +452,7 @@ extension EditViewController {
             break
             
         }
-    
+        
     }
     
     
@@ -467,18 +467,18 @@ extension EditViewController: UITextViewDelegate {
             checkMaxLength(textView)
             let count = textView.text.count
             imagenameCharacterCountLabel.text = "\(count)/15"
-        
+            
         case captionTextView:
             checkMaxLength(textView)
             let count = textView.text.count
             captionCharacterCountLabel.text = "\(count)/300"
-     
+            
         default:
             break
             
         }
         
-     
+        
     }
     //UITextFieldDelegateを使ってユーザーの入力を認知する
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -513,49 +513,46 @@ extension EditViewController {
     func message(withTitle title: String, message: String){
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-
-               alert.addTextField(configurationHandler: {(textField) -> Void in
-                   //textField.delegate = self
-                   textField.textContentType = .newPassword
-                   textField.placeholder = "パスワード"
-
-               })
-               //追加ボタン
-               alert.addAction(
-                   UIAlertAction(
-                       title: "入力完了",
-                       style: .default,
-                       handler: { _ in
-                           guard let textFieldText = alert.textFields?.first?.text else { return }
-                           self.password.text = textFieldText
-                        
-                       })
-               )
         
-            //キャンセルボタン
-               alert.addAction(
-               UIAlertAction(
-                   title: "キャンセル",
-                   style: .cancel,
-                   handler: { [ weak self ] _ in
-                       DispatchQueue.main.async {
-                           self?.checkButton.isChecked = false
-                       }
-                   })
-            )
-               //アラートが表示されるごとにprint
+        alert.addTextField(configurationHandler: {(textField) -> Void in
+            //textField.delegate = self
+            textField.textContentType = .newPassword
+            textField.placeholder = "パスワード"
+            
+        })
+        //追加ボタン
+        alert.addAction(
+            UIAlertAction(
+                title: "入力完了",
+                style: .default,
+                handler: { _ in
+                    guard let textFieldText = alert.textFields?.first?.text else { return }
+                    self.password.text = textFieldText
+                    
+                })
+        )
+        
+        //キャンセルボタン
+        alert.addAction(
+            UIAlertAction(
+                title: "キャンセル",
+                style: .cancel,
+                handler: { [ weak self ] _ in
+                    DispatchQueue.main.async {
+                        self?.checkButton.isChecked = false
+                    }
+                })
+        )
+        //アラートが表示されるごとにprint
         DispatchQueue.main.async {
             self.present(
-                   alert,
-                   animated: true)
+                alert,
+                animated: true)
         }
-       
-       
-       
+        
         
     }
     
     
-    
-    
+
 }
