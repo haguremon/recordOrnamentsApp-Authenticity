@@ -7,29 +7,26 @@
 
 import UIKit
 
-//ここで委任する
+
 protocol UploadPostControllerDelegate: AnyObject {
     func controllerDidFinishUploadingPost(_ controller: UploadPostController)
 }
-//画面を選択したらここに移動して　メモ等をfirebaseに保存する
+
 class UploadPostController: UIViewController {
-    //
+   
     //    // MARK: - Properties
     weak var delegate: UploadPostControllerDelegate?
     var currentUser: User?
-    //
-    //
+
     var selectedImage: UIImage? {
         didSet{ photoImageView.image = selectedImage }
     }
-    //
-    //
+ 
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
         iv.backgroundColor = .systemGray
-
         iv.isUserInteractionEnabled = true
         return iv
     }()
@@ -72,8 +69,6 @@ class UploadPostController: UIViewController {
     }
     
    private func setCamera(){
-        print("tap")
-        
         let camera = UIImagePickerController.SourceType.camera
         let picker = UIImagePickerController()
         if UIImagePickerController.isSourceTypeAvailable(camera) {
@@ -110,7 +105,8 @@ class UploadPostController: UIViewController {
         let tv = InputTextView()
         tv.placeholderText = "名前を付ける"
         tv.font = UIFont.systemFont(ofSize: 16)
-        tv.textColor = .label
+        tv.textColor = .black
+        tv.backgroundColor = .white
         tv.text = ""
         tv.delegate = self
         tv.placeholderShouldCenter = false
@@ -122,7 +118,8 @@ class UploadPostController: UIViewController {
         let tv = InputTextView()
         tv.placeholderText = "メモをする"
         tv.font = UIFont.systemFont(ofSize: 16)
-        tv.textColor = .label
+        tv.textColor = .black
+        tv.backgroundColor = .white
         tv.text = ""
         tv.delegate = self
         tv.placeholderShouldCenter = false
@@ -147,9 +144,7 @@ class UploadPostController: UIViewController {
     }()
     private lazy var checkButton: CheckBox = {
         let button = CheckBox()
-        //button.setTitle("写真を追加する", for: .normal)
         button.addTarget(self, action: #selector(setPassword), for: .touchUpInside)
-       // button.backgroundColor = .clear
         button.layer.shadowColor = UIColor.gray.cgColor
         button.isChecked = false
         button.bounds.size.width = 15
@@ -182,7 +177,7 @@ class UploadPostController: UIViewController {
                 self?.checkButton.isChecked = true
             }
             
-            //self?.post?.isSetPassword = true
+          
         }))
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: { [ weak self ] _ in
             DispatchQueue.main.async {
@@ -197,10 +192,10 @@ class UploadPostController: UIViewController {
     
     private let passwordLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         label.text = "パスワードを設定する"
-        label.backgroundColor = .systemBackground
+        label.backgroundColor = .white
         label.textAlignment = .center
         return label
     }()
@@ -215,9 +210,10 @@ class UploadPostController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureNavigation()
         imagenameTextView.delegate = self
         captionTextView.delegate = self
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.507245183, green: 0.5042337179, blue: 0.5095626116, alpha: 0.520540149)
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
     }
     
     // MARK: - Actions
@@ -234,12 +230,12 @@ class UploadPostController: UIViewController {
         guard let user = currentUser else { return }
         let password = password.text
         let setPassword = checkButton.isChecked
-        //ここでインジケーターが発動する
+      
         showLoader(true)
         navigationItem.rightBarButtonItem?.isEnabled = false
-        //
+        
         PostService.uploadPost(caption: caption, image: image, imagename: imagename, setpassword: setPassword, password: password, user: user) { (error) in
-            //uploadできたらインジケーターが終わる
+         
             self.showLoader(false)
            
             self.navigationItem.leftBarButtonItem?.isEnabled = true
@@ -249,7 +245,6 @@ class UploadPostController: UIViewController {
                 return
             }
             print("成功やで")
-            //ポストが成功した時の処理 tabバーもホームに移動したいのでプロトコルを使って委任する
             self.delegate?.controllerDidFinishUploadingPost(self)
 
         }
@@ -258,20 +253,15 @@ class UploadPostController: UIViewController {
        
         uploadPost()
     }
-    //
+   
     //    // MARK: - Helpers
     func configureUI(){
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         imagenameTextView.layer.borderWidth = 1
         imagenameTextView.layer.borderColor = UIColor.gray.cgColor
         captionTextView.layer.borderWidth = 1
         captionTextView.layer.borderColor = UIColor.gray.cgColor
-        navigationItem.title = "保管"
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didTapDone))
-        navigationItem.rightBarButtonItem?.tintColor = .blue
         view.addSubview(imagenameTextView)
         imagenameTextView.setDimensions(height: view.bounds.height / 13, width: view.bounds.width / 1.08)
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
@@ -332,6 +322,16 @@ class UploadPostController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
+    private func configureNavigation() {
+        
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
+        navigationItem.title = "保管"
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didTapDone))
+        navigationItem.rightBarButtonItem?.tintColor = .blue
+        
+    }
 }
 
 
@@ -342,7 +342,7 @@ extension UploadPostController {
             guard let userInfo = sender.userInfo else { return }
             let duration: Float = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
             UIView.animate(withDuration: TimeInterval(duration), animations: { () -> Void in
-                let transform = CGAffineTransform(translationX: 0, y: -165)
+                let transform = CGAffineTransform(translationX: 0, y: -185)
                 self.view.transform = transform
             })
         }

@@ -53,12 +53,13 @@ class OrnamentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         checkIfUserIsLoggedIn()
-        configureNavigationBar()
-        navigationController?.navigationBar.isTranslucent = true
+        configureNavigation()
+      
         collectionView.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
+       
         
         
         setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
@@ -172,28 +173,19 @@ class OrnamentViewController: UIViewController {
         searchBar.searchTextField.textColor = .black
         searchBar.searchTextField.tintColor = .black
         searchBar.searchTextField.lupeImageView?.tintColor = .black
-
-        
         searchBar.searchTextField.font = UIFont(name: "American Typewriter", size: 18)
         searchBar.placeholder = "登録した名前で検索できるよ"
         searchBar.delegate = self
         
-//        searchController.searchBar.placeholder = "登録した名前で検索できるよ"
-//        searchController.searchBar.tintColor = .black
-//        searchController.searchBar.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
-//        searchController.searchBar.layer.borderColor = UIColor.systemBlue.cgColor
-       // searchController.searchBar.searchTextField.backgroundColor = .white
-        //searchController.searchBar.delegate = self
-        //hidesSearchBarWhenScrolling
         navigationItem.searchController = searchController
         definesPresentationContext = false
     }
     
-    private func configureNavigationBar() {
+    private func configureNavigation() {
         navigationItem.title = "お　き　も　の"
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        
-        //let image = UIImage(systemName: "plus.app")
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus.app"),
                                                             style: .done,
@@ -444,20 +436,25 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
         switch name {
             
         case .useGuide:
+                
             DispatchQueue.main.async {
                 let vc = DescriptionViewController()
+                //vc.view.backgroundColor = .clear
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true, completion: nil)
-           
             }
+               
+           
+            
             
         case .account:
             DispatchQueue.main.async {
                 let accoutViewController = self.storyboard?.instantiateViewController(withIdentifier: "AccountViewController") as! AccountViewController
                 accoutViewController.modalPresentationStyle = .fullScreen
-                accoutViewController.delegate = self
+               
+               //accoutViewController.delegate = self
                 let  sideMenuViewController = self.menu?.viewControllers.first as! SideMenuViewController
-                accoutViewController.delegate = sideMenuViewController as? AccountViewControllerDelegate
+                accoutViewController.delegate = sideMenuViewController as AccountViewControllerDelegate
                 accoutViewController.user = sideMenuViewController.user
                 let transition = CATransition()
                    transition.duration = 0.2
@@ -481,48 +478,49 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
             }
             
         case .contact:
-            view.backgroundColor = .green
+            if let url = URL(string: "https://itunes.apple.com/jp/app/id1094591345?mt=8&action=write-review") {
+            UIApplication.shared.open(url)
+        }
+            //view.backgroundColor = .green
         }
     }
     
 }
 //MARK: - AccountViewControllerDelegate
-
-extension OrnamentViewController: AccountViewControllerDelegate {
-
-    func controllerDidFinishUpDateUser(){
-        //fetchUser()
-    }
-    
-    func didSelectMeunItem(_ viewController: AccountViewController, name: AccountMenu) {
-        
-       print("tapedd")
-        switch name {
-        case .name:
-            print("name")
-
-        case .password:
-            resetPasswordMessege(viewController)
-            
-        case .deleteAccount:
-            Auth.auth().currentUser?.delete {  (error) in
-                      // エラーが無ければ、ログイン画面へ戻る
-                      if error == nil {
-                          self.presentToViewController()
-                      }else{
-                          
-                          self.showErrorIfNeeded(error)
-                      }
-                  }
-            print("deleteAccount")
-        case .exit:
-            viewController.didTappedismiss()
-        }
-    }
-    
-    
-    
-}
+//
+//extension OrnamentViewController: AccountViewControllerDelegate {
+//
+//    func didSelectMeunItem(_ viewController: AccountViewController, name: AccountMenu) {
+//        print("AccountViewControllerDelegate")
+//        switch name {
+//        case .name:
+//
+//
+//        case .password:
+//            resetPasswordMessege(viewController)
+//
+//        case .deleteAccount:
+//            Auth.auth().currentUser?.delete {  (error) in
+//                      // エラーが無ければ、ログイン画面へ戻る
+//                      if error == nil {
+//                          self.presentToViewController()
+//                      }else{
+//
+//                          self.showErrorIfNeeded(error)
+//                      }
+//                  }
+//
+//        case .exit:
+//            viewController.didTappedismiss()
+//        }
+//    }
+//
+//    func controllerDidFinishUpDateUser(){
+//        print("aaaaaa")
+//        fetchUser()
+//    }
+//
+//}
 
 
 // MARK: - UISearchResultsUpdating
@@ -555,7 +553,7 @@ func resetMessage(withuser user: User,withpsot post: Post){
     
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
     alert.title = "パスワードをリセット"
-    alert.message = "パスワードをリセットしますか？"
+    alert.message = "ログイン時のメールアドレスを入力してください"
         
            alert.addTextField(configurationHandler: {(textField) -> Void in
                //textField.delegate = self

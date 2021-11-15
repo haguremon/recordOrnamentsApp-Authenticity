@@ -101,9 +101,8 @@ class SideMenuViewController: UIViewController {
         tableView.scrollsToTop = false
     }
      func fetchUser() {
-         //activeIndicatorView()
-        //コールバックを使ってProfileControllerのプロパティに代入する
-        UserService.fetchUser { user in
+        
+         UserService.fetchUser { user in
             self.user = user
         }
    
@@ -162,7 +161,7 @@ extension SideMenuViewController: AccountViewControllerDelegate {
     }
     
     func controllerDidFinishUpDateUser() {
-      
+      print("できてて欲しい")
             self.fetchUser()
     
     }

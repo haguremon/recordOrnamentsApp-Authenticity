@@ -46,12 +46,15 @@ class DescriptionViewController: UIViewController {
         button.titleLabel?.text = "戻る"
         button.setTitle("戻る", for: UIControl.State.normal)
         button.tintColor = .white
-        //button.target(forAction: #selector(test), withSender: nil)
-        button.addTarget(self, action: #selector(test), for: .touchUpInside)
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowOffset = CGSize(width: 3, height: 7)
+        button.layer.shadowRadius = 5
+        button.layer.shadowOpacity = 1.0
+        button.addTarget(self, action: #selector(close), for: .touchUpInside)
         return button
     }()
-    @objc func test() {
-        
+    @objc func close() {
+        button.showAnimation(true)
         dismiss(animated: true, completion: nil)
     }
      private var offsetX: CGFloat = 0
@@ -82,7 +85,14 @@ class DescriptionViewController: UIViewController {
          view.addSubview(button)
          
          button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-         button.anchor1(top: scrollView.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 5, left:0 , bottom: 0, right: 0),size: .init(width: 200, height: 50))
+         button.anchor1(top: scrollView.bottomAnchor,
+                        leading: nil,
+                        bottom: nil,
+                        trailing: nil,
+                        padding: .init(top: 5, left:0 , bottom: 0, right: 0),
+                        size: .init(width: view.bounds.width / 1.5,
+                                    height: view.bounds.height / 14))
+         button.layer.cornerRadius = view.bounds.width / 18
 
          // タイマーを作成
          self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.scrollPage), userInfo: nil, repeats: true)

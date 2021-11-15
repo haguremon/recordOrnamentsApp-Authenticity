@@ -242,9 +242,8 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.tintColor = .black
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.507245183, green: 0.5042337179, blue: 0.5095626116, alpha: 0.520540149)
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.507245183, green: 0.5042337179, blue: 0.5095626116, alpha: 0.520540149))
+        
+        configureNavigation()
         configureUI()
           showLoader(true)
     }
@@ -284,26 +283,27 @@ class DetailsViewController: UIViewController {
         navigationController?.pushViewController(editViewController, animated: true)
     
     }
-    
-        // MARK: - Helpers
-    func configureUI(){
-//        imagenameTextView.layer.masksToBounds = false
-//
-//        imagenameTextView.layer.borderWidth = 1
-//        imagenameTextView.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-//        imagenameTextView.layer.shadowColor = UIColor.black.cgColor
-//        imagenameTextView.layer.shadowOpacity = 0.8
-//        imagenameTextView.layer.shadowRadius = 8.0
-//        imagenameTextView.layer.shadowOffset = CGSize(width: 5, height: 6)
+    private func configureNavigation() {
         
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-  
         navigationItem.title = "詳細"
-        
+        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapClose))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "編集", style: .done, target: self, action: #selector(editingMode))
         navigationItem.rightBarButtonItem?.tintColor = .blue
         
+        
+    }
+       
+    
+    
+    // MARK: - Helpers
+    func configureUI(){
+        
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+  
+       
         view.addSubview(imagenameTextView)
         imagenameTextView.setDimensions(height: view.bounds.height / 13, width: view.bounds.width / 1.08)
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)

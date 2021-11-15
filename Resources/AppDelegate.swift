@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         }
+        
+        sleep(2)
 
         return true
     }

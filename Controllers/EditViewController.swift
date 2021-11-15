@@ -52,7 +52,8 @@ class EditViewController: UIViewController {
         iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
         iv.backgroundColor = .systemGray
-        iv.isUserInteractionEnabled = true
+        iv.layer.borderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        iv.layer.borderWidth = 1
         return iv
     }()
     
@@ -156,10 +157,11 @@ class EditViewController: UIViewController {
     private lazy var imagenameTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "名前を変更する"
-        tv.textColor = .label
+        tv.backgroundColor = .white
+        tv.textColor = .black
         tv.delegate = self
         tv.text = ""
-        tv.keyboardType = .namePhonePad
+        tv.keyboardType = .default
         tv.placeholderShouldCenter = true
         tv.returnKeyType = .next
         
@@ -168,36 +170,38 @@ class EditViewController: UIViewController {
     private lazy var captionTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "メモを変更する"
-        tv.textColor = .label
+        tv.textColor = .black
+        tv.backgroundColor = .white
         tv.text = ""
         tv.delegate = self
-        tv.keyboardType = .namePhonePad
+        tv.keyboardType = .default
         tv.placeholderShouldCenter = false
         tv.returnKeyType = .done
         return tv
     }()
     private let passwordLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = .black
+        label.backgroundColor = .white
         label.text = "パスワードを設定する"
         label.adjustsFontSizeToFitWidth = true
-        label.backgroundColor = .systemBackground
         label.textAlignment = .center
         return label
     }()
     private let memoLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = .black
+        label.backgroundColor = .white
         label.text = "メモ"
         label.adjustsFontSizeToFitWidth = true
-        label.backgroundColor = .systemBackground
+
         label.textAlignment = .center
         return label
     }()
     
     private let captionCharacterCountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .secondaryLabel
+        label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/300"
         return label
@@ -205,7 +209,7 @@ class EditViewController: UIViewController {
     
     private let imagenameCharacterCountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .secondaryLabel
+        label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/15"
         return label
@@ -224,8 +228,6 @@ class EditViewController: UIViewController {
         print(post.postId)
         imagenameTextView.placeholderLabel.isHidden = true
         captionTextView.placeholderLabel.isHidden = true
-        navigationItem.title = "編集モード"
-        imagenameTextView.becomeFirstResponder()
         DispatchQueue.main.async {
             self.configurepost(post: post)
         }
@@ -237,7 +239,8 @@ class EditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
+        configureNavigation()
         configureUI()
         imagenameTextView.delegate = self
         captionTextView.delegate = self
@@ -289,7 +292,6 @@ class EditViewController: UIViewController {
         upDatePost()
     }
     
-    //
     //    // MARK: - Helpers
     func configureUI(){
         
@@ -299,10 +301,8 @@ class EditViewController: UIViewController {
         captionTextView.layer.borderWidth = 1
         captionTextView.layer.borderColor = UIColor.gray.cgColor
         
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.507245183, green: 0.5042337179, blue: 0.5095626116, alpha: 0.520540149)
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.507245183, green: 0.5042337179, blue: 0.5095626116, alpha: 0.520540149))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
-        
+      
+       
         view.addSubview(imagenameTextView)
         imagenameTextView.setDimensions(height: view.bounds.height / 12, width: view.bounds.width / 1.08)
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
@@ -313,7 +313,7 @@ class EditViewController: UIViewController {
         view.addSubview(photoImageView)
         
         
-        photoImageView.setDimensions(height: view.bounds.height / 3, width: view.bounds.width)
+        photoImageView.setDimensions(height: view.bounds.height / 3, width: view.bounds.width / 1.05)
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
@@ -323,7 +323,7 @@ class EditViewController: UIViewController {
             verticalStackView.alignment = .fill
             verticalStackView.spacing = 1
             view.addSubview(verticalStackView)
-       
+
         verticalStackView.anchor(top: photoImageView.bottomAnchor,
                                  paddingTop: 0)
         verticalStackView.centerX(inView: view)
@@ -387,6 +387,15 @@ class EditViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
+    
+    private func configureNavigation() {
+        navigationItem.title = "編集モード"
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
+        
+        
+        
+    }
 }
 extension EditViewController {
     
@@ -407,7 +416,7 @@ extension EditViewController {
             self.view.transform = .identity
         })
     }
-    //画面をタップした時にキーボードを閉じる
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }

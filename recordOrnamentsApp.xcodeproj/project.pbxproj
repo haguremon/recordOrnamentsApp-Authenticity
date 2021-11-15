@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		CF144077273EB22C00F0E4AE /* AccountCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF144076273EB22C00F0E4AE /* AccountCollectionViewCell.swift */; };
 		CF144079273EBB5200F0E4AE /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF144078273EBB5200F0E4AE /* AccountViewController.swift */; };
+		CF14407E2742268000F0E4AE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF1440802742268000F0E4AE /* InfoPlist.strings */; };
+		CF1440812742363100F0E4AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF829F6B272A94F8000F6DC1 /* Assets.xcassets */; };
 		CF151E12272FD75C00D774B6 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF151E11272FD75C00D774B6 /* EditViewController.swift */; };
 		CF1D70DA27305A2200DB31A0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CF1D70D927305A2200DB31A0 /* FirebaseAnalytics */; };
 		CF1D70DC27305A2200DB31A0 /* FirebaseAnalyticsSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = CF1D70DB27305A2200DB31A0 /* FirebaseAnalyticsSwift-Beta */; };
@@ -58,7 +60,6 @@
 		CF829F84272A94F8000F6DC1 /* UserSerivice.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F68272A94F8000F6DC1 /* UserSerivice.swift */; };
 		CF829F85272A94F8000F6DC1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F69272A94F8000F6DC1 /* AppDelegate.swift */; };
 		CF829F86272A94F8000F6DC1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F6A272A94F8000F6DC1 /* SceneDelegate.swift */; };
-		CF829F87272A94F8000F6DC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF829F6B272A94F8000F6DC1 /* Assets.xcassets */; };
 		CF829F88272A94F8000F6DC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F6D272A94F8000F6DC1 /* User.swift */; };
 		CF829F89272A94F8000F6DC1 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F6E272A94F8000F6DC1 /* Post.swift */; };
 		CF829F8B272A9564000F6DC1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF829F8A272A9564000F6DC1 /* GoogleService-Info.plist */; };
@@ -86,6 +87,9 @@
 /* Begin PBXFileReference section */
 		CF144076273EB22C00F0E4AE /* AccountCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCollectionViewCell.swift; sourceTree = "<group>"; };
 		CF144078273EBB5200F0E4AE /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		CF14407A274225C400F0E4AE /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		CF14407B274225C600F0E4AE /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
+		CF14407F2742268000F0E4AE /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CF151E11272FD75C00D774B6 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		CF829EE8272A9172000F6DC1 /* recordOrnamentsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recordOrnamentsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF829EF9272A9174000F6DC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -298,6 +302,7 @@
 				CF829F64272A94F8000F6DC1 /* API */,
 				CF829F69272A94F8000F6DC1 /* AppDelegate.swift */,
 				CF829F6A272A94F8000F6DC1 /* SceneDelegate.swift */,
+				CF1440802742268000F0E4AE /* InfoPlist.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -433,6 +438,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = CF829EDF272A9172000F6DC1;
 			packageReferences = (
@@ -459,9 +465,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF829F7A272A94F8000F6DC1 /* Main.storyboard in Resources */,
+				CF14407E2742268000F0E4AE /* InfoPlist.strings in Resources */,
 				CF829F78272A94F8000F6DC1 /* background2.json in Resources */,
 				CF829F79272A94F8000F6DC1 /* LaunchScreen.storyboard in Resources */,
-				CF829F87272A94F8000F6DC1 /* Assets.xcassets in Resources */,
+				CF1440812742363100F0E4AE /* Assets.xcassets in Resources */,
 				CF829F8B272A9564000F6DC1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -549,10 +556,19 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		CF1440802742268000F0E4AE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CF14407F2742268000F0E4AE /* ja */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		CF829F58272A94F7000F6DC1 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				CF829F59272A94F7000F6DC1 /* Base */,
+				CF14407A274225C400F0E4AE /* ja */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -561,6 +577,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				CF829F5B272A94F7000F6DC1 /* Base */,
+				CF14407B274225C600F0E4AE /* ja */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -572,6 +589,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -633,6 +651,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";

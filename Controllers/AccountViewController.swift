@@ -70,6 +70,7 @@ class AccountViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureCollectionView()
+        configureNavigation()
     }
     
     
@@ -81,6 +82,16 @@ class AccountViewController: UIViewController {
     }
     
     // MARK: - Helpers
+    
+    private func configureNavigation() {
+        navigationItem.title = "アカウント"
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "戻る", style: .done, target: self, action: #selector(didTappedismiss))
+        navigationItem.rightBarButtonItem?.tintColor = .green
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didtappedSave))
+        navigationItem.leftBarButtonItem?.tintColor = .blue
+        
+    }
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -95,15 +106,9 @@ class AccountViewController: UIViewController {
     }
     private func configureUI() {
         messageLabel.isHidden = true
-        navigationItem.title = "アカウント"
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149))
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
+       
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        //navigationController?.navigationBar.backgroundColor = .gray
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "戻る", style: .done, target: self, action: #selector(didTappedismiss))
-        navigationItem.rightBarButtonItem?.tintColor = .green
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didtappedSave))
-        navigationItem.leftBarButtonItem?.tintColor = .blue
         
         profileImageButton.layer.cornerRadius = view.bounds.width / 7
         profileImageButton.imageView?.contentMode = .scaleToFill
@@ -112,26 +117,26 @@ class AccountViewController: UIViewController {
         profileImageButton.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         profileImageButton.isEnabled = false
         profileImageButton.contentHorizontalAlignment = .fill
-//                // Vertical 拡大
+
         profileImageButton.contentVerticalAlignment = .fill
         
         upDateButton.layer.cornerRadius = 5
         upDateButton.layer.shadowRadius = 5
         upDateButton.layer.shadowOpacity = 1.0
         
-        // Horizontal 拡大
+
         profileImageButton.contentHorizontalAlignment = .fill
-        //                // Vertical 拡大
+    
         
         profileImageButton.contentVerticalAlignment = .fill
-        DispatchQueue.main.async {
-            self.profileImageButton.imageView?.addSubview(self.profileImageImageview)
-            self.profileImageImageview.setDimensions(
-                height: self.profileImageButton.frame.height,
-                width: self.profileImageButton.frame.width
+    
+            profileImageButton.imageView?.addSubview(self.profileImageImageview)
+            profileImageImageview.setDimensions(
+                height: profileImageButton.frame.height,
+                width: profileImageButton.frame.width
             )
             
-        }
+  
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
                 tap.cancelsTouchesInView = false
                 view.addGestureRecognizer(tap)
@@ -283,8 +288,13 @@ extension AccountViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        
+//        let accountMenu = accountMenus[indexPath.section]
+//        delegate?.didSelectMeunItem(self, name: accountMenu)
+//        print(accountMenu)
+
         switch accountMenus[indexPath.section] {
-            
+
         case .name:
             print("")
         case .password:
@@ -356,7 +366,6 @@ extension AccountViewController :UIImagePickerControllerDelegate, UINavigationCo
     }
     
     private func setAlbum(){
-         print("tap")
          
          let picker = UIImagePickerController()
              picker.delegate = self

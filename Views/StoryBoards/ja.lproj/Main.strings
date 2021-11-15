@@ -1,0 +1,66 @@
+
+/* Class = "UITextField"; placeholder = "８文字以上"; ObjectID = "03I-Kp-j6N"; */
+"03I-Kp-j6N.placeholder" = "８文字以上";
+
+/* Class = "UITextField"; placeholder = "メールアドレス"; ObjectID = "0N3-oi-m0h"; */
+"0N3-oi-m0h.placeholder" = "メールアドレス";
+
+/* Class = "UIButton"; normalTitle = "新規登録"; ObjectID = "2KR-Rm-ewl"; */
+"2KR-Rm-ewl.normalTitle" = "新規登録";
+
+/* Class = "UINavigationItem"; title = "アカウント"; ObjectID = "34l-uc-Ldi"; */
+"34l-uc-Ldi.title" = "アカウント";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "76b-of-RrF"; */
+"76b-of-RrF.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "アカウントをお持ちの方？"; ObjectID = "8J0-VO-5qC"; */
+"8J0-VO-5qC.normalTitle" = "アカウントをお持ちの方？";
+
+/* Class = "UILabel"; text = "おきもの"; ObjectID = "EEy-02-9uP"; */
+"EEy-02-9uP.text" = "おきもの";
+
+/* Class = "UIButton"; normalTitle = "ログイン"; ObjectID = "IJ4-g0-2Ky"; */
+"IJ4-g0-2Ky.normalTitle" = "ログイン";
+
+/* Class = "UIButton"; normalTitle = "登録"; ObjectID = "JYJ-du-k2j"; */
+"JYJ-du-k2j.normalTitle" = "登録";
+
+/* Class = "UILabel"; text = "メール"; ObjectID = "KNj-fj-9fM"; */
+"KNj-fj-9fM.text" = "メール";
+
+/* Class = "UILabel"; text = "メール"; ObjectID = "Lfv-YY-ia4"; */
+"Lfv-YY-ia4.text" = "メール";
+
+/* Class = "UILabel"; text = "パスワード"; ObjectID = "Sot-sA-JJU"; */
+"Sot-sA-JJU.text" = "パスワード";
+
+/* Class = "UILabel"; text = "新規登録"; ObjectID = "St0-gf-Idv"; */
+"St0-gf-Idv.text" = "新規登録";
+
+/* Class = "UIButton"; normalTitle = "パスワードを忘れた方"; ObjectID = "W8j-Gc-cYk"; */
+"W8j-Gc-cYk.normalTitle" = "パスワードを忘れた方";
+
+/* Class = "UILabel"; text = "version1.0.0"; ObjectID = "aIo-eC-aW9"; */
+"aIo-eC-aW9.text" = "version1.0.0";
+
+/* Class = "UITextField"; placeholder = "ニックネーム"; ObjectID = "dNx-vF-Jh1"; */
+"dNx-vF-Jh1.placeholder" = "ニックネーム";
+
+/* Class = "UILabel"; text = "名前"; ObjectID = "g8u-7D-rCe"; */
+"g8u-7D-rCe.text" = "名前";
+
+/* Class = "UILabel"; text = "パスワード"; ObjectID = "m96-pb-ky6"; */
+"m96-pb-ky6.text" = "パスワード";
+
+/* Class = "UITextField"; placeholder = "8文字以上"; ObjectID = "mvC-pU-fu7"; */
+"mvC-pU-fu7.placeholder" = "8文字以上";
+
+/* Class = "UILabel"; text = "ログイン"; ObjectID = "qx5-kg-v2z"; */
+"qx5-kg-v2z.text" = "ログイン";
+
+/* Class = "UITextField"; placeholder = "メールアドレス"; ObjectID = "sgK-bZ-n7o"; */
+"sgK-bZ-n7o.placeholder" = "メールアドレス";
+
+/* Class = "UILabel"; text = "名無し"; ObjectID = "x42-Hh-9y8"; */
+"x42-Hh-9y8.text" = "名無し";

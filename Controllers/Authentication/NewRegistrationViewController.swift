@@ -76,7 +76,6 @@ class NewRegistrationViewController: UIViewController {
     }
     
    private func setCamera(){
-        print("tap")
         
         let camera = UIImagePickerController.SourceType.camera
         let picker = UIImagePickerController()
