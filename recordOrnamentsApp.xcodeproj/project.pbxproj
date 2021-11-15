@@ -711,6 +711,7 @@
 				CODE_SIGN_ENTITLEMENTS = recordOrnamentsApp/recordOrnamentsAppDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = XS2R7967QT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = recordOrnamentsApp/Info.plist;

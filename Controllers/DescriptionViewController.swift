@@ -44,7 +44,7 @@ class DescriptionViewController: UIViewController {
         button.setTitle("戻る", for: UIControl.State.normal)
         button.tintColor = .white
         button.layer.shadowColor = UIColor.gray.cgColor
-        button.layer.shadowOffset = CGSize(width: 3, height: 7)
+        button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
         button.layer.shadowOpacity = 1.0
         button.addTarget(self, action: #selector(close), for: .touchUpInside)
@@ -62,7 +62,6 @@ class DescriptionViewController: UIViewController {
          view.backgroundColor = .white
       let frameGuide = scrollView.frameLayoutGuide
   
-         // scrollViewのデリゲートになる
          scrollView.delegate = self
         
          
