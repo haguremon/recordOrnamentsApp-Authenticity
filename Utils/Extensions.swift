@@ -6,7 +6,10 @@
 //
 
 import JGProgressHUD
+import Firebase
 import UIKit
+import Photos
+
 
 extension UIViewController {
     static let hud = JGProgressHUD(style: .dark)
@@ -59,9 +62,61 @@ extension UIViewController {
             statusBarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
             statusBarView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         }
+    func networkCheck() {
+        
+        let connectedRef = Database.database().reference(withPath: ".info/connected")
+        connectedRef.observe(.value, with: { snapshot in
+          if snapshot.value as? Bool ?? false {
+            print("Connected")
+              self.showLoader(false)
+              self.showMessage(withTitle: "ネットワーク", message: "通信状況を確認してください", handler: nil)
+          } else {
+            
+          }
+        })
+        
+    }
+    
+     func checkAuthorization() {
+        if PHPhotoLibrary.authorizationStatus() != .authorized {
+            PHPhotoLibrary.requestAuthorization { status in
+             if status == .denied {
+                    let title: String = "カメラ"
+                    let message: String = "カメラ権限が許可されていません"
+                    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                    let settingsAction = UIAlertAction(title: "設定", style: .default, handler: { (_) -> Void in
+                        guard let settingsURL = URL(string: UIApplication.openSettingsURLString ) else {
+                            return
+                        }
+                        UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+                    })
+                    let closeAction: UIAlertAction = UIAlertAction(title: "閉じる", style: .cancel, handler: nil)
+                    alert.addAction(settingsAction)
+                    alert.addAction(closeAction)
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+
+    func saveImageToPhotos(fromURL atURL: URL) {
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: atURL)
+        }) { saved, error in
+            let success = saved && (error == nil)
+            let title = success ? "Success" : "Error"
+            let message = success ? "Image saved." : "Failed to save image."
+
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+
+}
    
     
-}
+
 
 extension UITextField {
  //クリアボタン

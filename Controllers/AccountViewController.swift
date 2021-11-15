@@ -174,7 +174,7 @@ class AccountViewController: UIViewController {
         
         UserService.updateUser(self, ownerUid: user!, updateUser: updateUser) { user in
             DispatchQueue.main.async {
-                //self.user = user
+                self.networkCheck()
                 self.showLoader(false)
                 self.navigationItem.leftBarButtonItem?.isEnabled = false
             }

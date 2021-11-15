@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -14,8 +15,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        let connectedRef = Database.database().reference(withPath: ".info/connected")
+               connectedRef.observe(.value, with: {snapshot in
+                   if snapshot.value as? Bool ?? false {
+                       print("Connected")
+                   } else {
+                       print("Not connected")
+                   }
+               })
+        
         if Auth.auth().currentUser != nil {
             skipLogin()
         }

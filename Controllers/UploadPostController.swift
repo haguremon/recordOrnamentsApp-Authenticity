@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 protocol UploadPostControllerDelegate: AnyObject {
     func controllerDidFinishUploadingPost(_ controller: UploadPostController)
 }
@@ -71,13 +70,17 @@ class UploadPostController: UIViewController {
    private func setCamera(){
         let camera = UIImagePickerController.SourceType.camera
         let picker = UIImagePickerController()
-        if UIImagePickerController.isSourceTypeAvailable(camera) {
-           
-            picker.sourceType = camera
-            picker.delegate = self
-            picker.allowsEditing = true
-    
-            present(picker, animated: true, completion: nil)
+       if UIImagePickerController.isSourceTypeAvailable(camera) {
+            
+
+                       
+                picker.sourceType = camera
+                        picker.delegate = self
+                        picker.allowsEditing = true
+                
+                        present(picker, animated: true, completion: nil)
+                   
+        
             
        }  else {
 
@@ -157,7 +160,7 @@ class UploadPostController: UIViewController {
         
         if checkButton.isChecked {
         
-        showMessage2(withTitle: "パスワード", message: "保管場所でパスワードが要求されます")
+        showMessage2(withTitle: "パスワード", message: "保存した写真に非表示になり、保管場所でパスワードが要求されます")
         } else {
             
             print(checkButton.isChecked)
@@ -237,7 +240,7 @@ class UploadPostController: UIViewController {
         PostService.uploadPost(caption: caption, image: image, imagename: imagename, setpassword: setPassword, password: password, user: user) { (error) in
          
             self.showLoader(false)
-           
+            self.networkCheck()
             self.navigationItem.leftBarButtonItem?.isEnabled = true
             
             if let error = error {

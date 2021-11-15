@@ -10,7 +10,6 @@
 		CF144077273EB22C00F0E4AE /* AccountCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF144076273EB22C00F0E4AE /* AccountCollectionViewCell.swift */; };
 		CF144079273EBB5200F0E4AE /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF144078273EBB5200F0E4AE /* AccountViewController.swift */; };
 		CF14407E2742268000F0E4AE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF1440802742268000F0E4AE /* InfoPlist.strings */; };
-		CF1440812742363100F0E4AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF829F6B272A94F8000F6DC1 /* Assets.xcassets */; };
 		CF151E12272FD75C00D774B6 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF151E11272FD75C00D774B6 /* EditViewController.swift */; };
 		CF1D70DA27305A2200DB31A0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CF1D70D927305A2200DB31A0 /* FirebaseAnalytics */; };
 		CF1D70DC27305A2200DB31A0 /* FirebaseAnalyticsSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = CF1D70DB27305A2200DB31A0 /* FirebaseAnalyticsSwift-Beta */; };
@@ -65,6 +64,7 @@
 		CF829F8B272A9564000F6DC1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF829F8A272A9564000F6DC1 /* GoogleService-Info.plist */; };
 		CF829F8F272BBBB1000F6DC1 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F8E272BBBB1000F6DC1 /* DescriptionViewController.swift */; };
 		CF829F91272BCE90000F6DC1 /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F90272BCE90000F6DC1 /* CheckBoxButton.swift */; };
+		CFCF1419274242DF004F646D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF829F6B272A94F8000F6DC1 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -468,7 +468,7 @@
 				CF14407E2742268000F0E4AE /* InfoPlist.strings in Resources */,
 				CF829F78272A94F8000F6DC1 /* background2.json in Resources */,
 				CF829F79272A94F8000F6DC1 /* LaunchScreen.storyboard in Resources */,
-				CF1440812742363100F0E4AE /* Assets.xcassets in Resources */,
+				CFCF1419274242DF004F646D /* Assets.xcassets in Resources */,
 				CF829F8B272A9564000F6DC1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

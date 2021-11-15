@@ -53,6 +53,7 @@ class OrnamentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+ 
 
         checkIfUserIsLoggedIn()
         configureNavigation()
@@ -84,6 +85,7 @@ class OrnamentViewController: UIViewController {
      
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showLoader(false)
@@ -106,7 +108,9 @@ class OrnamentViewController: UIViewController {
 //                }
 //            })
 //        }
+        self.networkCheck()
     }
+    
 
  
     private func setupSideMenu() {
@@ -383,7 +387,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                                                                      withReuseIdentifier: "header",
                                                                      for: indexPath) as! HeaderCollectionReusableView
        
-        header.headerLabel.text = " 保管場所 "
+        header.headerLabel.text = " 置き場所 "
         
         return extractedFunc(indexPath, header)
     }

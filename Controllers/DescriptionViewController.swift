@@ -14,9 +14,9 @@ class DescriptionViewController: UIViewController {
      }
      //"gear","magnifyingglass","clock"
      var photoList = [
-         Photo(imageName: "gear"),
-         Photo(imageName: "magnifyingglass"),
-         Photo(imageName: "clock")
+         Photo(imageName: "Description1"),
+         Photo(imageName: "Description2"),
+         Photo(imageName: "Description3")
      ]
      
     private lazy var scrollView: UIScrollView = {
@@ -32,10 +32,8 @@ class DescriptionViewController: UIViewController {
     private var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
          pageControl.numberOfPages = 3
-         // pageControlのドットの色
          pageControl.pageIndicatorTintColor = UIColor.lightGray
-         // pageControlの現在のページのドットの色
-         pageControl.backgroundColor = .green
+        pageControl.backgroundColor = .blue
          pageControl.currentPageIndicatorTintColor = UIColor.black
         return pageControl
     }()
@@ -67,7 +65,7 @@ class DescriptionViewController: UIViewController {
   
          // scrollViewのデリゲートになる
          scrollView.delegate = self
-         scrollView.backgroundColor = .green
+         scrollView.backgroundColor = .blue
          
          view.addSubview(scrollView)
         
@@ -76,7 +74,7 @@ class DescriptionViewController: UIViewController {
         frameGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         frameGuide.topAnchor.constraint(equalTo:  pageControl.bottomAnchor, constant: -5).isActive = true
         frameGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        frameGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -150).isActive = true
+         frameGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -view.bounds.height / 4).isActive = true
 
          setUpImageView()
 
@@ -95,7 +93,7 @@ class DescriptionViewController: UIViewController {
          button.layer.cornerRadius = view.bounds.width / 18
 
          // タイマーを作成
-         self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.scrollPage), userInfo: nil, repeats: true)
+         self.timer = Timer.scheduledTimer(timeInterval: 100, target: self, selector: #selector(self.scrollPage), userInfo: nil, repeats: true)
      }
      
      // タイマーを破棄
@@ -116,7 +114,7 @@ class DescriptionViewController: UIViewController {
      // UIImageViewを生成
      func createImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, image: Photo) -> UIImageView {
          let imageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
-         let image = UIImage(systemName:  image.imageName)
+         let image = UIImage(named:  image.imageName)
          imageView.image = image
          return imageView
      }
@@ -139,15 +137,7 @@ class DescriptionViewController: UIViewController {
 
          }
      }
-
     
-    
-    
-    
-    
-    
-    
-
 //     // offsetXの値を更新することページを移動
      @objc func scrollPage() {
          // 画面の幅分offsetXを移動

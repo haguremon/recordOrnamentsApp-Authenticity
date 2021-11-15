@@ -25,5 +25,9 @@
 	<string>UIStatusBarStyleDarkContent</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>NSCameraUsageDescription</key>
+    <string>カメラの権限を許可してください</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>カメラの権限を許可してください</string>
 </dict>
 </plist>

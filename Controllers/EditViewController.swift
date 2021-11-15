@@ -14,39 +14,24 @@ protocol EditViewControllerDelegate: AnyObject {
 
 class EditViewController: UIViewController {
    
-    weak var delegate: EditViewControllerDelegate?
+   
     
     // MARK: - Properties
     
     var user: User?
+    
     var post: Post? {
         
         didSet {
            
             configurepost(post: post)
  }
+        
          
     }
-    private func configurepost(post: Post?){
+    weak var delegate: EditViewControllerDelegate?
+   
 
-        guard let post = post else { return }
-        
-        if post.imagename == "" {
-        imagenameTextView.placeholderLabel.isHidden = false
-        }
-        if post.caption == "" {
-            
-            captionTextView.placeholderLabel.isHidden = false
-            
-        }
-        
-        photoImageView.sd_setImage(with: URL(string: post.imageUrl), completed: nil)
-        imagenameTextView.text = post.imagename
-        captionTextView.text = post.caption
-        checkButton.isChecked = post.isSetPassword
-        imagenameCharacterCountLabel.text = "\(imagenameTextView.text.count)/15"
-        captionCharacterCountLabel.text = "\(captionTextView.text.count)/300"
-    }
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
@@ -73,7 +58,7 @@ class EditViewController: UIViewController {
     @objc func setPassword() {
         
         if checkButton.isChecked {
-        showMessage1(withTitle: "パスワード", message: "保管場所でパスワードが要求されます")
+        editViewshowMessage(withTitle: "パスワード", message: "保存した写真に非表示になり、保管場所でパスワードが要求されます")
         }
     }
     
@@ -89,30 +74,7 @@ class EditViewController: UIViewController {
         
         return button
     }()
-    @objc func remove() {
-        let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
 
-        alert.addAction(UIAlertAction(title: "削除する", style: .default, handler: { [ weak self ] _ in
-           
-            DispatchQueue.main.async {
-                self?.deletePost()
-            }
-            self?.delegate?.controllerDidFinishUploadingPost(self!)
-        
-        }))
-        
-        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
-        
-        present(alert, animated: true, completion: nil)
-        
-        
-    }
-    private func deletePost() {
-        
-        PostService.deletePost(self, withPostId: post!.postId)
-        
-    }
-    
     
     private lazy var editButton: UIButton = {
         let button = UIButton()
@@ -128,31 +90,6 @@ class EditViewController: UIViewController {
     }()
     
     
-    func showMessage1(withTitle title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
-    
-            DispatchQueue.main.async {
-                self?.message(withTitle: "パスワード", message: "パスワードを入力してください")
-
-            }
-                
-         
-                self?.checkButton.isChecked = true
-            
-           
-        }))
-        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: { [ weak self ] _ in
-            DispatchQueue.main.async {
-                self?.checkButton.isChecked = false
-            }
-           
-        }))
-
-        DispatchQueue.main.async(execute: {
-               self.present(alert, animated: true, completion: nil)
-           })
-    }
     
     private lazy var imagenameTextView: InputTextView = {
         let tv = InputTextView()
@@ -249,6 +186,81 @@ class EditViewController: UIViewController {
 
         
     // MARK: - Actions
+    
+    private func configurepost(post: Post?){
+
+        guard let post = post else { return }
+        
+        if post.imagename == "" {
+        imagenameTextView.placeholderLabel.isHidden = false
+        }
+        if post.caption == "" {
+            
+            captionTextView.placeholderLabel.isHidden = false
+            
+        }
+        
+        photoImageView.sd_setImage(with: URL(string: post.imageUrl), completed: nil)
+        imagenameTextView.text = post.imagename
+        captionTextView.text = post.caption
+        checkButton.isChecked = post.isSetPassword
+        imagenameCharacterCountLabel.text = "\(imagenameTextView.text.count)/15"
+        captionCharacterCountLabel.text = "\(captionTextView.text.count)/300"
+    }
+    @objc func remove() {
+        let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "削除する", style: .default, handler: { [ weak self ] _ in
+           
+            DispatchQueue.main.async {
+                self?.deletePost()
+            }
+            self?.delegate?.controllerDidFinishUploadingPost(self!)
+        
+        }))
+        
+        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
+        
+        present(alert, animated: true, completion: nil)
+        
+        
+    }
+    private func deletePost() {
+        
+        PostService.deletePost(self, withPostId: post!.postId)
+        
+    }
+    
+    
+    
+    func editViewshowMessage(withTitle title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
+    
+            DispatchQueue.main.async {
+                self?.message(withTitle: "パスワード", message: "パスワードを入力してください")
+
+            }
+                
+         
+                self?.checkButton.isChecked = true
+            
+           
+        }))
+        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: { [ weak self ] _ in
+            DispatchQueue.main.async {
+                self?.checkButton.isChecked = false
+            }
+           
+        }))
+
+        DispatchQueue.main.async(execute: {
+               self.present(alert, animated: true, completion: nil)
+           })
+    }
+    
+    
+    
     @objc func didTapCancel(){
         self.navigationController?.popViewController(animated: true)
     
@@ -274,7 +286,7 @@ class EditViewController: UIViewController {
         
         PostService.updatePost(self, ownerUid: post, updatepost: updatePost) { post in
             DispatchQueue.main.async {
-                
+                self.networkCheck()
                 self.post = post
     
             }
@@ -389,7 +401,7 @@ class EditViewController: UIViewController {
     }
     
     private func configureNavigation() {
-        navigationItem.title = "編集モード"
+        navigationItem.title = "編集"
         navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
         

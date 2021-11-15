@@ -27,21 +27,8 @@ class NewRegistrationViewController: UIViewController {
     @IBOutlet weak var messageLabel: UILabel!
 
     @IBOutlet weak var label: UILabel!
-   
-    @IBAction func tappedRegisterButton(_ sender: UIButton) {
-    
-        handleAuthToFirebase(sender)
-    }
-    
-    @IBAction func tappedDismiss(_ sender: Any) {
-        let loginViewController = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
-        loginViewController.modalPresentationStyle = .fullScreen
-        loginViewController.email = emailTextField.text
-        present(loginViewController, animated: true, completion: nil)
-    
-    }
-    
-    
+
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         passwordTextField.textContentType = .newPassword
@@ -56,6 +43,20 @@ class NewRegistrationViewController: UIViewController {
     NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
+    // MARK: - Actions
+     @IBAction func tappedRegisterButton(_ sender: UIButton) {
+     
+         handleAuthToFirebase(sender)
+     }
+     
+     @IBAction func tappedDismiss(_ sender: Any) {
+         let loginViewController = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+         loginViewController.modalPresentationStyle = .fullScreen
+         loginViewController.email = emailTextField.text
+         present(loginViewController, animated: true, completion: nil)
+     
+     }
+     
     
     @IBAction func setprofileImageButton(_ sender: UIButton) {
         showMessage1(withTitle: "写真", message: "プロフィール画像を追加しますか？")
@@ -172,6 +173,7 @@ class NewRegistrationViewController: UIViewController {
         
         
     }
+    
     private func congigureTextField() {
         
         emailTextField.keyboardType = .emailAddress
@@ -234,8 +236,8 @@ class NewRegistrationViewController: UIViewController {
 
 }
 
-//  MARK: -UIImagePickerControllerDelegate
-extension NewRegistrationViewController :UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//  MARK: - UIImagePickerControllerDelegate
+extension NewRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             guard let selectedImage = info[.editedImage] as? UIImage else { return }
         
@@ -251,7 +253,8 @@ extension NewRegistrationViewController :UIImagePickerControllerDelegate, UINavi
 
     
 }
-extension NewRegistrationViewController :UITextFieldDelegate { //可読性の向上ｗ
+//  MARK: - UITextFieldDelegate
+extension NewRegistrationViewController: UITextFieldDelegate { //可読性の向上ｗ
    
     func textFieldDidChangeSelection(_ textField: UITextField) {
        let emailIsEmpty = emailTextField.text?.isEmpty ?? true

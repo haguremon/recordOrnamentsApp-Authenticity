@@ -141,8 +141,8 @@ class DetailsViewController: UIViewController {
     
 
     func showEditModeMessage() {
-        let alert = UIAlertController(title: "編集", message: "編集モードに変更しますか？", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "編集モードにする", style: .default, handler: { [ weak self ] _ in
+        let alert = UIAlertController(title: "編集", message: "編集画面に変更しますか？", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [ weak self ] _ in
            
                 self?.editingMode()
         
@@ -192,7 +192,7 @@ class DetailsViewController: UIViewController {
         let label = UILabel()
         label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
-        label.text = "パスワードを設定する"
+        label.text = "パスワード"
         label.backgroundColor = .clear
         label.textAlignment = .center
         return label

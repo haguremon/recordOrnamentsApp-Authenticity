@@ -17,8 +17,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
    
         label.lineBreakMode = .byWordWrapping
         label.clipsToBounds = true
-
-        label.font = UIFont.boldSystemFont(ofSize: 30)
+        label.font = UIFont(name: "Arial-BoldMT", size: 30)
         label.sizeToFit()
         return label
     }()
