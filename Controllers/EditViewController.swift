@@ -289,7 +289,6 @@ class EditViewController: UIViewController {
         
         PostService.updatePost(self, ownerUid: post, updatepost: updatePost) { post in
             DispatchQueue.main.async {
-                self.networkCheck()
                 self.post = post
                 
             }

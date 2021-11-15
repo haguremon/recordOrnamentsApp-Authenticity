@@ -256,12 +256,12 @@
 			isa = PBXGroup;
 			children = (
 				CF1D70FF2730DF2D00DB31A0 /* Authentication */,
-				CF829F4C272A94F7000F6DC1 /* SideMenuViewController.swift */,
-				CF829F4E272A94F7000F6DC1 /* UploadPostController.swift */,
 				CF829F53272A94F7000F6DC1 /* OrnamentViewController.swift */,
-				CF829F8E272BBBB1000F6DC1 /* DescriptionViewController.swift */,
+				CF829F4E272A94F7000F6DC1 /* UploadPostController.swift */,
 				CF829F54272A94F7000F6DC1 /* DetailsViewController.swift */,
 				CF151E11272FD75C00D774B6 /* EditViewController.swift */,
+				CF829F8E272BBBB1000F6DC1 /* DescriptionViewController.swift */,
+				CF829F4C272A94F7000F6DC1 /* SideMenuViewController.swift */,
 				CF144078273EBB5200F0E4AE /* AccountViewController.swift */,
 			);
 			path = Controllers;

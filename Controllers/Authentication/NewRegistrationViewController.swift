@@ -103,7 +103,6 @@ class NewRegistrationViewController: UIViewController {
     }
     
     private func setAlbum(){
-         print("tap")
          
          let picker = UIImagePickerController()
              picker.delegate = self

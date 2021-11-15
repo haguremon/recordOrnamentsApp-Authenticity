@@ -108,7 +108,6 @@ class OrnamentViewController: UIViewController {
 //                }
 //            })
 //        }
-        self.networkCheck()
     }
     
 

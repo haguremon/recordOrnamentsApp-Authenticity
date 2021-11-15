@@ -44,9 +44,9 @@ class SideMenuViewController: UIViewController {
 
                 return
             }
+            
             configure(user: user)
-           
-           
+        
         }
 
 

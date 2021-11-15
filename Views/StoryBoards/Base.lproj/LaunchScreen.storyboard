@@ -16,11 +16,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OKIMONO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vGr-Do-Wjr">
-                                <rect key="frame" x="41.5" y="253" width="331" height="99.5"/>
+                                <rect key="frame" x="41.5" y="398.5" width="331" height="99"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="vGr-Do-Wjr" secondAttribute="height" multiplier="1:0.3" id="9gp-of-a8b"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="60"/>
+                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="65"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -29,8 +29,8 @@
                         <color key="backgroundColor" red="0.78610322963107715" green="0.78610322963107715" blue="0.78610322963107715" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="vGr-Do-Wjr" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Io9-7s-gBn"/>
-                            <constraint firstItem="vGr-Do-Wjr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="209" id="LpR-v0-pnD"/>
                             <constraint firstItem="vGr-Do-Wjr" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.8" id="MeS-uS-1I9"/>
+                            <constraint firstItem="vGr-Do-Wjr" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="m1a-b4-hNk"/>
                         </constraints>
                     </view>
                 </viewController>

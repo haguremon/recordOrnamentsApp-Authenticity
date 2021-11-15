@@ -30,7 +30,7 @@ class InputTextView: UITextView {
             }
         }
     }
-    //central
+
     // MARK: - Lifecycle
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
@@ -39,8 +39,6 @@ class InputTextView: UITextView {
         addSubview(placeholderLabel)
         placeholderLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 7, paddingLeft: 8)
         
-        // whatever text did change than it will call handleTextDidChange
-        //オブサーバーを使ってUITextViewの値を感知したら→handleTextDidChangeを発動する
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextDidChange), name: UITextView.textDidChangeNotification, object: nil)
     }
     

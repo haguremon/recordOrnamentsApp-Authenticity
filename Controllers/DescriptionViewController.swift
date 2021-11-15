@@ -12,7 +12,7 @@ class DescriptionViewController: UIViewController {
      struct Photo {
          var imageName: String
      }
-     //"gear","magnifyingglass","clock"
+  
      var photoList = [
          Photo(imageName: "Description1"),
          Photo(imageName: "Description2"),
@@ -21,8 +21,7 @@ class DescriptionViewController: UIViewController {
      
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        // メニュー単位のスクロールを可能にする
-        
+        scrollView.backgroundColor = .blue
         scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -31,10 +30,10 @@ class DescriptionViewController: UIViewController {
    
     private var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
-         pageControl.numberOfPages = 3
-         pageControl.pageIndicatorTintColor = UIColor.lightGray
+        pageControl.numberOfPages = 3
+        pageControl.pageIndicatorTintColor = UIColor.lightGray
         pageControl.backgroundColor = .blue
-         pageControl.currentPageIndicatorTintColor = UIColor.black
+        pageControl.currentPageIndicatorTintColor = UIColor.black
         return pageControl
     }()
     private lazy var button: UIButton = {
@@ -65,7 +64,7 @@ class DescriptionViewController: UIViewController {
   
          // scrollViewのデリゲートになる
          scrollView.delegate = self
-         scrollView.backgroundColor = .blue
+        
          
          view.addSubview(scrollView)
         

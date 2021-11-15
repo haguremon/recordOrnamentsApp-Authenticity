@@ -12,7 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {        
-        FirebaseApp.configure()
+       
         if #available(iOS 13.0, *) {
            let appearance = UINavigationBarAppearance()
             appearance.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
@@ -23,7 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         sleep(2)
-
+      
+        FirebaseApp.configure()
+        Database.database().isPersistenceEnabled = true
+       
         return true
     }
     

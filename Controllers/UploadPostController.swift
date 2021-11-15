@@ -240,7 +240,6 @@ class UploadPostController: UIViewController {
         PostService.uploadPost(caption: caption, image: image, imagename: imagename, setpassword: setPassword, password: password, user: user) { (error) in
          
             self.showLoader(false)
-            self.networkCheck()
             self.navigationItem.leftBarButtonItem?.isEnabled = true
             
             if let error = error {
