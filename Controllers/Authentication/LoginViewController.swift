@@ -56,7 +56,8 @@ class LoginViewController: UIViewController {
         
     }
     private func handleLogin(_ sender: UIButton?) {
-        
+        sender?.isEnabled = false
+        sender?.showAnimation(true)
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
        
@@ -66,12 +67,14 @@ class LoginViewController: UIViewController {
         AuthService.logUserIn(withEmail: email, password: password) { [ weak self ] result, error in
             if let error = error {
                 sender?.showAnimation(false)
+                sender?.isEnabled = true
                 self?.showErrorIfNeeded(error)
                 return
             }
-            sender?.showAnimation(true)
+            sender?.isEnabled = false
             let ornamentViewController = self?.storyboard?.instantiateViewController(identifier: "OrnamentViewController") as! OrnamentViewController
             let navVC = UINavigationController(rootViewController: ornamentViewController)
+           
             navVC.modalPresentationStyle = .fullScreen
             self?.present(navVC, animated: true, completion: nil)
         }
@@ -90,7 +93,7 @@ class LoginViewController: UIViewController {
             textField.textContentType = .emailAddress
             textField.placeholder = "パスワード"
         })
-        //追加ボタン
+
         alert.addAction(
             UIAlertAction(
                 title: "入力完了",
@@ -257,15 +260,14 @@ extension LoginViewController: UITextFieldDelegate {
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailTextField {
-            //nameEmailTextFieldでリターンが押された時にpasswordTextFieldのキーボードを開く
+         
             emailTextField.resignFirstResponder()
             passwordTextField.becomeFirstResponder()
             
         } else if textField ==  passwordTextField {
-            //textFieldが押されたらログインボタンが起動する
 
             handleLogin(nil)
-            print("handleLogin")
+
         }
         
         return true

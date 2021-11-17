@@ -12,7 +12,6 @@ import AVKit
 extension UIViewController {
     
     static let hud = JGProgressHUD(style: .dark)
-    //インジゲーターの処理
     func showLoader(_ show: Bool) {
         view.endEditing(true)
         
@@ -33,7 +32,7 @@ extension UIViewController {
     
     
     func showErrorIfNeeded(_ errorOrNil: Error?) {
-        // エラーがなければ何もしません
+
         guard let error = errorOrNil else { return }
        
         let message =  AuthService.errorMessage(of: error)
@@ -96,35 +95,20 @@ extension UIViewController {
     
 }
    
-    
-
 
 extension UITextField {
- //クリアボタン
-  var rightButton: UIButton? {
-      return value(forKey: "_clearButton") as? UIButton
-  }
- //虫眼鏡
+
   var lupeImageView: UIImageView? {
     return leftView as? UIImageView
   }
-    var textField: UITextField? {
-        return value(forKey:"_searchField") as? UITextField
-    }
 }
 
 
-extension UIColor {
-    convenience init(r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat = 1.0) {
-        self.init(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: a)
-    }
-    
-}
 
 extension UIButton {
     
     func pulsate(){
-        // 強調するボタン
+
         let pulse = CASpringAnimation(keyPath: "transform.scale")
         
         pulse.duration = 0.05
@@ -137,21 +121,9 @@ extension UIButton {
         
         layer.add(pulse, forKey: nil)
     }
-    
-    func flash() {
-        // 光るボタン
-        let flash = CABasicAnimation(keyPath: "opacity")
-        flash.duration = 0.5
-        flash.fromValue = 1
-        flash.toValue = 0.1
-        flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-        flash.repeatCount = 3
-        
-        layer.add(flash, forKey: nil)
-    }
+
     
     func errorAnimation (duration: CFTimeInterval) {
-        // 揺れるボタン
         let shake = CASpringAnimation(keyPath: "position")
         shake.duration = duration
         shake.repeatCount = 2
@@ -165,18 +137,6 @@ extension UIButton {
         shake.toValue = toPoint
         
         layer.add(shake, forKey: nil)
-    }
-    func shake2() {
-        
-        let animation = CASpringAnimation(keyPath: "transform.scale")
-        animation.duration = 0.5
-        animation.fromValue = 1.25
-        animation.toValue = 1.0
-        animation.mass = 1.0
-        animation.initialVelocity = 30.0
-        animation.damping = 3.0
-        animation.stiffness = 120.0
-        layer.add(animation, forKey: nil)
     }
     
     func touchStartAnimation(duration: TimeInterval,delay: TimeInterval) {

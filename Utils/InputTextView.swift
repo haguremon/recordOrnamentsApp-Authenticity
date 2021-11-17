@@ -51,7 +51,6 @@ class InputTextView: UITextView {
     // MARK: - メソッド
     
     @objc func handleTextDidChange() {
-        //placeholderLabelを隠す
         placeholderLabel.isHidden = !text.isEmpty
     }
 }

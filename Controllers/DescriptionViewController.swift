@@ -66,7 +66,6 @@ class DescriptionViewController: UIViewController {
          self.timer = Timer.scheduledTimer(timeInterval: 100, target: self, selector: #selector(scrollPage), userInfo: nil, repeats: true)
      }
      
-     // タイマーを破棄
      override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
          if let workingTimer = self.timer {

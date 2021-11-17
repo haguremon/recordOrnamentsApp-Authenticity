@@ -338,7 +338,7 @@ extension UploadPostController {
 
 //MARK: - キーボード周り
 extension UploadPostController {
-    // キーボードが表示された時
+    
     @objc private func keyboardWillShow(sender: NSNotification) {
         if captionTextView.isFirstResponder {
             guard let userInfo = sender.userInfo else { return }
@@ -355,7 +355,7 @@ extension UploadPostController {
             self.view.transform = .identity
         })
     }
-    //画面をタップした時にキーボードを閉じる
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -425,7 +425,7 @@ extension UploadPostController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
                   replacementText text: String) -> Bool {
         if text == "\n" {
-            imagenameTextView.resignFirstResponder() //キーボードを閉じる
+            imagenameTextView.resignFirstResponder()
             captionTextView.resignFirstResponder()
             
             return false

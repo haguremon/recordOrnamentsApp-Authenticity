@@ -7,7 +7,7 @@
 
 import Firebase
 
-//FirestoreCompletion
+
 typealias FirestoreCompletion = (Error?) -> Void
 
 

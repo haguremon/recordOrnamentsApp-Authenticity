@@ -40,14 +40,14 @@ struct  AuthService {
                 }
             
                 guard let uid = result?.user.uid else { return }
-//                //fieldに追加するデータ達
+
                 let data: [String: Any] = [
                     "email": credentials.email,
                     "name": credentials.name,
                     "profileImageUrl": imageUrl,
                     "uid": uid
                  ]
-               //collection("users"）のパスが被ることがないuidのでキュメントにdataをつける
+               
                 COLLECTION_USERS.document(uid).setData(data,  completion: completion)
             }
        }
@@ -78,7 +78,6 @@ struct  AuthService {
         case .accountExistsWithDifferentCredential: message = "エラーが発生しました"
         case .invalidDynamicLinkDomain: message = "エラーが発生しました"
         
-            // これは一例です。必要に応じて増減させてください
         default: break
         }
         return message

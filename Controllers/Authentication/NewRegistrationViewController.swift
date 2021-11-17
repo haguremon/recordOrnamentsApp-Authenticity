@@ -112,7 +112,7 @@ class NewRegistrationViewController: UIViewController {
          }
 
     private func handleAuthToFirebase(_ sender: UIButton?) {
-        registerButton.isEnabled = false
+        sender?.isEnabled = false
         
         emailTextField.resignFirstResponder()
         userNameTextField.resignFirstResponder()
@@ -126,7 +126,7 @@ class NewRegistrationViewController: UIViewController {
         AuthService.registerUser(self,withCredential: authCredential) { (error) in
             if let error = error {
                 self.showErrorIfNeeded(error)
-                self.registerButton.isEnabled = true
+                sender?.isEnabled = true
                 sender?.showAnimation(false)
                 return
             }
@@ -263,7 +263,7 @@ extension NewRegistrationViewController: UIImagePickerControllerDelegate, UINavi
     
 }
 //  MARK: - UITextFieldDelegate
-extension NewRegistrationViewController: UITextFieldDelegate { //可読性の向上ｗ
+extension NewRegistrationViewController: UITextFieldDelegate {
    
     func textFieldDidChangeSelection(_ textField: UITextField) {
        let emailIsEmpty = emailTextField.text?.isEmpty ?? true
@@ -301,7 +301,6 @@ extension NewRegistrationViewController: UITextFieldDelegate { //可読性の向
 }
 extension NewRegistrationViewController {
     
-    // キーボードが表示された時
     @objc private func keyboardWillShow(sender: NSNotification) {
         
         if userNameTextField.isFirstResponder {
@@ -328,7 +327,7 @@ extension NewRegistrationViewController {
             self.view.transform = .identity
         })
     }
-    //画面をタップした時にキーボードを閉じる
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }

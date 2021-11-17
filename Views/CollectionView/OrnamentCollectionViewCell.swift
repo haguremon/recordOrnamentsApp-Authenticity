@@ -14,7 +14,6 @@ class OrnamentCollectionViewCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
-
         iv.layer.cornerRadius = 13.0
         iv.layer.borderWidth = 1
         iv.layer.borderColor = #colorLiteral(red: 0.3305901885, green: 0.4503111243, blue: 0.7627663016, alpha: 1)
@@ -38,7 +37,6 @@ class OrnamentCollectionViewCell: UICollectionViewCell {
         blurEffectView.layer.shadowOpacity = 0.8
         blurEffectView.layer.shadowRadius = 8.0
         blurEffectView.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
-        // blurEffectView.isHidden = true
         blurEffectView.alpha = 0.9
         return blurEffectView
     }()
@@ -50,7 +48,6 @@ class OrnamentCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .center
         label.numberOfLines = 0
         label.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
-        // label.attributedText = NSAttributedString(
         label.lineBreakMode = .byWordWrapping
         label.clipsToBounds = true
         label.layer.cornerRadius = 5.0
@@ -58,7 +55,6 @@ class OrnamentCollectionViewCell: UICollectionViewCell {
         label.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         label.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         label.font = UIFont.boldSystemFont(ofSize: 13.5)
-        //label.font = UIFont.systemFont(ofSize: 9)
         label.sizeToFit()
         return label
     }()

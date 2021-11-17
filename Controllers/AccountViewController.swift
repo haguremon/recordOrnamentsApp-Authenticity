@@ -423,7 +423,7 @@ extension AccountViewController {
                textField.textContentType = .emailAddress
                textField.placeholder = "メールアドレス"
            })
-           //追加ボタン
+         
            alert.addAction(
                UIAlertAction(
                    title: "入力完了",
@@ -455,20 +455,17 @@ extension AccountViewController {
                    })
            )
     
-        //キャンセルボタン
+   
            alert.addAction(
            UIAlertAction(
                title: "キャンセル",
                style: .cancel
            )
            )
-           //アラートが表示されるごとにprint
+       
            self.present(
            alert,
-           animated: true,
-           completion: {
-               print("アラートが表示された")
-           })
+           animated: true)
     
 
     }

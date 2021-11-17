@@ -38,9 +38,9 @@ struct  PostService {
                 "password": updatepost.password as Any,
                 "isSetPassword": updatepost.isSetPassword as Any
             ]) { error in
-                if let error = error { // エラーハンドリング
+                if let error = error {
                     print("DEBUG: Failed to update Post \(error.localizedDescription)")
-                } else { // 書き換え成功ハンドリング
+                } else {
                     
                 COLLETION_POSTS.document(uid.postId).getDocument { (snapshot, _) in
                 guard let snapshot = snapshot else { return }
@@ -56,13 +56,14 @@ struct  PostService {
     }
     
     static func resetPasswordPost(ownerUid uid: Post,updatepost: ResetData, completion: @escaping(Post) -> Void) {
-                COLLETION_POSTS.document(uid.postId).updateData([ // アップデー
+                COLLETION_POSTS.document(uid.postId).updateData([
                         "password": updatepost.password as Any,
                         "isSetPassword": updatepost.isSetPassword as Any
                     ]) { error in
-                        if let error = error { // エラーハンドリング
+                        if let error = error {
+                            
                             print("DEBUG: Failed to resetPassword Post \(error.localizedDescription)")
-                        } else { // 書き換え成功ハンドリング
+                        } else { 
                             
                         COLLETION_POSTS.document(uid.postId).getDocument { (snapshot, _) in
                         guard let snapshot = snapshot else { return }

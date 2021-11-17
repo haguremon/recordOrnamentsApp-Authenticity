@@ -19,7 +19,6 @@ struct User {
         return Auth.auth().currentUser?.uid == uid
     }
     
-    //辞書型で値が返ってくるので
     init(dictonary: [String: Any]) {
         self.email = dictonary["email"] as? String ?? ""
         self.profileImageUrl = dictonary["profileImageUrl"] as? String ?? ""

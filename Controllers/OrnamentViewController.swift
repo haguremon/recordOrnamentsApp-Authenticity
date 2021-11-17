@@ -68,7 +68,7 @@ class OrnamentViewController: UIViewController {
         let refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(habdleRefresh), for: .valueChanged)
         refresher.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0)
-        refresher.tintColor = .label
+        refresher.tintColor = .black
         collectionView.refreshControl = refresher
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -186,10 +186,9 @@ class OrnamentViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
+        searchBar.barStyle = .default
+        searchBar.searchBarStyle = .minimal
         searchBar.barTintColor = .black
-        searchBar.searchTextField.backgroundColor = .white
-        searchBar.searchTextField.textColor = .black
-        searchBar.searchTextField.tintColor = .black
         searchBar.searchTextField.lupeImageView?.tintColor = .black
         searchBar.searchTextField.font = UIFont(name: "American Typewriter", size: 18)
         searchBar.placeholder = "登録した名前で検索できるよ"
@@ -310,12 +309,12 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                alert.message = "パスワードを入力してください"
 
                alert.addTextField(configurationHandler: {(textField) -> Void in
-                   //textField.delegate = self
+                   
                    textField.textContentType = .emailAddress
                    textField.isSecureTextEntry = true
                    textField.placeholder = "パスワード"
                })
-               //追加ボタン
+
                alert.addAction(
                    UIAlertAction(
                        title: "入力完了",
@@ -346,13 +345,9 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                    style: .cancel
                )
                )
-               //アラートが表示されるごとにprint
                self.present(
                alert,
-               animated: true,
-               completion: {
-                   print("アラートが表示された")
-               })
+               animated: true)
         
     }
     
@@ -367,8 +362,6 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
         navigationController?.pushViewController(detailsViewController, animated: true)
       
     }
-    
-    //viewForSupplementaryをつけることができるヘッダーやフッターなので
     
     fileprivate func extractedFunc(_ indexPath: IndexPath, _ header1: HeaderCollectionReusableView) -> UICollectionReusableView {
     
@@ -396,11 +389,10 @@ extension OrnamentViewController: SideMenuNavigationControllerDelegate {
     private func makeSettings() -> SideMenuSettings {
         var settings = SideMenuSettings()
         settings.menuWidth = view.bounds.width / 1.5
-        //動作を指定
+     
         settings.presentationStyle = .menuSlideIn
-        //メニューの陰影度
+
         settings.presentationStyle.onTopShadowOpacity = 1.0
-        //ステータスバーの透明度
         settings.statusBarEndAlpha = 0
         return settings
             }
@@ -423,8 +415,7 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
 
     func didSelectMeunItem(name: SideMenuItem) {
         menu?.dismiss(animated: false, completion:nil)
-        //サイドメニューが閉じた時に移動する
-        
+     
         switch name {
             
         case .useGuide:
@@ -442,8 +433,6 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
             DispatchQueue.main.async {
                 let accoutViewController = self.storyboard?.instantiateViewController(withIdentifier: "AccountViewController") as! AccountViewController
                 accoutViewController.modalPresentationStyle = .fullScreen
-               
-               //accoutViewController.delegate = self
                 let  sideMenuViewController = self.menu?.viewControllers.first as! SideMenuViewController
                 accoutViewController.delegate = sideMenuViewController as AccountViewControllerDelegate
                 accoutViewController.user = sideMenuViewController.user
@@ -472,7 +461,6 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
             if let url = URL(string: "https://itunes.apple.com/jp/app/id1094591345?mt=8&action=write-review") {
             UIApplication.shared.open(url)
         }
-            //view.backgroundColor = .green
         }
     }
     
@@ -492,14 +480,12 @@ extension OrnamentViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
         collectionView.isHidden = false
-        //tableView.isHidden = false
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)
         searchBar.showsCancelButton = false
         searchBar.text = nil
         collectionView.isHidden = false
-       // tableView.isHidden = true
     }
 }
 extension OrnamentViewController {
@@ -511,11 +497,11 @@ func resetMessage(withuser user: User,withpsot post: Post){
     alert.message = "ログイン時のメールアドレスを入力してください"
         
            alert.addTextField(configurationHandler: {(textField) -> Void in
-               //textField.delegate = self
+     
                textField.textContentType = .newPassword
                textField.placeholder = "パスワード"
            })
-           //追加ボタン
+
            alert.addAction(
                UIAlertAction(
                    title: "入力完了",
@@ -545,13 +531,12 @@ func resetMessage(withuser user: User,withpsot post: Post){
                    })
            )
     
-        //キャンセルボタン
+
            alert.addAction(
            UIAlertAction(
                title: "キャンセル",
                style: .cancel)
         )
-           //アラートが表示されるごとにprint
            self.present(
            alert,
            animated: true)

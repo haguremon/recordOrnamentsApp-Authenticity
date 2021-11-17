@@ -10,7 +10,7 @@ import UIKit
 protocol AccountCollectionViewCellDelegat: AnyObject {
    
     func textFieldDidEndEditingCell(_ cell: AccountCollectionViewCell)
-    func textFieldShouldReturnCell(_ cell: AccountCollectionViewCell)// -> Bool
+    func textFieldShouldReturnCell(_ cell: AccountCollectionViewCell)
 }
 
 class AccountCollectionViewCell: UICollectionViewCell {
@@ -45,7 +45,6 @@ class AccountCollectionViewCell: UICollectionViewCell {
     }()
      let accountMenuLabel: UILabel = {
         let label = UILabel()
-       // label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 1
         label.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
@@ -120,8 +119,6 @@ extension AccountCollectionViewCell: UITextFieldDelegate {
             return true
         }
         
-       
-    //}
     func textFieldDidEndEditing(_ textField: UITextField) {
         delegat?.textFieldDidEndEditingCell(self)
     }
