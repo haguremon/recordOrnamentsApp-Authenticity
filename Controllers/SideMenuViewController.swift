@@ -7,13 +7,11 @@
 
 import UIKit
 import SDWebImage
-import FirebaseAuth
 
 protocol SideMenuViewControllerDelegate: AnyObject {
     func didSelectMeunItem(name: SideMenuItem)
 
 }
-
 
 enum SideMenuItem: String,CaseIterable{
     case useGuide = "使い方ガイド"
@@ -22,9 +20,9 @@ enum SideMenuItem: String,CaseIterable{
     case contact = "問い合わせ"
 }
 
-
 class SideMenuViewController: UIViewController {
     
+    // MARK: - プロパティ類
     @IBOutlet private var tableView: UITableView!
     
     @IBOutlet weak var imageView: UIImageView!
@@ -34,44 +32,28 @@ class SideMenuViewController: UIViewController {
     @IBOutlet weak var usernameLabel: UILabel!
     
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    
-    
+
     var user: User? {
-
         didSet {
-           
-            guard let user = user else {
-
-                return
-            }
-            
+            guard let user = user else { return }
             configure(user: user)
-        
         }
-
-
     }
     
     weak var delegate: SideMenuViewControllerDelegate?
     
-    let sideMenuItems: [SideMenuItem] = SideMenuItem.allCases
+    private let sideMenuItems: [SideMenuItem] = SideMenuItem.allCases
     
+    //MARK: - ライフサイクル
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateImageView = imageView
-        usernameLabel.font = UIFont.boldSystemFont(ofSize: imageView.bounds.height / 7)
+        configureUI()
+        
         configureTableView()
         fetchUser()
-        imageView.layer.cornerRadius = view.bounds.width / 8.25
-        imageView.layer.borderWidth = 0.8
-        imageView.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-        imageView.contentMode = .scaleToFill
-        tableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        usernameLabel.tintColor = .white
-        //inactiveIndicatorView()
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-    
+       
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         activeIndicatorView()
@@ -80,44 +62,63 @@ class SideMenuViewController: UIViewController {
             self.inactiveIndicatorView()
         }
     }
-
+    
+    //MARK: - API
+    func fetchUser() {
+        
+         UserService.fetchUser { user in
+            self.user = user
+        }
+    }
+    
+    //MARK: - メソッド類
     private func activeIndicatorView(){
         activityIndicatorView.startAnimating()
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.style = .large
         activityIndicatorView.tintColor = .black
     }
+    
     private func inactiveIndicatorView(){
         activityIndicatorView.stopAnimating()
         activityIndicatorView.hidesWhenStopped = false
  
     }
     
-    
      private func configureTableView() {
+        tableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.isScrollEnabled = false
         tableView.scrollsToTop = false
     }
-     func fetchUser() {
-        
-         UserService.fetchUser { user in
-            self.user = user
-        }
-   
-        
-    }
-
+     
     private func configure(user: User) {
 
         imageView.sd_setImage(with: URL(string: user.profileImageUrl), completed: nil)
         usernameLabel.text = user.name
 
     }
+    //MARK: - UI等
+    private func configureUI() {
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        updateImageView = imageView
+      
+        
+        imageView.layer.cornerRadius = view.bounds.width / 8.25
+        imageView.layer.borderWidth = 0.8
+        imageView.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        imageView.contentMode = .scaleToFill
+       
+        usernameLabel.font = UIFont.boldSystemFont(ofSize: imageView.bounds.height / 7)
+        usernameLabel.tintColor = .white
+      
+        
+    }
 
 }
-
+ 
+//MARK: - UITableViewDataSource, UITableViewDelegate
 extension SideMenuViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -135,7 +136,6 @@ extension SideMenuViewController: UITableViewDataSource, UITableViewDelegate {
         cell.layer.borderWidth = 1
         cell.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         cell.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
-        
         cell.textLabel?.text = sideMenuItems[indexPath.row].rawValue
         return cell
     }
@@ -144,15 +144,15 @@ extension SideMenuViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //デリゲートを使ってやり取りする
         tableView.deselectRow(at: indexPath, animated: true)
         let selectItem = sideMenuItems[indexPath.row]
-        //ここでの通知をViewControllernに伝えてその内容をViewControllerでやる
+      
         delegate?.didSelectMeunItem(name: selectItem)
         
     }
 
 }
+
 //MARK: - AccountViewControllerDelegate
 
 extension SideMenuViewController: AccountViewControllerDelegate {
@@ -161,11 +161,8 @@ extension SideMenuViewController: AccountViewControllerDelegate {
     }
     
     func controllerDidFinishUpDateUser() {
-      print("できてて欲しい")
             self.fetchUser()
     
     }
-    
-    
     
 }

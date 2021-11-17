@@ -9,7 +9,7 @@ import UIKit
 
 class InputTextView: UITextView {
     
-    // MARK: - Properties
+    // MARK: - プロパティ等
     var placeholderText: String? {
         didSet{ placeholderLabel.text = placeholderText }
     }
@@ -31,7 +31,7 @@ class InputTextView: UITextView {
         }
     }
 
-    // MARK: - Lifecycle
+    // MARK: - ライフサイクル
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
@@ -48,7 +48,7 @@ class InputTextView: UITextView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Actions
+    // MARK: - メソッド
     
     @objc func handleTextDidChange() {
         //placeholderLabelを隠す

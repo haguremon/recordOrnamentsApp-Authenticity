@@ -5,7 +5,7 @@
 //  Created by IwasakIYuta on 2021/10/23.
 //
 
-import Foundation
+
 import FirebaseAuth
 import UIKit
 
@@ -23,14 +23,14 @@ struct UserService {
         }
     }
     
-    static func updateUser(_ viewControllerw: UIViewController,ownerUid user: User,updateUser: UpdateUser, completion: @escaping(User) -> Void) {
+    static func updateUser(ownerUid user: User,updateUser: UpdateUser, completion: @escaping(User) -> Void) {
         
             if updateUser.profileImage == nil {
             COLLECTION_USERS.document(user.uid).updateData([
                     "name": updateUser.name as Any
-                ]) { err in
-                    if let err = err {
-                        viewControllerw.showErrorIfNeeded(err)
+                ]) { error in
+                    if let error = error {
+                        print("DEBUG: Failed to update user \(error.localizedDescription)")
                     } else { 
                         
                     COLLECTION_USERS.document(user.uid).getDocument { (snapshot, _) in
@@ -44,13 +44,13 @@ struct UserService {
         
         } else {
             
-        ImageUploader.uploadImage( image: updateUser.profileImage) { (profileImageUrl) in
+        ImageService.uploadImage( image: updateUser.profileImage) { (profileImageUrl) in
             COLLECTION_USERS.document(user.uid).updateData([
                     "name": updateUser.name as Any,
                     "profileImageUrl": profileImageUrl as Any
-                ]) { err in
-                    if let err = err {
-                        print("Error updating document: \(err)")
+                ]) { error in
+                    if let error = error {
+                        print("Error updating document: \(error.localizedDescription)")
                     } else {
                         
                     COLLECTION_USERS.document(user.uid).getDocument { (snapshot, _) in
@@ -69,22 +69,5 @@ struct UserService {
     }
     
 }
-    static func errorMessage(of error: Error) -> String {
-        var message = "エラーが発生しました"
-        guard let errcd = AuthErrorCode(rawValue: (error as NSError).code) else {
-            return message
-        }
-    
-        switch errcd {
-        case .networkError: message = "ネットワークに接続できません"
-        case .userNotFound: message = "ユーザが見つかりません"
-        case .userDisabled: message = "このアカウントは無効です"
-    
-        
-        // これは一例です。必要に応じて増減させてください
-        default: break
-        }
-        return message
-    }
-    
+
 }

@@ -13,38 +13,15 @@ protocol DetailsViewControllerDelegate: AnyObject {
 
 }
 
-
 class DetailsViewController: UIViewController {
     
-    // MARK: - Properties
+    // MARK: - プロパティ等
+    weak var delegate: DetailsViewControllerDelegate?
+    
     var user: User?
     
     var post: Post? { didSet { configurepost(post: post) } }
-   
-    weak var delegate: DetailsViewControllerDelegate?
     
-    private func configurepost(post: Post?){
-        
-        guard let post = post else { return }
-        
-        if post.imagename == "" {
-        
-            imagenameTextView.placeholderLabel.isHidden = false
-        
-        }
-        if post.caption == "" {
-            
-            captionTextView.placeholderLabel.isHidden = false
-            
-        }
-        
-        photoImageView.sd_setImage(with: URL(string: post.imageUrl), completed: nil)
-        imagenameTextView.text = post.imagename
-        captionTextView.text = post.caption
-        checkButton.isChecked = post.isSetPassword
-        imagenameCharacterCountLabel.text = "\(imagenameTextView.text.count)/15"
-        captionCharacterCountLabel.text = "\(captionTextView.text.count)/300"
-    }
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
@@ -66,28 +43,18 @@ class DetailsViewController: UIViewController {
     }()
     private lazy var checkButton: CheckBox = {
         let button = CheckBox()
-        button.addTarget(self, action: #selector(setPassword), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleCheckButtonTapped), for: .touchUpInside)
         button.layer.shadowColor = UIColor.gray.cgColor
         button.bounds.size.width = 15
         button.bounds.size.height = 30
         button.backgroundColor = .clear
         return button
     }()
-    
-    @objc func setPassword() {
-        
-        DispatchQueue.main.async {
-            self.showEditModeMessage()
-            self.checkButton.isChecked = self.post!.isSetPassword
-        }
-        
-   
-    }
-    
+
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
         button.setTitle("削除", for: .normal)
-        button.addTarget(self, action: #selector(remove), for: .touchUpInside)
+        button.addTarget(self, action: #selector(removePost), for: .touchUpInside)
         button.backgroundColor = .red
         button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.cornerRadius = 10
@@ -96,36 +63,6 @@ class DetailsViewController: UIViewController {
         
         return button
     }()
-    @objc func remove() {
-        DispatchQueue.main.async {
-            self.deleteButton.showAnimation(true)
-        }
-       
-        let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
-
-        alert.addAction(UIAlertAction(title: "削除する", style: .default, handler: { [ weak self ] _ in
-           
-            DispatchQueue.main.async {
-                self?.deletePost()
-            }
-            self?.delegate?.controllerDidFinishdeletePost(self!)
-        
-        }))
-        
-        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
-        
-        present(alert, animated: true, completion: nil)
-        
-        
-    }
-    
-    private func deletePost() {
-        
-        PostService.deletePost(self, withPostId: post!.postId)
-        
-    }
-    
-    
     private lazy var editButton: UIButton = {
         let button = UIButton()
         button.setTitle("編集", for: .normal)
@@ -138,20 +75,6 @@ class DetailsViewController: UIViewController {
         
         return button
     }()
-    
-
-    func showEditModeMessage() {
-        let alert = UIAlertController(title: "編集", message: "編集画面に変更しますか？", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [ weak self ] _ in
-           
-                self?.editingMode()
-        
-        }))
-        
-        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
-        
-        present(alert, animated: true, completion: nil)
-    }
     
     private lazy var imagenameTextView: InputTextView = {
         let tv = InputTextView()
@@ -223,8 +146,7 @@ class DetailsViewController: UIViewController {
         return label
     }()
     
-    // MARK: - Lifecycle
-    
+    // MARK: - ライフサイクル
     init(user: User, post: Post){
         self.user = user
         self.post = post
@@ -245,7 +167,7 @@ class DetailsViewController: UIViewController {
         
         configureNavigation()
         configureUI()
-          showLoader(true)
+        showLoader(true)
     }
    
     override func viewWillAppear(_ animated: Bool) {
@@ -255,10 +177,90 @@ class DetailsViewController: UIViewController {
     }
     
     
-    // MARK: - Actions
+    // MARK: - メソッド等
+    
+    private func configurepost(post: Post?) {
+        
+        guard let post = post else { return }
+        
+        if post.imagename == "" {
+        
+            imagenameTextView.placeholderLabel.isHidden = false
+        
+        }
+        if post.caption == "" {
+            
+            captionTextView.placeholderLabel.isHidden = false
+            
+        }
+        
+        photoImageView.sd_setImage(with: URL(string: post.imageUrl), completed: nil)
+        imagenameTextView.text = post.imagename
+        captionTextView.text = post.caption
+        checkButton.isChecked = post.isSetPassword
+        imagenameCharacterCountLabel.text = "\(imagenameTextView.text.count)/15"
+        captionCharacterCountLabel.text = "\(captionTextView.text.count)/300"
+    }
+
+    @objc func handleCheckButtonTapped() {
+        
+        DispatchQueue.main.async {
+            self.showEditModeMessage()
+            self.checkButton.isChecked = self.post!.isSetPassword
+        }
+    
+    }
+    
+   
+    @objc func removePost() {
+        DispatchQueue.main.async {
+            self.deleteButton.showAnimation(true)
+        }
+       
+        let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "削除する", style: .default, handler: { [ weak self ] _ in
+           
+            DispatchQueue.main.async {
+                self?.deletePost()
+            }
+            self?.delegate?.controllerDidFinishdeletePost(self!)
+        
+        }))
+        
+        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
+        
+        present(alert, animated: true, completion: nil)
+        
+        
+    }
+    
+    private func deletePost() {
+        
+        PostService.deletePost(withPostId: post!.postId)
+        
+    }
+
+    
+    
+    private func showEditModeMessage() {
+        let alert = UIAlertController(title: "編集", message: "編集画面に変更しますか？", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [ weak self ] _ in
+           
+                self?.editingMode()
+        
+        }))
+        
+        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
+        
+        present(alert, animated: true, completion: nil)
+    }
+
+    
     
     
     @objc func didTapClose(){
+        
         navigationController?.popViewController(animated: true)
 
     }
@@ -269,7 +271,7 @@ class DetailsViewController: UIViewController {
             self.editButton.showAnimation(true)
         }
         
-        showEditModeMessage()
+        editingMode()
         
        
     }
@@ -297,7 +299,7 @@ class DetailsViewController: UIViewController {
        
     
     
-    // MARK: - Helpers
+    // MARK: - UI等
     func configureUI(){
         
         setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
@@ -311,11 +313,12 @@ class DetailsViewController: UIViewController {
         
         view.addSubview(imagenameCharacterCountLabel)
         imagenameCharacterCountLabel.anchor(bottom: imagenameTextView.bottomAnchor, right: imagenameTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
-       // view.addSubview(photoImageView)
+        
         view.addSubview(shadowView)
         shadowView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
         shadowView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
         shadowView.centerX(inView: view)
+        
         shadowView.addSubview(photoImageView)
         photoImageView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
@@ -335,17 +338,13 @@ class DetailsViewController: UIViewController {
         verticalStackView.centerX(inView: view)
         
         let stack = UIStackView(arrangedSubviews: [passwordLabel, checkButton])
-        //縦の関係
-    
         stack.axis = .horizontal
-
         stack.spacing = 2
-
+        stack.alignment = .fill
+        
         checkButton.bounds.size.width = checkButton.intrinsicContentSize.width
         passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
 
-        stack.alignment = .fill
-        
         verticalStackView.addArrangedSubview(stack)
         verticalStackView.addArrangedSubview(memoLabel)
 
@@ -358,21 +357,19 @@ class DetailsViewController: UIViewController {
         captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
                 
         let stack2 = UIStackView(arrangedSubviews: [editButton, deleteButton])
-        //縦の関係
-    
         stack2.axis = .horizontal
-
         stack2.spacing = 30
-        //これでstack内でのサイズがcheckButton.bounds.size.widthと同じになるらしい
+        stack2.alignment = .fill
+      
         deleteButton.bounds.size.width = deleteButton.intrinsicContentSize.width
         editButton.bounds.size.width = editButton.intrinsicContentSize.width
-        //二つが左寄りに
-        stack2.alignment = .fill
+    
         view.addSubview(stack2)
    
         stack2.anchor(top: captionTextView.bottomAnchor,
                                  paddingTop: 7)
         stack2.centerX(inView: view)
+        
         deleteButton.setDimensions(height: view.bounds.height / 15, width: view.bounds.width / 3)
         editButton.setDimensions(height: view.bounds.height / 15, width: view.bounds.width / 3)
         deleteButton.layer.cornerRadius = view.bounds.width / 18
@@ -383,12 +380,10 @@ class DetailsViewController: UIViewController {
         captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
         captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
         
-       
-    
     }
 }
-//MARK: - EditViewControllerDelegate
 
+//MARK: - EditViewControllerDelegate
 extension DetailsViewController: EditViewControllerDelegate {
     
     func controllerDidFinishUploadingPost(_ controller: EditViewController) {

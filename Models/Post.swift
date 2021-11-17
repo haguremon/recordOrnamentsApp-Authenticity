@@ -15,10 +15,9 @@ struct Post {
     let ownerUid: String
     let timestamp: Timestamp
     let postId: String
-    
-    // Postしたユーザーのプロフィール画像
+  
     let ownerImageUrl: String
-    // Postしたユーザー名
+
     let ownerUsername: String
     
     let password: String?

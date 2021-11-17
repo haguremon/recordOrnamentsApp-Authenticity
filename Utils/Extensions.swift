@@ -7,10 +7,10 @@
 
 import JGProgressHUD
 import UIKit
-
-
+import AVKit
 
 extension UIViewController {
+    
     static let hud = JGProgressHUD(style: .dark)
     //インジゲーターの処理
     func showLoader(_ show: Bool) {
@@ -61,7 +61,38 @@ extension UIViewController {
             statusBarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
             statusBarView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         }
- 
+   
+
+    func permissionDialog(){
+
+        let auth = AVCaptureDevice.authorizationStatus(for: .video)
+
+        switch auth {
+        case .notDetermined:
+            print("notDetermined")
+        case .restricted:
+            print("restricted")
+        case .denied:
+            let alert = UIAlertController(title: "設定", message: "カメラのアクセス許可をしてください", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                
+                if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+             }
+                
+            }))
+            alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
+            
+            present(alert, animated: true, completion: nil)
+            
+        case .authorized:
+            print("authorized")
+        
+        @unknown default:
+            fatalError()
+        }
+        
+    }
     
 }
    

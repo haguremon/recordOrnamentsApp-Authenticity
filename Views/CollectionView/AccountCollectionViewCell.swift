@@ -8,9 +8,9 @@
 
 import UIKit
 protocol AccountCollectionViewCellDelegat: AnyObject {
-    //コメントviewに行くにはFeedControllerのFeedCellのcommentButtonを押さないといけない
-    func cell(_ cell: AccountCollectionViewCell)
-    func textFieldShouldReturnCell(_ cell: AccountCollectionViewCell) -> Bool
+   
+    func textFieldDidEndEditingCell(_ cell: AccountCollectionViewCell)
+    func textFieldShouldReturnCell(_ cell: AccountCollectionViewCell)// -> Bool
 }
 
 class AccountCollectionViewCell: UICollectionViewCell {
@@ -116,18 +116,14 @@ class AccountCollectionViewCell: UICollectionViewCell {
 extension AccountCollectionViewCell: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool  {
-        if  delegat?.textFieldShouldReturnCell(self) == true {
-            textField.resignFirstResponder()
-            return false
-        } else {
-            textField.resignFirstResponder()
+          delegat?.textFieldShouldReturnCell(self)
             return true
         }
         
        
-    }
+    //}
     func textFieldDidEndEditing(_ textField: UITextField) {
-        delegat?.cell(self)
+        delegat?.textFieldDidEndEditingCell(self)
     }
 }
 

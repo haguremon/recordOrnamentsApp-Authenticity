@@ -11,7 +11,7 @@ import Lottie
 
 class NewRegistrationViewController: UIViewController {
     
-    // MARK: - Properties
+    // MARK: - プロパティ等
     @IBOutlet private var animationView: UIView!
     
     @IBOutlet weak var profileImageButton: UIButton!
@@ -30,7 +30,7 @@ class NewRegistrationViewController: UIViewController {
 
     @IBOutlet weak var label: UILabel!
 
-    // MARK: - Lifecycle
+    // MARK: - ライフサイクル
     override func viewDidLoad() {
         super.viewDidLoad()
         passwordTextField.textContentType = .newPassword
@@ -46,7 +46,7 @@ class NewRegistrationViewController: UIViewController {
         
     }
     
-    // MARK: - Actions
+    // MARK: - メソッド等
      @IBAction func tappedRegisterButton(_ sender: UIButton) {
      
          handleAuthToFirebase(sender)
@@ -88,7 +88,7 @@ class NewRegistrationViewController: UIViewController {
             picker.sourceType = camera
             picker.delegate = self
             picker.allowsEditing = true
-    
+            self.permissionDialog()
             present(picker, animated: true, completion: nil)
             
        }  else {
@@ -153,7 +153,8 @@ class NewRegistrationViewController: UIViewController {
         
     }
 
-
+    
+    // MARK: - UI等
     private func  congigureButtton() {
   
         registerButton.isEnabled = false
@@ -245,6 +246,12 @@ extension NewRegistrationViewController: UIImagePickerControllerDelegate, UINavi
         
         self.selectedImage = selectedImage
         
+        if picker.sourceType == .camera {
+            
+            UIImageWriteToSavedPhotosAlbum(selectedImage,self,nil,nil)
+            
+        }
+        
         profileImageButton.layer.cornerRadius = profileImageButton.frame.width / 2
         profileImageButton.layer.masksToBounds = true
         profileImageButton.layer.borderColor = UIColor.white.cgColor
@@ -272,15 +279,15 @@ extension NewRegistrationViewController: UITextFieldDelegate { //可読性の向
    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailTextField {
-           
+            emailTextField.resignFirstResponder()
             passwordTextField.becomeFirstResponder()
         
         } else if textField ==  passwordTextField {
            
+            passwordTextField.resignFirstResponder()
             userNameTextField.becomeFirstResponder()
 
         } else {
-            
             handleAuthToFirebase(nil)
         }
         

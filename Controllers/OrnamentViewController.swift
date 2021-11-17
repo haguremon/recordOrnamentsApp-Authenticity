@@ -10,26 +10,28 @@ import SideMenu
 import FirebaseAuth
 
 class OrnamentViewController: UIViewController {
-    
+    // MARK: - プロパティ等
     var user: User?
     
+    var post: Post?{ didSet { collectionView.reloadData() } }
+    
     private var posts = [Post]() {
-        didSet{
+        
+        didSet {
+            
             collectionView.reloadData()
+            
             if inSearchMode == true {
                 updateSearchResults(for: searchController)
             }
         }
     }
+    
     private var filteredPosts = [Post]()
     
-    var post: Post?{
-        didSet {
-            collectionView.reloadData()
-        }
-    }
-    
     @IBOutlet private var collectionView: UICollectionView!
+    let collectionViewLayout = CollectionViewLayout()
+    
     private let searchController = UISearchController(searchResultsController: nil)
     private var searchBar: UISearchBar {
          searchController.searchBar
@@ -47,32 +49,22 @@ class OrnamentViewController: UIViewController {
         view.backgroundColor = UIColor(white: 0, alpha: 0.3)
         return view
     }()
+    
     var menu: SideMenuNavigationController?
     
-    let collectionViewLayout = CollectionViewLayout()
-    
+   //MARK: - ライフサイクル等
     override func viewDidLoad() {
         super.viewDidLoad()
- 
-
         checkIfUserIsLoggedIn()
         configureNavigation()
-      
         collectionView.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-       
-        
-        
         setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
-        
-       
-        
         configureSearchController()
-        setupSideMenu()
-        setupCollectionView()
+        configureSideMenu()
+        configureCollectionView()
         fetchPosts()
         fetchUser()
-        
         let refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(habdleRefresh), for: .valueChanged)
         refresher.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0)
@@ -82,37 +74,75 @@ class OrnamentViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showLoader(true)
-     
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showLoader(false)
-//        if Auth.auth().currentUser != nil {
-//            Auth.auth().currentUser?.reload(completion: { error in
-//                if error == nil {
-//                    if Auth.auth().currentUser?.isEmailVerified == true {
-//
-//                    } else if Auth.auth().currentUser?.isEmailVerified == false {
-//                        let alert = UIAlertController(title: "確認用メールを送信しているので確認をお願いします。", message: "まだメール認証が完了していません。", preferredStyle: .alert)
-//                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [ weak self ] _ in
-//                            let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
-//                            loginViewController.modalPresentationStyle = .fullScreen
-//                            loginViewController.message = "確認用メールを確認してください"
-//                            loginViewController.email = self?.user?.email
-//                            self?.present(loginViewController, animated: false, completion: nil)
-//                        }))
-//                        self.present(alert, animated: true)
-//                    }
-//                }
-//            })
-//        }
+        checkIfUserEmailVerified()
     }
     
+    //MARK: - API
+    func checkIfUserIsLoggedIn() {
+      
+        if Auth.auth().currentUser == nil {
+            DispatchQueue.main.async {
+                self.openLoginViewController()
+            }
+        }
+        
+    }
+    
+    private func checkIfUserEmailVerified() {
+        if Auth.auth().currentUser != nil {
+            Auth.auth().currentUser?.reload(completion: { error in
+                if error == nil {
+                    if Auth.auth().currentUser?.isEmailVerified == true {
 
- 
-    private func setupSideMenu() {
+                    } else if Auth.auth().currentUser?.isEmailVerified == false {
+                        let alert = UIAlertController(title: "確認用メールを送信しているので確認をお願いします。", message: "まだメール認証が完了していません。", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [ weak self ] _ in
+                            let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+                            loginViewController.modalPresentationStyle = .fullScreen
+                            loginViewController.message = "確認用メールを確認してください"
+                            loginViewController.email = self?.user?.email
+                            self?.present(loginViewController, animated: false, completion: nil)
+                        }))
+                        self.present(alert, animated: true)
+                    }
+                }
+            })
+        }
+            
+    }
+    
+    private func fetchUser() {
+        
+        UserService.fetchUser { user in
+            self.user = user
+        }
+        
+    }
+    private func fetchPosts() {
+        guard post == nil else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        PostService.fetchPosts(forUser: uid) { (posts) in
+            self.posts = posts
+            //self.checkIfUserLikedPosts()
+            self.collectionView.refreshControl?.endRefreshing()
+        }
+    }
+ //MARK: - メソッド等
+    
+    @objc func habdleRefresh(){
+        posts.removeAll()
+    
+        fetchPosts()
+        
+        }
+    
+    private func configureSideMenu() {
         let sideMenuViewController = storyboard?.instantiateViewController(withIdentifier: "SideMenu") as? SideMenuViewController
         sideMenuViewController?.delegate = self
         sideMenuViewController?.user = self.user
@@ -124,42 +154,7 @@ class OrnamentViewController: UIViewController {
       
     }
     
-    
-    func checkIfUserIsLoggedIn() {
-        // configurenavigationController()
-        print("check1")
-        if Auth.auth().currentUser == nil  {
-            //ログイン中じゃない場合はLoginControllerに移動する
-            
-            
-            DispatchQueue.main.async {
-                self.presentToViewController()
-            }
-            
-        }
-        
-    }
-    private func fetchUser(){
-        //コールバックを使ってProfileControllerのプロパティに代入する
-        UserService.fetchUser { user in
-            self.user = user
-            
-        }
-        
-    }
-    private func fetchPosts() {
-        guard post == nil else { return }
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        PostService.fetchPosts(self, forUser: uid) { (posts) in
-            self.posts = posts
-            //self.checkIfUserLikedPosts()
-            self.collectionView.refreshControl?.endRefreshing()
-        }
-    }
-    
-
-    //loginSegue
-    private func presentToViewController() {
+    private func openLoginViewController() {
         
         let loginViewController = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
         loginViewController.modalPresentationStyle = .fullScreen
@@ -167,6 +162,26 @@ class OrnamentViewController: UIViewController {
         
     }
     
+    @objc private func handleOpenUploadPostController() {
+        
+        let controller = UploadPostController()
+        controller.delegate = self
+        controller.currentUser = user
+        navigationController?.pushViewController(controller, animated: true)
+    
+    }
+    
+    @objc func handleOpenSideMenu(_ sender: Any) {
+        
+        present(menu!, animated: true, completion: nil)
+        
+    }
+    
+    @IBAction func barItemReturn(segue: UIStoryboardSegue){
+        
+    }
+
+    //MARK: - UI等
     private func configureSearchController(){
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -193,33 +208,15 @@ class OrnamentViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus.app"),
                                                             style: .done,
                                                             target: self,
-                                                            action: #selector(didTapPostToButton))
+                                                            action: #selector(handleOpenUploadPostController))
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "sidebar.squares.leading"),
                                                            style: .done,
                                                            target: self,
-                                                           action: #selector(createSideMenuButton))
-    }
-    
-    @objc private func didTapPostToButton() {
-        
-        let controller = UploadPostController()
-        controller.delegate = self
-        controller.currentUser = user
-        navigationController?.pushViewController(controller, animated: true)
-    
-    }
-    
-    @objc func createSideMenuButton(_ sender: Any) {
-        
-        present(menu!, animated: true, completion: nil)
-        
-    }
-    
-    @IBAction func barItemReturn(segue: UIStoryboardSegue){
-        
+                                                           action: #selector(handleOpenSideMenu))
     }
 
 }
+
 
 //MARK: -UploadPostControllerDelegate
 extension OrnamentViewController: UploadPostControllerDelegate{
@@ -248,12 +245,9 @@ extension OrnamentViewController: DetailsViewControllerDelegate {
 }
 
 
-
-
-
-//MARK: -CollectionView
+//MARK: -UICollectionViewDelegate, UICollectionViewDataSource
 extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    private func setupCollectionView() {
+    private func  configureCollectionView() {
         collectionView.collectionViewLayout = collectionViewLayout.ornamentCollectionViewLayout(collectionView: collectionView)
 
         collectionView.register(OrnamentCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
@@ -335,7 +329,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                            }
                        })
                )
-        // TODO: -パスワードを忘れた場合どうするか考える
+
         alert.addAction(
                     UIAlertAction(
                     title: "パスワードを忘れた場合",
@@ -345,7 +339,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
                         self?.resetMessage(withuser: user, withpsot: post)
           
                 }))
-            //キャンセルボタン
+
                alert.addAction(
                UIAlertAction(
                    title: "キャンセル",
@@ -391,16 +385,11 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
         return extractedFunc(indexPath, header)
     }
     
-    @objc func habdleRefresh(){
-        posts.removeAll()
-    
-        fetchPosts()
-        
-        }
+
                                    
     }
                                    
-        //MARK: -SideMeun
+    //MARK: -SideMenuNavigationControllerDelegate
 
 extension OrnamentViewController: SideMenuNavigationControllerDelegate {
     
@@ -442,7 +431,6 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
                 
             DispatchQueue.main.async {
                 let vc = DescriptionViewController()
-                //vc.view.backgroundColor = .clear
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true, completion: nil)
             }
@@ -473,7 +461,7 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
                 
                 try Auth.auth().signOut()
                 
-                presentToViewController()
+                openLoginViewController()
                 
                 
             } catch  {
@@ -489,42 +477,6 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
     }
     
 }
-//MARK: - AccountViewControllerDelegate
-//
-//extension OrnamentViewController: AccountViewControllerDelegate {
-//
-//    func didSelectMeunItem(_ viewController: AccountViewController, name: AccountMenu) {
-//        print("AccountViewControllerDelegate")
-//        switch name {
-//        case .name:
-//
-//
-//        case .password:
-//            resetPasswordMessege(viewController)
-//
-//        case .deleteAccount:
-//            Auth.auth().currentUser?.delete {  (error) in
-//                      // エラーが無ければ、ログイン画面へ戻る
-//                      if error == nil {
-//                          self.presentToViewController()
-//                      }else{
-//
-//                          self.showErrorIfNeeded(error)
-//                      }
-//                  }
-//
-//        case .exit:
-//            viewController.didTappedismiss()
-//        }
-//    }
-//
-//    func controllerDidFinishUpDateUser(){
-//        print("aaaaaa")
-//        fetchUser()
-//    }
-//
-//}
-
 
 // MARK: - UISearchResultsUpdating
 extension OrnamentViewController: UISearchResultsUpdating {
@@ -535,8 +487,8 @@ extension OrnamentViewController: UISearchResultsUpdating {
        self.collectionView.reloadData()
     }
 }
-
-extension OrnamentViewController: UISearchBarDelegate{
+// MARK: - UISearchBarDelegate
+extension OrnamentViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
         collectionView.isHidden = false
@@ -571,7 +523,7 @@ func resetMessage(withuser user: User,withpsot post: Post){
                    handler: { [ weak self ] _ in
                        if alert.textFields?.first?.text == user.email {
                            let resuetdate = ResetData(password: nil, isSetPassword: false)
-                           PostService.resetPasswordPost(self!, ownerUid: post, updatepost: resuetdate) { _ in
+                           PostService.resetPasswordPost(ownerUid: post, updatepost: resuetdate) { _ in
                 
                            }
                            self?.showMessage(withTitle: "パスワード", message: "パスワードがリセットされたました",handler: { [ weak self ] _ in
@@ -605,68 +557,5 @@ func resetMessage(withuser user: User,withpsot post: Post){
            animated: true)
     
 }
-    
-    func resetPasswordMessege(_ accountViewController: AccountViewController) {
-    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-           alert.view.setNeedsLayout()
-           alert.title = "パスワードリセット"
-           alert.message = "ログイン時のメールアドレスを入力してください"
-
-           alert.addTextField(configurationHandler: {(textField) -> Void in
-
-               textField.textContentType = .emailAddress
-               textField.placeholder = "メールアドレス"
-           })
-           //追加ボタン
-           alert.addAction(
-               UIAlertAction(
-                   title: "入力完了",
-                   style: .default,
-                   handler: { [ weak self ] _ in
-                       guard let email =  alert.textFields?.first?.text else {
-                           self?.showMessage(withTitle: "エラー", message: "適切なメールアドレスが入力されていません")
-                          
-                           return
-                           
-                       }
-                       AuthService.resetPassword(withEmail: email) { error in
-                           
-                           if let error = error {
-                               self?.showErrorIfNeeded(error)
-                               return
-                           }
-                           
-                           DispatchQueue.main.async {
-                               accountViewController.messageLabel.isHidden = false
-                               accountViewController.messageLabel.text = "リセット用のメールを送りました!"
-                               
-                               
-                           }
-                           
-                           
-                       }
-                           
-                       
-                   })
-           )
-    
-        //キャンセルボタン
-           alert.addAction(
-           UIAlertAction(
-               title: "キャンセル",
-               style: .cancel
-           )
-           )
-           //アラートが表示されるごとにprint
-           self.present(
-           alert,
-           animated: true,
-           completion: {
-               print("アラートが表示された")
-           })
-    
-
-    }
-
-
+  
 }

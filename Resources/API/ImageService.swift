@@ -9,13 +9,12 @@ import FirebaseStorage
 import UIKit
 
 // MARK: - イメージをアップロードする
-struct ImageUploader {
-    // completionでイメージをダンロードする（コールバック）
+struct ImageService {
+    
     static func uploadImage(image: UIImage?, completion: @escaping (String) -> Void){
         guard let image = image else {
             return
         }
-
         guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
         let filename = NSUUID().uuidString
         //filenameで特定のUUIDリファレンスを作成
@@ -34,4 +33,5 @@ struct ImageUploader {
             }
         }
     }
+    
 }

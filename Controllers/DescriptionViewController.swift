@@ -9,7 +9,8 @@ import UIKit
 
 class DescriptionViewController: UIViewController {
     
-     struct Photo {
+    // MARK: - プロパティ
+    struct Photo {
          var imageName: String
      }
   
@@ -36,8 +37,8 @@ class DescriptionViewController: UIViewController {
         pageControl.currentPageIndicatorTintColor = UIColor.black
         return pageControl
     }()
+    
     private lazy var button: UIButton = {
-        
         let button = UIButton()
         button.backgroundColor = .orange
         button.titleLabel?.text = "戻る"
@@ -47,51 +48,22 @@ class DescriptionViewController: UIViewController {
         button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
         button.layer.shadowOpacity = 1.0
-        button.addTarget(self, action: #selector(close), for: .touchUpInside)
+        button.addTarget(self, action: #selector(closeDescriptionViewController), for: .touchUpInside)
         return button
     }()
-    @objc func close() {
-        button.showAnimation(true)
-        dismiss(animated: true, completion: nil)
-    }
-     private var offsetX: CGFloat = 0
-     private var timer: Timer!
      
+    private var offsetX: CGFloat = 0
+     private var timer: Timer!
+    
+    //MARK: - ライフサイクル
      override func viewDidLoad() {
          super.viewDidLoad()
-         view.backgroundColor = .white
-      let frameGuide = scrollView.frameLayoutGuide
-  
+         
          scrollView.delegate = self
-        
-         
-         view.addSubview(scrollView)
-        
-         view.addSubview(pageControl)
-        
-        frameGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        frameGuide.topAnchor.constraint(equalTo:  pageControl.bottomAnchor, constant: -5).isActive = true
-        frameGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-         frameGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -view.bounds.height / 4).isActive = true
-
+         configureUI()
          setUpImageView()
-
-         pageControl.anchor1(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 2, left: 0, bottom: 0, right: 0),size: .init(width: view.frame.size.width, height: 20))
-         pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-         view.addSubview(button)
-         
-         button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-         button.anchor1(top: scrollView.bottomAnchor,
-                        leading: nil,
-                        bottom: nil,
-                        trailing: nil,
-                        padding: .init(top: 5, left:0 , bottom: 0, right: 0),
-                        size: .init(width: view.bounds.width / 1.5,
-                                    height: view.bounds.height / 14))
-         button.layer.cornerRadius = view.bounds.width / 18
-
-         // タイマーを作成
-         self.timer = Timer.scheduledTimer(timeInterval: 100, target: self, selector: #selector(self.scrollPage), userInfo: nil, repeats: true)
+        
+         self.timer = Timer.scheduledTimer(timeInterval: 100, target: self, selector: #selector(scrollPage), userInfo: nil, repeats: true)
      }
      
      // タイマーを破棄
@@ -101,6 +73,7 @@ class DescriptionViewController: UIViewController {
              workingTimer.invalidate()
          }
      }
+    
     override func viewDidLayoutSubviews() {
      super.viewDidLayoutSubviews()
         scrollView.isPagingEnabled = true
@@ -108,17 +81,22 @@ class DescriptionViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.size.width * 3, height: view.frame.size.height / 2)
 
     }
-
-     // UIImageViewを生成
-     func createImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, image: Photo) -> UIImageView {
+    
+    //MARK: - メソッド等
+    
+    @objc func closeDescriptionViewController() {
+        button.showAnimation(true)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    private func createImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, image: Photo) -> UIImageView {
          let imageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
          let image = UIImage(named:  image.imageName)
          imageView.image = image
          return imageView
      }
      
-     // photoListの要素分UIImageViewをscrollViewに並べる
-     func setUpImageView() {
+    private func setUpImageView() {
          for i in 0 ..< self.photoList.count {
              let photoItem = self.photoList[i]
              let imageView = createImageView(x: 0, y: 0, width: self.scrollView.frame.size.width, height: self.scrollView.frame.size.height , image: photoItem)
@@ -132,11 +110,10 @@ class DescriptionViewController: UIViewController {
              imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true
              imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor,constant:  -20).isActive = true
              imageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor,constant: -20).isActive = true
-
          }
      }
     
-//     // offsetXの値を更新することページを移動
+    // offsetXの値を更新することページを移動
      @objc func scrollPage() {
          // 画面の幅分offsetXを移動
          self.offsetX += self.view.frame.size.width
@@ -152,8 +129,39 @@ class DescriptionViewController: UIViewController {
              }
          }
      }
+    
+    //MARK: - UI等
+    private func configureUI() {
+        
+        view.backgroundColor = .white
+        
+        let frameGuide = scrollView.frameLayoutGuide
+        view.addSubview(scrollView)
+        view.addSubview(pageControl)
+        
+        frameGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        frameGuide.topAnchor.constraint(equalTo:  pageControl.bottomAnchor, constant: -5).isActive = true
+        frameGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        frameGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -view.bounds.height / 4).isActive = true
+        pageControl.anchor1(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 2, left: 0, bottom: 0, right: 0),size: .init(width: view.frame.size.width, height: 20))
+        pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        view.addSubview(button)
+        button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        button.anchor1(top: scrollView.bottomAnchor,
+                       leading: nil,
+                       bottom: nil,
+                       trailing: nil,
+                       padding: .init(top: 5, left:0 , bottom: 0, right: 0),
+                       size: .init(width: view.bounds.width / 1.5,
+                                   height: view.bounds.height / 14))
+        button.layer.cornerRadius = view.bounds.width / 18
+        
+    }
+    
+    
  }
-
+//MARK: - UIScrollViewDelegate
  extension DescriptionViewController: UIScrollViewDelegate {
      func scrollViewDidScroll(_ scrollView: UIScrollView) {
          // scrollViewのページ移動に合わせてpageControlの表示も移動
@@ -161,7 +169,6 @@ class DescriptionViewController: UIViewController {
          // offsetXの値を更新
          self.offsetX = self.scrollView.contentOffset.x
      }
-
 
 }
 

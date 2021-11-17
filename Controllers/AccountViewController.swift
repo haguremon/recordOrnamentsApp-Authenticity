@@ -24,6 +24,7 @@ enum AccountMenu: String,CaseIterable{
 
 class AccountViewController: UIViewController {
     
+    // MARK: - プロパティ等
     var user: User? {
         didSet{
             guard let user = user else { return }
@@ -31,58 +32,47 @@ class AccountViewController: UIViewController {
         }
     }
     
-    let accountMenus: [AccountMenu] = AccountMenu.allCases
-    
+    private let accountMenus: [AccountMenu] = AccountMenu.allCases
     
     weak var delegate: AccountViewControllerDelegate?
-    
-    let collectionViewLayout = CollectionViewLayout()
     
     @IBOutlet weak var profileImageButton: UIButton!
     
     @IBOutlet weak var collectionView: UICollectionView!
+    let collectionViewLayout = CollectionViewLayout()
     
     @IBOutlet weak var messageLabel: UILabel!
     
     private var updateprofileImage: UIImage?
     
     private var updatename: String?
-    private var profileImageUrl: String?
     
+    private var profileImageUrl: String?
     
     @IBOutlet weak var upDateButton: UIButton!
     
-    @IBAction func upDateAccountButton(_ sender: UIButton) {
-        sender.showAnimation(true)
-        showMessage1(withTitle: "写真", message: "プロフィール画像を変更しますか？")
-        
-     
-    }
     private var profileImageImageview: UIImageView = {
         let imageview = UIImageView()
         imageview.isUserInteractionEnabled = true
         return imageview
     }()
     
-   
-    
+    //MARK: - ライフサイクル
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         configureCollectionView()
         configureNavigation()
     }
-    
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem?.isEnabled = false
         
     }
-    
-    // MARK: - Helpers
-    
+   
+    // MARK: - UI等
     private func configureNavigation() {
         navigationItem.title = "アカウント"
         navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
@@ -110,9 +100,9 @@ class AccountViewController: UIViewController {
         setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
-        profileImageButton.layer.cornerRadius = view.bounds.width / 7
+        profileImageButton.layer.cornerRadius = upDateButton.bounds.height / 1.1
         profileImageButton.imageView?.contentMode = .scaleToFill
-        profileImageButton.imageView?.layer.cornerRadius = view.bounds.width / 7
+        profileImageButton.imageView?.layer.cornerRadius = upDateButton.bounds.height / 1.1
         profileImageButton.layer.borderWidth = 1
         profileImageButton.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         profileImageButton.isEnabled = false
@@ -143,9 +133,15 @@ class AccountViewController: UIViewController {
             
         
     }
+    
     @objc public func dismissKeyboard() {
           view.endEditing(true)
       }
+    
+    @IBAction func upDateAccountButton(_ sender: UIButton) {
+        sender.showAnimation(true)
+        showMessage1(withTitle: "写真", message: "プロフィール画像を変更しますか？")
+    }
     
     private func configure(user: User) {
         profileImageImageview.sd_setImage(with: URL(string: user.profileImageUrl), completed: nil)
@@ -172,7 +168,7 @@ class AccountViewController: UIViewController {
         
         let updateUser = UpdateUser(name: updatename, profileImage: updateprofileImage)
         
-        UserService.updateUser(self, ownerUid: user!, updateUser: updateUser) { user in
+        UserService.updateUser(ownerUid: user!, updateUser: updateUser) { user in
             DispatchQueue.main.async {
                 self.showLoader(false)
                 self.navigationItem.leftBarButtonItem?.isEnabled = false
@@ -201,14 +197,12 @@ class AccountViewController: UIViewController {
         Auth.auth().currentUser?.delete {  (error) in
 
             if error == nil {
-                self.presentToViewController()
+                self.openLoginViewController()
             } else {
                 
                 self.showErrorIfNeeded(error)
             }
         }
-        
-        
     }
 }
 
@@ -287,15 +281,11 @@ extension AccountViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        
-//        let accountMenu = accountMenus[indexPath.section]
-//        delegate?.didSelectMeunItem(self, name: accountMenu)
-//        print(accountMenu)
-
+    
         switch accountMenus[indexPath.section] {
 
         case .name:
-            print("")
+            break
         case .password:
             resetPasswordMessege(self)
         case .deleteAccount:
@@ -317,6 +307,12 @@ extension AccountViewController :UIImagePickerControllerDelegate, UINavigationCo
                 return
                 
             }
+        
+        if picker.sourceType == .camera {
+            
+            UIImageWriteToSavedPhotosAlbum(selectedImage,self,nil,nil)
+            
+        }
         self.updateprofileImage = selectedImage
         
         profileImageImageview.image = selectedImage
@@ -350,7 +346,7 @@ extension AccountViewController :UIImagePickerControllerDelegate, UINavigationCo
             picker.sourceType = camera
             picker.delegate = self
             picker.allowsEditing = true
-    
+            self.permissionDialog()
             present(picker, animated: true, completion: nil)
             
        }  else {
@@ -378,41 +374,37 @@ extension AccountViewController :UIImagePickerControllerDelegate, UINavigationCo
 
 
 
-
-extension AccountViewController: AccountCollectionViewCellDelegat{
-    func textFieldShouldReturnCell(_ cell: AccountCollectionViewCell) -> Bool {
-        if user?.name == cell.textField.text {
-            updatename = cell.textField.text
-            if updateprofileImage == nil {
+//MARK: - AccountCollectionViewCellDelegat
+extension AccountViewController: AccountCollectionViewCellDelegat {
+    func textFieldShouldReturnCell(_ cell: AccountCollectionViewCell)  {
+        
+        cell.textField.resignFirstResponder()
+        
+        if user?.name == cell.textField.text && updateprofileImage == nil{
+           updatename = cell.textField.text
             navigationItem.leftBarButtonItem?.isEnabled = false
-            }
-            return false
         } else {
             updatename = cell.textField.text
             navigationItem.leftBarButtonItem?.isEnabled = true
-            return true
         }
-       
-
     }
     
-    func cell(_ cell: AccountCollectionViewCell){
+    func textFieldDidEndEditingCell(_ cell: AccountCollectionViewCell){
         cell.textField.isEnabled = true
-        if user?.name == cell.textField.text {
+        cell.textField.resignFirstResponder()
+        if user?.name == cell.textField.text && updateprofileImage == nil {
             updatename = cell.textField.text
-            if updateprofileImage == nil {
             navigationItem.leftBarButtonItem?.isEnabled = false
-            }
         } else {
             updatename = cell.textField.text
             navigationItem.leftBarButtonItem?.isEnabled = true
         }
-    
     }
 }
+
 extension AccountViewController {
    
-    private func presentToViewController() {
+    private func openLoginViewController() {
         
         let loginViewController = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
         loginViewController.modalPresentationStyle = .fullScreen
@@ -453,7 +445,6 @@ extension AccountViewController {
                            DispatchQueue.main.async {
                                accountViewController.messageLabel.isHidden = false
                                accountViewController.messageLabel.text = "リセット用のメールを送りました!"
-                               
                                
                            }
                            

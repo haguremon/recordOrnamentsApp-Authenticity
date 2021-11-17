@@ -14,11 +14,9 @@ struct User {
     let name: String
     let profileImageUrl: String
     let uid: String
-    //これによって
+    
     var isCurrentUser: Bool {
-        //現在ログインしてるユーザーとUser.uidが同じ場合 true
         return Auth.auth().currentUser?.uid == uid
-        
     }
     
     //辞書型で値が返ってくるので
@@ -29,12 +27,8 @@ struct User {
         self.uid = dictonary["uid"] as? String ?? ""
     }
 }
+
 struct UpdateUser {
     var name: String?
     var profileImage: UIImage?
-//    init(name: String?,profileImage: UIImage?){
-//        self.name = name
-//        self.profileImage = profileImage
-//
-//    }
 }

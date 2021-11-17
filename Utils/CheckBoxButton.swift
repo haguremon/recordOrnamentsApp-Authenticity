@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 class CheckBox: UIButton {
-    // Images
+  
+   //MARK: - プロパティ等
     let checkedImage = UIImage(systemName: "checkmark.square.fill")
     let uncheckedImage = UIImage(systemName: "square")
     // Bool property
