@@ -9,12 +9,13 @@
 import UIKit
 
 class HeaderCollectionReusableView: UICollectionReusableView {
-     let headerLabel: UILabel = {
+     
+    //MARK: - プロパティ等
+    let headerLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
          label.textAlignment = .left
         label.numberOfLines = 0
-   
         label.lineBreakMode = .byWordWrapping
         label.clipsToBounds = true
         label.font = UIFont(name: "Arial-BoldMT", size: 30)
@@ -22,6 +23,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         return label
     }()
     
+    //MARK: - ライフサイクル
     override init(frame: CGRect) {
         super.init(frame: frame)
     addSubview(headerLabel)
@@ -37,7 +39,6 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
         
 }

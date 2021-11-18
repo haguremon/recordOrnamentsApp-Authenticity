@@ -11,10 +11,12 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {        
-       
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        FirebaseApp.configure()
+        Database.database().isPersistenceEnabled = true
+        
         if #available(iOS 13.0, *) {
-           let appearance = UINavigationBarAppearance()
+            let appearance = UINavigationBarAppearance()
             appearance.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
             appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
             UINavigationBar.appearance().standardAppearance = appearance
@@ -23,22 +25,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         sleep(2)
-      
-        FirebaseApp.configure()
-        Database.database().isPersistenceEnabled = true
-       
+    
         return true
     }
     
     // MARK: UISceneSession Lifecycle
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-  
+        
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
     
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-      
+        
     }
     
     

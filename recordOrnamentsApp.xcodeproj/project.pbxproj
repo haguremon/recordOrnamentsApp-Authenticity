@@ -30,7 +30,6 @@
 		CF1D70FA27305A2200DB31A0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = CF1D70F927305A2200DB31A0 /* FirebaseStorage */; };
 		CF1D70FC27305A2200DB31A0 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = CF1D70FB27305A2200DB31A0 /* FirebaseStorageCombine-Community */; };
 		CF1D70FE27305A2200DB31A0 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = CF1D70FD27305A2200DB31A0 /* FirebaseStorageSwift-Beta */; };
-		CF7EB68F2744C4970005A513 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7EB68E2744C4970005A513 /* LaunchScreenViewController.swift */; };
 		CF829F03272A9174000F6DC1 /* recordOrnamentsAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F02272A9174000F6DC1 /* recordOrnamentsAppTests.swift */; };
 		CF829F0D272A9174000F6DC1 /* recordOrnamentsAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F0C272A9174000F6DC1 /* recordOrnamentsAppUITests.swift */; };
 		CF829F0F272A9174000F6DC1 /* recordOrnamentsAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F0E272A9174000F6DC1 /* recordOrnamentsAppUITestsLaunchTests.swift */; };
@@ -91,7 +90,6 @@
 		CF14407B274225C600F0E4AE /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		CF14407F2742268000F0E4AE /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CF151E11272FD75C00D774B6 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
-		CF7EB68E2744C4970005A513 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		CF829EE8272A9172000F6DC1 /* recordOrnamentsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recordOrnamentsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF829EF9272A9174000F6DC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF829EFE272A9174000F6DC1 /* recordOrnamentsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = recordOrnamentsAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -254,7 +252,6 @@
 		CF829F4B272A94F7000F6DC1 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				CF7EB68E2744C4970005A513 /* LaunchScreenViewController.swift */,
 				CF1D70FF2730DF2D00DB31A0 /* Authentication */,
 				CF829F53272A94F7000F6DC1 /* OrnamentViewController.swift */,
 				CF829F4E272A94F7000F6DC1 /* UploadPostController.swift */,
@@ -508,7 +505,6 @@
 				CF829F91272BCE90000F6DC1 /* CheckBoxButton.swift in Sources */,
 				CF829F7D272A94F8000F6DC1 /* OrnamentCollectionViewCell.swift in Sources */,
 				CF829F7B272A94F8000F6DC1 /* CollectionViewLayout.swift in Sources */,
-				CF7EB68F2744C4970005A513 /* LaunchScreenViewController.swift in Sources */,
 				CF829F48272A94E5000F6DC1 /* Extensions.swift in Sources */,
 				CF829F89272A94F8000F6DC1 /* Post.swift in Sources */,
 				CF829F84272A94F8000F6DC1 /* UserSerivice.swift in Sources */,

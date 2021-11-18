@@ -16,6 +16,8 @@ struct AuthCredentials {
 }
 
 struct  AuthService {
+    
+    
     static func registerUser(_ viewControllerw: UIViewController,withCredential credentials: AuthCredentials, completion: @escaping FirestoreCompletion) {
         print("DEBUG: Credentials are \(credentials)")
 //
@@ -51,15 +53,19 @@ struct  AuthService {
                 COLLECTION_USERS.document(uid).setData(data,  completion: completion)
             }
        }
+        
     }
+    
     
     static func logUserIn(withEmail email: String, password: String, completion: AuthDataResultCallback?){
         Auth.auth().signIn(withEmail: email, password: password, completion: completion)
     }
     
+    
     static func resetPassword(withEmail email: String, completion: SendPasswordResetCallback?){
         Auth.auth().sendPasswordReset(withEmail: email, completion: completion)
     }
+    
     
     static func errorMessage(of error: Error) -> String {
         var message = "エラーが発生しました"
@@ -83,6 +89,5 @@ struct  AuthService {
         return message
     }
 
-    
     
 }

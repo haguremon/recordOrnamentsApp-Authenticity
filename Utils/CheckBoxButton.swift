@@ -5,8 +5,6 @@
 //  Created by IwasakIYuta on 2021/10/29.
 //
 
-import Foundation
-
 import UIKit
 
 class CheckBox: UIButton {
@@ -14,7 +12,7 @@ class CheckBox: UIButton {
    //MARK: - プロパティ等
     let checkedImage = UIImage(systemName: "checkmark.square.fill")
     let uncheckedImage = UIImage(systemName: "square")
-    // Bool property
+    
     var isChecked: Bool = false {
         didSet{
             if isChecked == true {
@@ -25,7 +23,7 @@ class CheckBox: UIButton {
             }
         }
     }
-    
+    //MARK: - ライフサイクル
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -46,10 +44,11 @@ class CheckBox: UIButton {
         self.layer.shadowOpacity = 1.0
     }
     
-
+//MARK: - 関数等
     @objc func buttonClicked(sender: UIButton) {
         if sender == self {
             isChecked = !isChecked
         }
     }
+    
 }

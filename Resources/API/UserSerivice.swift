@@ -11,41 +11,42 @@ import UIKit
 
 struct UserService {
     
+    
     static func fetchUser(completion: @escaping (User) -> Void) {
-        
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         COLLECTION_USERS.document(uid).getDocument { snapshot, _ in
             guard let dictonary = snapshot?.data() else { return }
             let user = User(dictonary: dictonary)
             completion(user)
-            
         }
+        
     }
+    
     
     static func updateUser(ownerUid user: User,updateUser: UpdateUser, completion: @escaping(User) -> Void) {
         
-            if updateUser.profileImage == nil {
+        if updateUser.profileImage == nil {
             COLLECTION_USERS.document(user.uid).updateData([
-                    "name": updateUser.name as Any
-                ]) { error in
-                    if let error = error {
-                        print("DEBUG: Failed to update user \(error.localizedDescription)")
-                    } else { 
-                        
+                "name": updateUser.name as Any
+            ]) { error in
+                if let error = error {
+                    print("DEBUG: Failed to update user \(error.localizedDescription)")
+                } else {
+                    
                     COLLECTION_USERS.document(user.uid).getDocument { (snapshot, _) in
-                    guard let snapshot = snapshot else { return }
-                    guard let data = snapshot.data() else { return }
-                    let user = User(dictonary: data)
-                    completion(user)
-                        }
+                        guard let snapshot = snapshot else { return }
+                        guard let data = snapshot.data() else { return }
+                        let user = User(dictonary: data)
+                        completion(user)
                     }
                 }
-        
+            }
+            
         } else {
             
-        ImageService.uploadImage( image: updateUser.profileImage) { (profileImageUrl) in
-            COLLECTION_USERS.document(user.uid).updateData([
+            ImageService.uploadImage( image: updateUser.profileImage) { (profileImageUrl) in
+                COLLECTION_USERS.document(user.uid).updateData([
                     "name": updateUser.name as Any,
                     "profileImageUrl": profileImageUrl as Any
                 ]) { error in
@@ -53,21 +54,22 @@ struct UserService {
                         print("Error updating document: \(error.localizedDescription)")
                     } else {
                         
-                    COLLECTION_USERS.document(user.uid).getDocument { (snapshot, _) in
-                    guard let snapshot = snapshot else { return }
-                    guard let data = snapshot.data() else { return }
-                    let user = User(dictonary: data)
-                    completion(user)
+                        COLLECTION_USERS.document(user.uid).getDocument { (snapshot, _) in
+                            guard let snapshot = snapshot else { return }
+                            guard let data = snapshot.data() else { return }
+                            let user = User(dictonary: data)
+                            completion(user)
                         }
-                    
+                        
                     }
                 }
+                
+            }
+            
             
         }
-  
+        
         
     }
     
-}
-
 }

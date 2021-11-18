@@ -10,7 +10,6 @@ import UIKit
 protocol DetailsViewControllerDelegate: AnyObject {
     func controllerDidFinishdeletePost(_ controller: DetailsViewController)
     func controllerDidFinishEditingPost(_ controller: UIViewController)
-
 }
 
 class DetailsViewController: UIViewController {
@@ -31,8 +30,8 @@ class DetailsViewController: UIViewController {
         iv.layer.borderWidth = 1
         return iv
     }()
-    private let shadowView: UIView = {
     
+    private let shadowView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 10
         view.layer.shadowColor = UIColor.black.cgColor
@@ -41,6 +40,7 @@ class DetailsViewController: UIViewController {
         view.layer.shadowRadius = 8
         return view
     }()
+    
     private lazy var checkButton: CheckBox = {
         let button = CheckBox()
         button.addTarget(self, action: #selector(handleCheckButtonTapped), for: .touchUpInside)
@@ -60,9 +60,9 @@ class DetailsViewController: UIViewController {
         button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
         button.layer.shadowOpacity = 1.0
-        
         return button
     }()
+    
     private lazy var editButton: UIButton = {
         let button = UIButton()
         button.setTitle("編集", for: .normal)
@@ -72,7 +72,6 @@ class DetailsViewController: UIViewController {
         button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
         button.layer.shadowOpacity = 1.0
-        
         return button
     }()
     
@@ -86,16 +85,15 @@ class DetailsViewController: UIViewController {
         tv.isSelectable = false
         tv.placeholderShouldCenter = true
         tv.layer.masksToBounds = false
-        
         tv.layer.borderWidth = 1
         tv.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         tv.layer.shadowColor = UIColor.black.cgColor
         tv.layer.shadowOpacity = 0.8
         tv.layer.shadowRadius = 8.0
         tv.layer.shadowOffset = .zero
-        
         return tv
     }()
+    
     private lazy var captionTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "メモ"
@@ -108,9 +106,9 @@ class DetailsViewController: UIViewController {
         tv.isEditable = false
         tv.isSelectable = false
         tv.placeholderShouldCenter = false
- 
         return tv
     }()
+    
     private let passwordLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -120,6 +118,7 @@ class DetailsViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
+    
     private let memoLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -162,36 +161,28 @@ class DetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureNavigation()
         configureUI()
         showLoader(true)
     }
    
+   
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         showLoader(false)
     }
     
-    
     // MARK: - メソッド等
-    
     private func configurepost(post: Post?) {
-        
         guard let post = post else { return }
         
         if post.imagename == "" {
-        
             imagenameTextView.placeholderLabel.isHidden = false
-        
-        }
-        if post.caption == "" {
-            
+        } else if post.caption == "" {
             captionTextView.placeholderLabel.isHidden = false
-            
         }
         
         photoImageView.sd_setImage(with: URL(string: post.imageUrl), completed: nil)
@@ -201,18 +192,18 @@ class DetailsViewController: UIViewController {
         imagenameCharacterCountLabel.text = "\(imagenameTextView.text.count)/15"
         captionCharacterCountLabel.text = "\(captionTextView.text.count)/300"
     }
+    
 
     @objc func handleCheckButtonTapped() {
-        
         DispatchQueue.main.async {
             self.showEditModeMessage()
             self.checkButton.isChecked = self.post!.isSetPassword
         }
-    
     }
     
    
     @objc func removePost() {
+        
         DispatchQueue.main.async {
             self.deleteButton.showAnimation(true)
         }
@@ -220,92 +211,74 @@ class DetailsViewController: UIViewController {
         let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "削除する", style: .default, handler: { [ weak self ] _ in
-           
+
             DispatchQueue.main.async {
                 self?.deletePost()
             }
             self?.delegate?.controllerDidFinishdeletePost(self!)
         
         }))
-        
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
         
-        present(alert, animated: true, completion: nil)
-        
-        
+        present(alert, animated: true)
     }
+    
     
     private func deletePost() {
-        
         PostService.deletePost(withPostId: post!.postId)
-        
     }
 
-    
     
     private func showEditModeMessage() {
         let alert = UIAlertController(title: "編集", message: "編集画面に変更しますか？", preferredStyle: .alert)
+        
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [ weak self ] _ in
-           
                 self?.editingMode()
-        
         }))
-        
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
         
-        present(alert, animated: true, completion: nil)
+        present(alert, animated: true)
     }
 
-    
-    
-    
-    @objc func didTapClose(){
-        
+
+    @objc func didTapClose() {
         navigationController?.popViewController(animated: true)
-
     }
-    
+        
     
     @objc func didTapDone() {
+        
         DispatchQueue.main.async {
             self.editButton.showAnimation(true)
         }
         
         editingMode()
-        
-       
     }
    
     
-    
     @objc func editingMode() {
-       
         let editViewController = EditViewController(user: self.user!, post: self.post!)
         editViewController.delegate = self
-        navigationController?.pushViewController(editViewController, animated: true)
-    
-    }
-    private func configureNavigation() {
         
+        navigationController?.pushViewController(editViewController, animated: true)
+    }
+    
+   
+    private func configureNavigation() {
         navigationItem.title = "詳細"
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapClose))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "編集", style: .done, target: self, action: #selector(editingMode))
         navigationItem.rightBarButtonItem?.tintColor = .blue
-        
-        
     }
        
     
-    
     // MARK: - UI等
-    func configureUI(){
-        
+    private func configureUI(){
         setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
   
-       
         view.addSubview(imagenameTextView)
         imagenameTextView.setDimensions(height: view.bounds.height / 13, width: view.bounds.width / 1.08)
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
@@ -323,8 +296,6 @@ class DetailsViewController: UIViewController {
         photoImageView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
         photoImageView.centerX(inView: view)
-        
-       
         photoImageView.layer.cornerRadius = 10
        
         let verticalStackView = UIStackView()
@@ -379,17 +350,19 @@ class DetailsViewController: UIViewController {
         imagenameTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
         captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
         captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
-        
     }
+    
+    
 }
+
 
 //MARK: - EditViewControllerDelegate
 extension DetailsViewController: EditViewControllerDelegate {
     
-    func controllerDidFinishUploadingPost(_ controller: EditViewController) {
-        
-        self.delegate?.controllerDidFinishEditingPost(controller)
     
+    func controllerDidFinishUploadingPost(_ controller: EditViewController) {
+        self.delegate?.controllerDidFinishEditingPost(controller)
     }
+   
     
 }

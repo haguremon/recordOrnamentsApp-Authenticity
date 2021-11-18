@@ -9,6 +9,7 @@ import Firebase
 import UIKit
 
 struct  PostService {
+    
     //MARK: - Firebaseに保存する処理
     static func uploadPost(caption: String, image: UIImage, imagename: String,setpassword: Bool, password: String?, user: User,completion: @escaping(FirestoreCompletion)){
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -24,12 +25,12 @@ struct  PostService {
                         "ownerImageUrl": user.profileImageUrl,
                         "ownerUsername": user.name] as [String: Any]
             
-        
             COLLETION_POSTS.addDocument(data: data, completion: completion)
-            
-
         }
+        
     }
+    
+    
     static func updatePost(ownerUid uid: Post,updatepost: Submissions, completion: @escaping(Post) -> Void) {
         
         COLLETION_POSTS.document(uid.postId).updateData([
@@ -50,10 +51,11 @@ struct  PostService {
                     }
                 
                 }
+                
             }
         
-        
     }
+    
     
     static func resetPasswordPost(ownerUid uid: Post,updatepost: ResetData, completion: @escaping(Post) -> Void) {
                 COLLETION_POSTS.document(uid.postId).updateData([
@@ -61,7 +63,6 @@ struct  PostService {
                         "isSetPassword": updatepost.isSetPassword as Any
                     ]) { error in
                         if let error = error {
-                            
                             print("DEBUG: Failed to resetPassword Post \(error.localizedDescription)")
                         } else { 
                             
@@ -75,11 +76,10 @@ struct  PostService {
                         }
                     }
                 
-                
             }
     
+    
     static func fetchPosts(forUser uid: String, completion: @escaping([Post]) -> Void) {
-      
         let query = COLLETION_POSTS.whereField("ownerUid", isEqualTo: uid)
       
         query.getDocuments { (snapshot, error) in
@@ -94,12 +94,12 @@ struct  PostService {
             posts.sort { (post1, post2) -> Bool in
                 return post1.timestamp.seconds > post2.timestamp.seconds
             }
-            
             completion(posts)
-            
         }
+        
     }
     
+
     static func fetchPost(withPostId postId: String, completion: @escaping(Post) -> Void) {
         COLLETION_POSTS.document(postId).getDocument { (snapshot, _) in
             guard let snapshot = snapshot else { return }
@@ -107,7 +107,9 @@ struct  PostService {
             let post = Post(postId: snapshot.documentID, dictonary: data)
             completion(post)
         }
+        
     }
+    
     
     static func deletePost( withPostId postId: String) {
         COLLETION_POSTS.document(postId).delete { error in

@@ -61,7 +61,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5T6-nv-Uxb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-810" y="141"/>
+            <point key="canvasLocation" x="-1452" y="98"/>
         </scene>
         <!--New Registration View Controller-->
         <scene sceneID="Rdd-Ha-gO6">
@@ -251,12 +251,11 @@
                         <outlet property="profileImageButton" destination="gaa-ak-9A1" id="ZTI-BJ-AaN"/>
                         <outlet property="registerButton" destination="JYJ-du-k2j" id="a7d-Wb-ZzK"/>
                         <outlet property="userNameTextField" destination="dNx-vF-Jh1" id="mtM-BY-jSb"/>
-                        <segue destination="1h8-j4-uW9" kind="presentation" modalPresentationStyle="fullScreen" id="5f7-RW-PCK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ACa-D9-802" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="457" y="-549"/>
+            <point key="canvasLocation" x="-658" y="-583"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vuJ-QU-Y4z">
@@ -277,7 +276,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xiq-gJ-Hty" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1541" y="141"/>
+            <point key="canvasLocation" x="-2390" y="99"/>
         </scene>
         <!--アカウント-->
         <scene sceneID="8Bd-Wo-DWe">
@@ -379,7 +378,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X6s-Jv-Bef" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1675" y="-567"/>
+            <point key="canvasLocation" x="-3009" y="-387"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="sI3-ZT-Uin">
@@ -397,7 +396,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ghc-i6-JeK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2457" y="-567"/>
+            <point key="canvasLocation" x="-3843" y="-387"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="jy7-bs-Pg4">
@@ -586,7 +585,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v6j-ox-KTV" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-168" y="-549"/>
+            <point key="canvasLocation" x="-1490" y="-583"/>
         </scene>
         <!--Side Menu View Controller-->
         <scene sceneID="9Bu-g6-NIo">
@@ -680,7 +679,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="95g-VF-n3b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="df2-eV-E4Z"/>
             </objects>
-            <point key="canvasLocation" x="-933" y="-515"/>
+            <point key="canvasLocation" x="-2283" y="-388"/>
         </scene>
     </scenes>
     <resources>

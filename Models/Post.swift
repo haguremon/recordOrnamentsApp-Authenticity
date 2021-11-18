@@ -5,7 +5,6 @@
 //  Created by IwasakIYuta on 2021/10/26.
 //
 
-import Foundation
 import Firebase
 
 struct Post {

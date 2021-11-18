@@ -11,15 +11,15 @@ class DescriptionViewController: UIViewController {
     
     // MARK: - プロパティ
     struct Photo {
-         var imageName: String
-     }
-  
-     var photoList = [
-         Photo(imageName: "Description1"),
-         Photo(imageName: "Description2"),
-         Photo(imageName: "Description3")
-     ]
-     
+        var imageName: String
+    }
+    
+    var photoList = [
+        Photo(imageName: "Description1"),
+        Photo(imageName: "Description2"),
+        Photo(imageName: "Description3")
+    ]
+    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .blue
@@ -28,7 +28,7 @@ class DescriptionViewController: UIViewController {
         return scrollView
     }()
     
-   
+    
     private var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.numberOfPages = 3
@@ -51,83 +51,84 @@ class DescriptionViewController: UIViewController {
         button.addTarget(self, action: #selector(closeDescriptionViewController), for: .touchUpInside)
         return button
     }()
-     
+    
     private var offsetX: CGFloat = 0
-     private var timer: Timer!
+    private var timer: Timer!
     
     //MARK: - ライフサイクル
-     override func viewDidLoad() {
-         super.viewDidLoad()
-         
-         scrollView.delegate = self
-         configureUI()
-         setUpImageView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        scrollView.delegate = self
+        configureUI()
+        setUpImageView()
+        self.timer = Timer.scheduledTimer(timeInterval: 100, target: self, selector: #selector(scrollPage), userInfo: nil, repeats: true)
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
-         self.timer = Timer.scheduledTimer(timeInterval: 100, target: self, selector: #selector(scrollPage), userInfo: nil, repeats: true)
-     }
-     
-     override func viewWillDisappear(_ animated: Bool) {
-         super.viewWillDisappear(animated)
-         if let workingTimer = self.timer {
-             workingTimer.invalidate()
-         }
-     }
+        if let workingTimer = self.timer {
+            workingTimer.invalidate()
+        }
+    }
+    
     
     override func viewDidLayoutSubviews() {
-     super.viewDidLayoutSubviews()
+        super.viewDidLayoutSubviews()
         scrollView.isPagingEnabled = true
         scrollView.alwaysBounceHorizontal = true
         scrollView.contentSize = CGSize(width: view.frame.size.width * 3, height: view.frame.size.height / 2)
-
+        
     }
     
     //MARK: - メソッド等
-    
     @objc func closeDescriptionViewController() {
         button.showAnimation(true)
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
     
-    private func createImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, image: Photo) -> UIImageView {
-         let imageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
-         let image = UIImage(named:  image.imageName)
-         imageView.image = image
-         return imageView
-     }
-     
-    private func setUpImageView() {
-         for i in 0 ..< self.photoList.count {
-             let photoItem = self.photoList[i]
-             let imageView = createImageView(x: 0, y: 0, width: self.scrollView.frame.size.width, height: self.scrollView.frame.size.height , image: photoItem)
-             imageView.frame = CGRect(origin: CGPoint(x: self.scrollView.frame.size.width * 3, y: 0), size: CGSize(width: self.scrollView.frame.size.width - 100, height: view.frame.size.height / 2 - 50))
-             
-             imageView.translatesAutoresizingMaskIntoConstraints = false
-             imageView.backgroundColor = .gray
-             
-             scrollView.addSubview(imageView)
-             imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor,constant: view.frame.size.width * CGFloat(i)).isActive = true
-             imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true
-             imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor,constant:  -20).isActive = true
-             imageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor,constant: -20).isActive = true
-         }
-     }
     
+    private func createImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, image: Photo) -> UIImageView {
+        let imageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
+        let image = UIImage(named:  image.imageName)
+        imageView.image = image
+        return imageView
+    }
+    
+    
+    private func setUpImageView() {
+        
+        for i in 0 ..< self.photoList.count {
+            let photoItem = self.photoList[i]
+            let imageView = createImageView(x: 0, y: 0, width: self.scrollView.frame.size.width, height: self.scrollView.frame.size.height , image: photoItem)
+            imageView.frame = CGRect(origin: CGPoint(x: self.scrollView.frame.size.width * 3, y: 0), size: CGSize(width: self.scrollView.frame.size.width - 100, height: view.frame.size.height / 2 - 50))
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.backgroundColor = .gray
+            
+            scrollView.addSubview(imageView)
+            imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor,constant: view.frame.size.width * CGFloat(i)).isActive = true
+            imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true
+            imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor,constant:  -20).isActive = true
+            imageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor,constant: -20).isActive = true
+        }
+    }
     // offsetXの値を更新することページを移動
-     @objc func scrollPage() {
-         // 画面の幅分offsetXを移動
-         self.offsetX += self.view.frame.size.width
-         // 3ページ目まで移動したら1ページ目まで戻る
-         if self.offsetX < self.view.frame.size.width * 3 {
-             UIView.animate(withDuration: 0.3) {
-                 self.scrollView.contentOffset.x = self.offsetX
-             }
-         } else {
-             UIView.animate(withDuration: 0.3) {
-                 self.offsetX = 0
-                 self.scrollView.contentOffset.x = self.offsetX
-             }
-         }
-     }
+    @objc func scrollPage() {
+        // 画面の幅分offsetXを移動
+        self.offsetX += self.view.frame.size.width
+        // 3ページ目まで移動したら1ページ目まで戻る
+        if self.offsetX < self.view.frame.size.width * 3 {
+            UIView.animate(withDuration: 0.3) {
+                self.scrollView.contentOffset.x = self.offsetX
+            }
+        } else {
+            UIView.animate(withDuration: 0.3) {
+                self.offsetX = 0
+                self.scrollView.contentOffset.x = self.offsetX
+            }
+        }
+    }
     
     //MARK: - UI等
     private func configureUI() {
@@ -159,15 +160,20 @@ class DescriptionViewController: UIViewController {
     }
     
     
- }
-//MARK: - UIScrollViewDelegate
- extension DescriptionViewController: UIScrollViewDelegate {
-     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-         // scrollViewのページ移動に合わせてpageControlの表示も移動
-         self.pageControl.currentPage = Int(self.scrollView.contentOffset.x / self.scrollView.frame.size.width)
-         // offsetXの値を更新
-         self.offsetX = self.scrollView.contentOffset.x
-     }
+}
 
+
+//MARK: - UIScrollViewDelegate
+extension DescriptionViewController: UIScrollViewDelegate {
+    
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // scrollViewのページ移動に合わせてpageControlの表示も移動
+        self.pageControl.currentPage = Int(self.scrollView.contentOffset.x / self.scrollView.frame.size.width)
+        // offsetXの値を更新
+        self.offsetX = self.scrollView.contentOffset.x
+    }
+    
+    
 }
 

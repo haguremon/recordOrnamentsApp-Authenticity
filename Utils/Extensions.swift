@@ -12,6 +12,7 @@ import AVKit
 extension UIViewController {
     
     static let hud = JGProgressHUD(style: .dark)
+    
     func showLoader(_ show: Bool) {
         view.endEditing(true)
         
@@ -22,50 +23,49 @@ extension UIViewController {
         }
     }
     
+    
     func showMessage(withTitle title: String, message: String,handler: ((UIAlertAction) -> Void)? = nil){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: handler))
-        present(alert, animated: true, completion: nil)
+        
+        present(alert, animated: true)
     }
-    
-    
     
     
     func showErrorIfNeeded(_ errorOrNil: Error?) {
-
         guard let error = errorOrNil else { return }
-       
+        
         let message =  AuthService.errorMessage(of: error)
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        present(alert, animated: true)
     }
     
-
-        private final class StatusBarView: UIView { }
-
-        func setStatusBarBackgroundColor(_ color: UIColor?) {
-            for subView in self.view.subviews where subView is StatusBarView {
-                subView.removeFromSuperview()
-            }
-            guard let color = color else {
-                return
-            }
-            let statusBarView = StatusBarView()
-            statusBarView.backgroundColor = color
-            self.view.addSubview(statusBarView)
-            statusBarView.translatesAutoresizingMaskIntoConstraints = false
-            statusBarView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-            statusBarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-            statusBarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-            statusBarView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+    
+    private final class StatusBarView: UIView { }
+    
+    func setStatusBarBackgroundColor(_ color: UIColor?) {
+        for subView in self.view.subviews where subView is StatusBarView {
+            subView.removeFromSuperview()
         }
-   
-
-    func permissionDialog(){
-
+        guard let color = color else {
+            return
+        }
+        let statusBarView = StatusBarView()
+        statusBarView.backgroundColor = color
+        self.view.addSubview(statusBarView)
+        statusBarView.translatesAutoresizingMaskIntoConstraints = false
+        statusBarView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        statusBarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        statusBarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        statusBarView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+    }
+    
+    
+    func showPermissionMessage() {
         let auth = AVCaptureDevice.authorizationStatus(for: .video)
-
+        
         switch auth {
         case .notDetermined:
             print("notDetermined")
@@ -76,39 +76,39 @@ extension UIViewController {
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
                 
                 if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-             }
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
                 
             }))
             alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
             
-            present(alert, animated: true, completion: nil)
+            present(alert, animated: true)
             
         case .authorized:
             print("authorized")
-        
+            
         @unknown default:
             fatalError()
         }
-        
+    }
+    
+    
+}
+
+
+extension UITextField {
+    
+    var lupeImageView: UIImageView? {
+        return leftView as? UIImageView
     }
     
 }
-   
-
-extension UITextField {
-
-  var lupeImageView: UIImageView? {
-    return leftView as? UIImageView
-  }
-}
-
 
 
 extension UIButton {
     
+    
     func pulsate(){
-
         let pulse = CASpringAnimation(keyPath: "transform.scale")
         
         pulse.duration = 0.05
@@ -121,46 +121,48 @@ extension UIButton {
         
         layer.add(pulse, forKey: nil)
     }
-
+    
     
     func errorAnimation (duration: CFTimeInterval) {
         let shake = CASpringAnimation(keyPath: "position")
+        
         shake.duration = duration
         shake.repeatCount = 2
         shake.autoreverses = true
         shake.damping = 2.0
         shake.stiffness = 120
+        
         let fromPoint = CGPoint(x: center.x - 4 , y: center.y)
         let toPoint = NSValue(cgPoint: fromPoint)
-        
         shake.fromValue = fromPoint
         shake.toValue = toPoint
         
         layer.add(shake, forKey: nil)
     }
     
+    
     func touchStartAnimation(duration: TimeInterval,delay: TimeInterval) {
-       UIView.animate(withDuration: duration, delay: delay, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
-           self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95);
-           self.alpha = 0.9
-       },completion: nil)
-   }
-
+        UIView.animate(withDuration: duration, delay: delay, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
+            self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95);
+            self.alpha = 0.9
+        },completion: nil)
+    }
     
     
     func showAnimation(_ show: Bool) {
         if show {
             pulsate()
-            
         } else {
             errorAnimation(duration: 0.01)
-            
         }
     }
     
     
 }
+
+
 extension UIView {
+    
     
     func anchor(top: NSLayoutYAxisAnchor? = nil,
                 left: NSLayoutXAxisAnchor? = nil,
@@ -199,39 +201,41 @@ extension UIView {
             heightAnchor.constraint(equalToConstant: height).isActive = true
         }
     }
-        func anchor1(top: NSLayoutYAxisAnchor?,
-                    leading: NSLayoutXAxisAnchor?,
-                    bottom: NSLayoutYAxisAnchor?,
-                    trailing: NSLayoutXAxisAnchor?,
-                    padding: UIEdgeInsets = .zero,
-                    size: CGSize = .zero) {
-            translatesAutoresizingMaskIntoConstraints = false
-            
-            if let top = top {
-                topAnchor.constraint(equalTo: top, constant: padding.top).isActive = true
-            }
-            
-            if let leading = leading {
-                leadingAnchor.constraint(equalTo: leading, constant: padding.left).isActive = true
-            }
-            
-            if let bottom = bottom {
-                bottomAnchor.constraint(equalTo: bottom, constant: -padding.bottom).isActive = true
-            }
-            
-            if let trailing = trailing {
-                trailingAnchor.constraint(equalTo: trailing, constant: -padding.right).isActive = true
-            }
-            
-            if size.width != 0 {
-                widthAnchor.constraint(equalToConstant: size.width).isActive = true
-            }
-            
-            if size.height != 0 {
-                heightAnchor.constraint(equalToConstant: size.height).isActive = true
-            }
-    }
     
+    
+    func anchor1(top: NSLayoutYAxisAnchor?,
+                 leading: NSLayoutXAxisAnchor?,
+                 bottom: NSLayoutYAxisAnchor?,
+                 trailing: NSLayoutXAxisAnchor?,
+                 padding: UIEdgeInsets = .zero,
+                 size: CGSize = .zero) {
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        if let top = top {
+            topAnchor.constraint(equalTo: top, constant: padding.top).isActive = true
+        }
+        
+        if let leading = leading {
+            leadingAnchor.constraint(equalTo: leading, constant: padding.left).isActive = true
+        }
+        
+        if let bottom = bottom {
+            bottomAnchor.constraint(equalTo: bottom, constant: -padding.bottom).isActive = true
+        }
+        
+        if let trailing = trailing {
+            trailingAnchor.constraint(equalTo: trailing, constant: -padding.right).isActive = true
+        }
+        
+        if size.width != 0 {
+            widthAnchor.constraint(equalToConstant: size.width).isActive = true
+        }
+        
+        if size.height != 0 {
+            heightAnchor.constraint(equalToConstant: size.height).isActive = true
+        }
+        
+    }
     
     
     func center(inView view: UIView, yConstant: CGFloat? = 0) {
@@ -240,6 +244,7 @@ extension UIView {
         centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: yConstant!).isActive = true
     }
     
+    
     func centerX(inView view: UIView, topAnchor: NSLayoutYAxisAnchor? = nil, paddingTop: CGFloat? = 0) {
         translatesAutoresizingMaskIntoConstraints = false
         centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -247,7 +252,9 @@ extension UIView {
         if let topAnchor = topAnchor {
             self.topAnchor.constraint(equalTo: topAnchor, constant: paddingTop!).isActive = true
         }
+        
     }
+    
     
     func centerY(inView view: UIView, leftAnchor: NSLayoutXAxisAnchor? = nil,
                  paddingLeft: CGFloat = 0, constant: CGFloat = 0) {
@@ -258,23 +265,28 @@ extension UIView {
         if let left = leftAnchor {
             anchor(left: left, paddingLeft: paddingLeft)
         }
+        
     }
     
+
     func setDimensions(height: CGFloat, width: CGFloat) {
         translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalToConstant: height).isActive = true
         widthAnchor.constraint(equalToConstant: width).isActive = true
     }
     
+    
     func setHeight(_ height: CGFloat) {
         translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalToConstant: height).isActive = true
     }
     
+    
     func setWidth(_ width: CGFloat) {
         translatesAutoresizingMaskIntoConstraints = false
         widthAnchor.constraint(equalToConstant: width).isActive = true
     }
+    
     
     func fillSuperview() {
         translatesAutoresizingMaskIntoConstraints = false
@@ -282,41 +294,8 @@ extension UIView {
         anchor(top: view.topAnchor, left: view.leftAnchor,
                bottom: view.bottomAnchor, right: view.rightAnchor)
     }
+    
+    
 }
 
 
-
-
-
-
-
-
-
-extension UIWindow {
-
-    func beginIgnoringInteractionEvents() {
-        let overlayView = UIView(frame: bounds)
-        overlayView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        overlayView.tag = 10000
-            addSubview(overlayView)
-    }
-
-    func endIgnoringInteractionEvents() {
-        viewWithTag(10000)?.removeFromSuperview()
-    }
-}
-extension UIButton {
-  func becomeImageAlwaysTemplate() {
-      if let image = image(for: .highlighted) {
-        let paintedImage = image.withRenderingMode(.alwaysTemplate)
-          setImage(paintedImage, for: .normal)
-        setImage(paintedImage, for: .highlighted)
-    }
-  }
-}
-
-extension UIImageView {
-  func becomeImageAlwaysTemplate() {
-      image = image?.withRenderingMode(.alwaysTemplate)
-  }
-}

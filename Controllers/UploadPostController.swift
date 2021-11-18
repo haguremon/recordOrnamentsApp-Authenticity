@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import AVKit
 
 protocol UploadPostControllerDelegate: AnyObject {
     func controllerDidFinishUploadingPost(_ controller: UploadPostController)
@@ -16,14 +15,13 @@ class UploadPostController: UIViewController {
    
    // MARK: - プロパティ等
     weak var delegate: UploadPostControllerDelegate?
+    
     var currentUser: User?
     
     var selectedImage: UIImage? {
         didSet{ photoImageView.image = selectedImage }
     }
-    
-    private let sessionQueue = DispatchQueue(label: "session_queue")
-    
+        
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
@@ -58,10 +56,11 @@ class UploadPostController: UIViewController {
         tv.text = ""
         tv.delegate = self
         tv.placeholderShouldCenter = false
+        tv.keyboardType = .default
         tv.returnKeyType = .next
-        
         return tv
     }()
+    
     private lazy var captionTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "メモをする"
@@ -71,6 +70,7 @@ class UploadPostController: UIViewController {
         tv.text = ""
         tv.delegate = self
         tv.placeholderShouldCenter = false
+        tv.keyboardType = .default
         tv.returnKeyType = .done
         return tv
     }()
@@ -90,6 +90,7 @@ class UploadPostController: UIViewController {
         label.text = "0/15"
         return label
     }()
+    
     private lazy var checkButton: CheckBox = {
         let button = CheckBox()
         button.addTarget(self, action: #selector(habdleSetPassword), for: .touchUpInside)
@@ -110,6 +111,7 @@ class UploadPostController: UIViewController {
         label.textAlignment = .center
         return label
     }()
+    
     private let password: UILabel = {
         let label = UILabel()
         label.isEnabled = true
@@ -128,28 +130,25 @@ class UploadPostController: UIViewController {
     
     // MARK: - メソッド等
     @objc func addPhoto() {
-        
         addPhotoButton.showAnimation(true)
         showMessage1(withTitle: "写真", message: "写真を追加しますか？")
- 
-        
     }
+    
+    
     @objc func habdleSetPassword() {
         
         if checkButton.isChecked {
-        
-        showMessage2(withTitle: "パスワード", message: "保存した写真に非表示になり、保管場所でパスワードが要求されます")
-        } else {
-            
-            print(checkButton.isChecked)
-        
+        showMessage2(withTitle: "パスワード", message: "保存した写真は非表示になり、置き場所でパスワードが要求されます")
         }
-
+        
     }
     
-    @objc func didTapCancel(){
+    
+    @objc func didTapCancel() {
         self.navigationController?.popViewController(animated: true)
     }
+    
+    
     private func uploadPost() {
         imagenameTextView.resignFirstResponder()
         captionTextView.resignFirstResponder()
@@ -160,31 +159,33 @@ class UploadPostController: UIViewController {
         guard let user = currentUser else { return }
         let password = password.text
         let setPassword = checkButton.isChecked
+        
         showLoader(true)
+        
         navigationItem.rightBarButtonItem?.isEnabled = false
         
         PostService.uploadPost(caption: caption, image: image, imagename: imagename, setpassword: setPassword, password: password, user: user) { (error) in
-         
             self.showLoader(false)
-            self.navigationItem.leftBarButtonItem?.isEnabled = true
+    
             
             if let error = error {
-                self.showErrorIfNeeded(error)
+                self.showLoader(false)
+                self.showMessage(withTitle: "エラー", message: "\(error.localizedDescription)")
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
                 return
             }
-            print("成功やで")
             self.delegate?.controllerDidFinishUploadingPost(self)
-
         }
+        
     }
+    
+   
     @objc func didTapDone() {
-       
         uploadPost()
     }
    
     // MARK: - UI等
     func configureUI(){
-        
         view.backgroundColor = .white
         imagenameTextView.layer.borderWidth = 1
         imagenameTextView.layer.borderColor = UIColor.gray.cgColor
@@ -204,7 +205,6 @@ class UploadPostController: UIViewController {
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 5)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
-        
         
         let verticalStackView = UIStackView()
             verticalStackView.axis = .vertical
@@ -244,34 +244,39 @@ class UploadPostController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
+    
+    
     private func configureNavigation() {
-        
         navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
         navigationItem.title = "保管"
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didTapDone))
         navigationItem.rightBarButtonItem?.tintColor = .blue
-        
     }
+    
+    
 }
+
 //MARK: - Dialog等
 extension UploadPostController {
     
+    
     func showMessage1(withTitle title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "カメラで撮影", style: .default, handler: { [ weak self ] _ in
+        let actionSheet = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "カメラで撮影", style: .default, handler: { [ weak self ] _ in
             self?.setCamera()
         }))
-        alert.addAction(UIAlertAction(title: "写真を選択", style: .default, handler: { [ weak self ] _ in
+        actionSheet.addAction(UIAlertAction(title: "写真を選択", style: .default, handler: { [ weak self ] _ in
             self?.setAlbum()
         }))
-        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
         
-        present(alert, animated: true, completion: nil)
+        present(actionSheet, animated: true)
     }
     
-    func message(withTitle title: String, message: String){
-        
+    
+    func message(withTitle title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.view.setNeedsFocusUpdate()
                alert.addTextField(configurationHandler: {(textField) -> Void in
@@ -307,11 +312,11 @@ extension UploadPostController {
         
     }
     
+    
     func showMessage2(withTitle title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "パスワードつける", style: .default, handler: { [ weak self ] _ in
-         
             self?.message(withTitle: "パスワード", message: "パスワードを入力してください")
             
             DispatchQueue.main.async {
@@ -327,10 +332,8 @@ extension UploadPostController {
      
         }))
         
-        present(alert, animated: true, completion: nil)
+        present(alert, animated: true)
     }
-    
-    
     
     
 }
@@ -339,16 +342,20 @@ extension UploadPostController {
 //MARK: - キーボード周り
 extension UploadPostController {
     
+    
     @objc private func keyboardWillShow(sender: NSNotification) {
+        
         if captionTextView.isFirstResponder {
             guard let userInfo = sender.userInfo else { return }
             let duration: Float = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
             UIView.animate(withDuration: TimeInterval(duration), animations: { () -> Void in
-                let transform = CGAffineTransform(translationX: 0, y: -185)
+                let transform = CGAffineTransform(translationX: 0, y: -190)
                 self.view.transform = transform
             })
         }
+        
     }
+    
     
     @objc func hidekeyboard(){
         UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
@@ -356,6 +363,7 @@ extension UploadPostController {
         })
     }
 
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -369,15 +377,11 @@ extension UploadPostController {
                 textView.deleteBackward()
             }
         case captionTextView:
-
             if (textView.text.count) > 300 {
-    
                 textView.deleteBackward()
             }
-            
         default:
             break
-            
         }
     
     }
@@ -388,6 +392,7 @@ extension UploadPostController {
 // MARK: - UITextViewDelegate
 extension UploadPostController: UITextViewDelegate {
    
+    
     func textViewDidChange(_ textView: UITextView) {
         
         switch textView {
@@ -406,14 +411,15 @@ extension UploadPostController: UITextViewDelegate {
             
         }
     }
+    
+    
     func textViewDidEndEditing(_ textView: UITextView) {
        
         switch textView {
         case imagenameTextView:
             imagenameTextView.resignFirstResponder()
-            addPhoto()
         case captionTextView:
-            uploadPost()
+            captionTextView.resignFirstResponder()
         default:
             break
             
@@ -422,8 +428,10 @@ extension UploadPostController: UITextViewDelegate {
     
     }
     
+    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
                   replacementText text: String) -> Bool {
+        
         if text == "\n" {
             imagenameTextView.resignFirstResponder()
             captionTextView.resignFirstResponder()
@@ -432,14 +440,16 @@ extension UploadPostController: UITextViewDelegate {
         }
         return true
     }
+    
+    
 }
+
 
 //MARK: -UIImagePickerControllerDelegate - カメラ周り
 extension UploadPostController :UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-       
     
-    private func setCamera(){
+    private func setCamera() {
         let camera = UIImagePickerController.SourceType.camera
         let picker = UIImagePickerController()
        
@@ -447,20 +457,22 @@ extension UploadPostController :UIImagePickerControllerDelegate, UINavigationCon
            picker.sourceType = camera
            picker.delegate = self
            picker.allowsEditing = true
-           self.permissionDialog()
            
-           present(picker, animated: true, completion: nil)
-           
+            self.showPermissionMessage()
+          
+            present(picker, animated: true)
        }
     
+        
     }
-    private func setAlbum(){
-         
+    
+   
+    private func setAlbum() {
          let picker = UIImagePickerController()
              picker.delegate = self
              picker.allowsEditing = true
 
-             present(picker, animated: true, completion: nil)
+             present(picker, animated: true)
          }
     
     
@@ -468,21 +480,18 @@ extension UploadPostController :UIImagePickerControllerDelegate, UINavigationCon
             guard let selectedImage = info[.editedImage] as? UIImage else { return }
         
         if picker.sourceType == .camera {
-            
             UIImageWriteToSavedPhotosAlbum(selectedImage,self,nil,nil)
-            
         }
-        self.selectedImage = selectedImage
         
+        self.selectedImage = selectedImage
         photoImageView.layer.masksToBounds = true
         photoImageView.layer.borderColor = UIColor.gray.cgColor
         photoImageView.layer.borderWidth = 2
         photoImageView.image = self.selectedImage
         
         self.dismiss(animated: true)
-
     }
    
-    
+   
 }
 

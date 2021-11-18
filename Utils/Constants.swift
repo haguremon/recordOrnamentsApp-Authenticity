@@ -7,11 +7,7 @@
 
 import Firebase
 
-
 typealias FirestoreCompletion = (Error?) -> Void
-
-
-let settings = FirestoreSettings()
 
 let COLLECTION_USERS = Firestore.firestore().collection("users")
 

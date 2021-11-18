@@ -7,14 +7,15 @@
 
 
 import UIKit
+
 protocol AccountCollectionViewCellDelegat: AnyObject {
-   
     func textFieldDidEndEditingCell(_ cell: AccountCollectionViewCell)
     func textFieldShouldReturnCell(_ cell: AccountCollectionViewCell)
 }
 
 class AccountCollectionViewCell: UICollectionViewCell {
     
+    //MARK: - プロパティ等
     weak var delegat: AccountCollectionViewCellDelegat?
     
     let textField: UITextField = {
@@ -30,7 +31,6 @@ class AccountCollectionViewCell: UICollectionViewCell {
        return tf
    }()
     
-    
      let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -43,6 +43,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
         label.sizeToFit()
         return label
     }()
+    
      let accountMenuLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -55,6 +56,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
         return label
     }()
         
+    //MARK: - ライフサイクル等
     override init(frame: CGRect){
         super.init(frame: frame)
         clipsToBounds = true
@@ -77,7 +79,6 @@ class AccountCollectionViewCell: UICollectionViewCell {
         textField.centerX(inView: self)
      
         contentView.addSubview(accountMenuLabel)
-        
         accountMenuLabel.anchor(top: topAnchor,
                          left: leftAnchor,
                          bottom: bottomAnchor,
@@ -87,13 +88,18 @@ class AccountCollectionViewCell: UICollectionViewCell {
                          paddingBottom: 5,
                          paddingRight: 5)
        
-        
-        
         textField.delegate = self
         
         setup()
    
     }
+    
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    //MARK: - メソッド等
     private func setup() {
         self.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         self.layer.masksToBounds = false
@@ -104,16 +110,15 @@ class AccountCollectionViewCell: UICollectionViewCell {
         self.layer.shadowOpacity = 0.5
         
       }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     
 }
 
+
+//MARK: - UITextFieldDelegate
 extension AccountCollectionViewCell: UITextFieldDelegate {
 
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool  {
           delegat?.textFieldShouldReturnCell(self)
             return true
@@ -122,5 +127,6 @@ extension AccountCollectionViewCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         delegat?.textFieldDidEndEditingCell(self)
     }
+    
 }
 
