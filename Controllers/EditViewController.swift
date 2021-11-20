@@ -190,6 +190,7 @@ final class EditViewController: UIViewController {
     
     
     @objc func removePost() {
+        
         DispatchQueue.main.async {
             self.deleteButton.showSuccessAnimation(true)
         }
@@ -224,6 +225,7 @@ final class EditViewController: UIViewController {
         
         self.showLoader(true)
         editButton.showSuccessAnimation(true)
+        
         let imagename = imagenameTextView.text
         let caption = captionTextView.text
         let setPassword = checkButton.isChecked

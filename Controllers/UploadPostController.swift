@@ -240,7 +240,6 @@ final class UploadPostController: UIViewController {
         
         view.addSubview(captionTextView)
         captionTextView.setDimensions(height: view.bounds.height / 5.5, width: view.bounds.width / 1.08)
-        
         captionTextView.anchor(top: stack.bottomAnchor, paddingTop: 2)
         captionTextView.centerX(inView: view)
         

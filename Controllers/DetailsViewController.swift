@@ -254,6 +254,7 @@ final class DetailsViewController: UIViewController {
    
     
     @objc func editingMode() {
+       
         DispatchQueue.main.async {
             self.editButton.showSuccessAnimation(true)
         }
