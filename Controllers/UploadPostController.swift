@@ -11,7 +11,7 @@ protocol UploadPostControllerDelegate: AnyObject {
     func controllerDidFinishUploadingPost(_ controller: UploadPostController)
 }
 
-class UploadPostController: UIViewController {
+final class UploadPostController: UIViewController {
    
    // MARK: - プロパティ等
     weak var delegate: UploadPostControllerDelegate?
@@ -39,8 +39,6 @@ class UploadPostController: UIViewController {
         button.backgroundColor = .systemRed
         button.tintColor = .white
         button.layer.shadowColor = UIColor.gray.cgColor
-        button.bounds.size.width = 15
-        button.bounds.size.height = 55
         button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
         button.layer.shadowOpacity = 1.0
@@ -57,7 +55,7 @@ class UploadPostController: UIViewController {
         tv.delegate = self
         tv.placeholderShouldCenter = false
         tv.keyboardType = .default
-        tv.returnKeyType = .next
+        tv.returnKeyType = .done
         return tv
     }()
     
@@ -118,6 +116,21 @@ class UploadPostController: UIViewController {
         return label
     }()
     
+    private lazy var saveButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("保存する", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
+        button.backgroundColor = .systemBlue
+        button.showSuccessAnimation(true)
+        button.tintColor = .white
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.cornerRadius = 10
+        button.layer.shadowRadius = 5
+        button.layer.shadowOpacity = 1.0
+        return button
+    }()
+    
     // MARK: - ライフサイクル
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,7 +143,7 @@ class UploadPostController: UIViewController {
     
     // MARK: - メソッド等
     @objc func addPhoto() {
-        addPhotoButton.showAnimation(true)
+        addPhotoButton.showSuccessAnimation(true)
         showMessage1(withTitle: "写真", message: "写真を追加しますか？")
     }
     
@@ -161,7 +174,7 @@ class UploadPostController: UIViewController {
         let setPassword = checkButton.isChecked
         
         showLoader(true)
-        
+        saveButton.isEnabled = false
         navigationItem.rightBarButtonItem?.isEnabled = false
         
         PostService.uploadPost(caption: caption, image: image, imagename: imagename, setpassword: setPassword, password: password, user: user) { (error) in
@@ -172,6 +185,7 @@ class UploadPostController: UIViewController {
                 self.showLoader(false)
                 self.showMessage(withTitle: "エラー", message: "\(error.localizedDescription)")
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
+                self.saveButton.isEnabled = true
                 return
             }
             self.delegate?.controllerDidFinishUploadingPost(self)
@@ -181,6 +195,7 @@ class UploadPostController: UIViewController {
     
    
     @objc func didTapDone() {
+        saveButton.showSuccessAnimation(true)
         uploadPost()
     }
    
@@ -193,50 +208,53 @@ class UploadPostController: UIViewController {
         captionTextView.layer.borderColor = UIColor.gray.cgColor
         
         view.addSubview(imagenameTextView)
-        imagenameTextView.setDimensions(height: view.bounds.height / 13, width: view.bounds.width / 1.08)
+        imagenameTextView.setDimensions(height: view.bounds.height / 14, width: view.bounds.width / 1.08)
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
         imagenameTextView.centerX(inView: view)
         
         view.addSubview(characterCountLabel2)
-        characterCountLabel2.anchor(bottom: imagenameTextView.bottomAnchor, right: view.rightAnchor,paddingBottom: 0, paddingRight: 14)
+        characterCountLabel2.anchor(bottom: imagenameTextView.bottomAnchor, right: imagenameTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
         
         view.addSubview(photoImageView)
-        photoImageView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
+        photoImageView.setDimensions(height: view.bounds.height / 3.3, width: view.bounds.width / 1.15)
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 5)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
         
-        let verticalStackView = UIStackView()
-            verticalStackView.axis = .vertical
-            verticalStackView.alignment = .fill
-            verticalStackView.spacing = 10
-            view.addSubview(verticalStackView)
-       
-        verticalStackView.anchor(top: photoImageView.bottomAnchor,
-                                 paddingTop: 0)
-        verticalStackView.centerX(inView: view)
+      
+        view.addSubview(addPhotoButton)
+        addPhotoButton.setDimensions(height: view.bounds.height / 19.5, width: view.bounds.width / 2.5 )
+        addPhotoButton.anchor(top: photoImageView.bottomAnchor,
+                                 paddingTop: 1)
+        addPhotoButton.centerX(inView: view)
         
         let stack = UIStackView(arrangedSubviews: [passwordLabel, checkButton])
-        stack.axis = .horizontal
-        stack.spacing = 1
-        stack.alignment = .fill
+            stack.axis = .horizontal
+            stack.spacing = 5
+            stack.alignment = .fill
         
-        checkButton.bounds.size.width = checkButton.intrinsicContentSize.width
-        passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
-        
-        verticalStackView.addArrangedSubview(addPhotoButton)
-        verticalStackView.addArrangedSubview(stack)
+        view.addSubview(stack)
+        stack.setWidth(view.bounds.width / 2)
+        stack.anchor(top: addPhotoButton.bottomAnchor,right: view.safeAreaLayoutGuide.rightAnchor,
+                     paddingTop: 5,paddingRight: view.bounds.width / 4.7)
         
         view.addSubview(captionTextView)
         captionTextView.setDimensions(height: view.bounds.height / 5.5, width: view.bounds.width / 1.08)
-        captionTextView.anchor(top: verticalStackView.bottomAnchor, paddingTop: 2)
+        
+        captionTextView.anchor(top: stack.bottomAnchor, paddingTop: 2)
         captionTextView.centerX(inView: view)
         
         view.addSubview(characterCountLabel)
         characterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
         
-        imagenameTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
-        imagenameTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
+        view.addSubview(saveButton)
+        saveButton.setDimensions(height: view.bounds.height / 19.5, width: view.bounds.width / 2.5 )
+        saveButton.anchor(top: captionTextView.bottomAnchor,
+                                 paddingTop:20)
+        saveButton.centerX(inView: view)
+        
+        imagenameTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 27)
+        imagenameTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 27)
         captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
         captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
         
@@ -349,7 +367,7 @@ extension UploadPostController {
             guard let userInfo = sender.userInfo else { return }
             let duration: Float = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
             UIView.animate(withDuration: TimeInterval(duration), animations: { () -> Void in
-                let transform = CGAffineTransform(translationX: 0, y: -190)
+                let transform = CGAffineTransform(translationX: 0, y: -194)
                 self.view.transform = transform
             })
         }
@@ -419,6 +437,7 @@ extension UploadPostController: UITextViewDelegate {
         case imagenameTextView:
             imagenameTextView.resignFirstResponder()
         case captionTextView:
+         
             captionTextView.resignFirstResponder()
         default:
             break
@@ -431,12 +450,29 @@ extension UploadPostController: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
                   replacementText text: String) -> Bool {
-        
-        if text == "\n" {
-            imagenameTextView.resignFirstResponder()
-            captionTextView.resignFirstResponder()
+        let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
+        let newLines = text.components(separatedBy: .newlines)//新規改行数
+        let textViewLines = existingLines + newLines
+    
+        switch textView {
+        case imagenameTextView:
+            if text == "\n" {
+                imagenameTextView.resignFirstResponder()
+                
+                return false
+            }
+        case captionTextView:
+
+            if newLines.count == 2 && existingLines.last == "" && textViewLines.last == "" {
+    
+                captionTextView.resignFirstResponder()
+                
+                return false
+            }
+          
+        default:
+            break
             
-            return false
         }
         return true
     }
@@ -488,7 +524,7 @@ extension UploadPostController :UIImagePickerControllerDelegate, UINavigationCon
         photoImageView.layer.borderColor = UIColor.gray.cgColor
         photoImageView.layer.borderWidth = 2
         photoImageView.image = self.selectedImage
-        
+        addPhotoButton.setTitle("写真を変更する", for: .normal)
         self.dismiss(animated: true)
     }
    

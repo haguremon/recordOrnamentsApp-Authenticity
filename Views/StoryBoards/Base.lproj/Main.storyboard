@@ -44,11 +44,36 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </collectionReusableView>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WAp-c6-acq">
+                                <rect key="frame" x="30" y="747.5" width="74.5" height="74.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="WAp-c6-acq" secondAttribute="height" multiplier="1:1" id="qLR-5y-sD1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <imageReference key="image" image="plus.circle.fill" catalog="system" symbolScale="large" renderingMode="hierarchical">
+                                        <hierarchicalColors>
+                                            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color red="0.053540877997875214" green="0.011933582834899426" blue="0.99033862352371216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </hierarchicalColors>
+                                    </imageReference>
+                                </state>
+                                <connections>
+                                    <action selector="OpenUploadPostControllerButton:" destination="OdO-rB-CRM" eventType="touchUpInside" id="gts-gc-ARX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Y4O-k8-Z0a"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="WAp-c6-acq" firstAttribute="leading" secondItem="Y4O-k8-Z0a" secondAttribute="leading" constant="30" id="2Iv-LI-Tfh"/>
                             <constraint firstItem="Rwb-OV-zSF" firstAttribute="centerX" secondItem="1Gq-lC-HUE" secondAttribute="centerX" id="OmG-mq-ean"/>
+                            <constraint firstItem="WAp-c6-acq" firstAttribute="width" secondItem="1Gq-lC-HUE" secondAttribute="width" multiplier="0.18" id="eEg-w8-KyK"/>
+                            <constraint firstItem="Y4O-k8-Z0a" firstAttribute="bottom" secondItem="WAp-c6-acq" secondAttribute="bottom" constant="40" id="fS6-5f-IXV"/>
                             <constraint firstItem="Rwb-OV-zSF" firstAttribute="top" secondItem="Y4O-k8-Z0a" secondAttribute="top" id="l71-dc-LY1"/>
                             <constraint firstItem="Rwb-OV-zSF" firstAttribute="leading" secondItem="Y4O-k8-Z0a" secondAttribute="leading" constant="15" id="nIL-6B-sSi"/>
                             <constraint firstItem="Y4O-k8-Z0a" firstAttribute="bottom" secondItem="Rwb-OV-zSF" secondAttribute="bottom" id="yhP-fp-WIC"/>
@@ -175,7 +200,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="８文字以上" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="03I-Kp-j6N">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="6文字以上" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="03I-Kp-j6N">
                                                 <rect key="frame" x="0.0" y="24" width="290" height="52"/>
                                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                                 <color key="tintColor" systemColor="systemBlueColor"/>
@@ -287,7 +312,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBB-jJ-9Zs">
-                                <rect key="frame" x="136.5" y="118" width="141" height="141"/>
+                                <rect key="frame" x="134.5" y="128" width="145" height="145"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="hBB-jJ-9Zs" secondAttribute="height" multiplier="1:1" id="jpm-mR-QMx"/>
@@ -301,7 +326,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7eL-YM-9FS">
-                                <rect key="frame" x="306.5" y="207.5" width="84.5" height="59.5"/>
+                                <rect key="frame" x="304" y="217" width="87" height="61"/>
                                 <color key="backgroundColor" red="0.1450980392" green="0.18039215689999999" blue="0.29411764709999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="7eL-YM-9FS" secondAttribute="height" multiplier="1:0.7" id="jrH-1R-rzo"/>
@@ -330,7 +355,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="v6t-7v-Qie">
-                                <rect key="frame" x="20" y="277" width="374" height="585"/>
+                                <rect key="frame" x="20" y="288" width="374" height="574"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2ce-WG-tN7">
                                     <size key="itemSize" width="128" height="128"/>
@@ -355,13 +380,13 @@
                         <constraints>
                             <constraint firstItem="76b-of-RrF" firstAttribute="centerX" secondItem="PCz-F2-aBs" secondAttribute="centerX" id="2I0-fF-edK"/>
                             <constraint firstItem="hBB-jJ-9Zs" firstAttribute="centerX" secondItem="PCz-F2-aBs" secondAttribute="centerX" id="3qB-Od-0Fq"/>
-                            <constraint firstItem="hBB-jJ-9Zs" firstAttribute="top" secondItem="aHN-W7-gvJ" secondAttribute="top" constant="30" id="Aj7-cg-qKS"/>
+                            <constraint firstItem="hBB-jJ-9Zs" firstAttribute="top" secondItem="aHN-W7-gvJ" secondAttribute="top" constant="40" id="Aj7-cg-qKS"/>
                             <constraint firstItem="76b-of-RrF" firstAttribute="top" secondItem="aHN-W7-gvJ" secondAttribute="top" id="EHt-Mg-Jth"/>
                             <constraint firstItem="aHN-W7-gvJ" firstAttribute="trailing" secondItem="7eL-YM-9FS" secondAttribute="trailing" constant="23" id="EZY-8M-X8s"/>
-                            <constraint firstItem="v6t-7v-Qie" firstAttribute="top" secondItem="hBB-jJ-9Zs" secondAttribute="bottom" constant="18" id="KJ3-gU-pPA"/>
+                            <constraint firstItem="v6t-7v-Qie" firstAttribute="top" secondItem="hBB-jJ-9Zs" secondAttribute="bottom" constant="15" id="KJ3-gU-pPA"/>
                             <constraint firstItem="7eL-YM-9FS" firstAttribute="width" secondItem="hBB-jJ-9Zs" secondAttribute="width" multiplier="0.6" id="SwE-WJ-SXk"/>
                             <constraint firstItem="v6t-7v-Qie" firstAttribute="top" secondItem="7eL-YM-9FS" secondAttribute="bottom" constant="10" id="ibc-sy-QW2"/>
-                            <constraint firstItem="hBB-jJ-9Zs" firstAttribute="width" secondItem="PCz-F2-aBs" secondAttribute="width" multiplier="0.34" id="kic-53-BNj"/>
+                            <constraint firstItem="hBB-jJ-9Zs" firstAttribute="width" secondItem="PCz-F2-aBs" secondAttribute="width" multiplier="0.35" id="kic-53-BNj"/>
                             <constraint firstItem="aHN-W7-gvJ" firstAttribute="bottom" secondItem="v6t-7v-Qie" secondAttribute="bottom" id="l4l-yF-bcS"/>
                             <constraint firstItem="76b-of-RrF" firstAttribute="leading" secondItem="aHN-W7-gvJ" secondAttribute="leading" constant="5" id="mTu-JJ-yu6"/>
                             <constraint firstItem="v6t-7v-Qie" firstAttribute="centerX" secondItem="PCz-F2-aBs" secondAttribute="centerX" id="sgp-Gr-RWc"/>
@@ -378,7 +403,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X6s-Jv-Bef" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3009" y="-387"/>
+            <point key="canvasLocation" x="-3010.144927536232" y="-387.05357142857139"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="sI3-ZT-Uin">
@@ -484,7 +509,7 @@
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="8文字以上" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mvC-pU-fu7">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="6文字以上" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mvC-pU-fu7">
                                                         <rect key="frame" x="0.0" y="24" width="290" height="52"/>
                                                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                                         <color key="tintColor" systemColor="systemBlueColor"/>
@@ -685,6 +710,7 @@
     <resources>
         <image name="person" width="128" height="128"/>
         <image name="person.fill.badge.plus" catalog="system" width="128" height="124"/>
+        <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

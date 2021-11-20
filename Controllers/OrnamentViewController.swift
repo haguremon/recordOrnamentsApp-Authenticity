@@ -54,7 +54,7 @@ class OrnamentViewController: UIViewController {
     //MARK: - ライフサイクル等
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkIfUserIsLoggedIn()
+        //checkIfUserIsLoggedIn()
         configureNavigation()
         collectionView.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -81,25 +81,25 @@ class OrnamentViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showLoader(false)
-        checkIfUserEmailVerified()
+       // checkIfUserEmailVerified()
     }
     
     //MARK: - API
-    func checkIfUserIsLoggedIn() {
-        
-        if Auth.auth().currentUser == nil {
-            DispatchQueue.main.async {
-                self.openLoginViewController()
-            }
-        }
-        
-    }
+//    func checkIfUserIsLoggedIn() {
+//
+//        if Auth.auth().currentUser == nil {
+//            DispatchQueue.main.async {
+//                self.openLoginViewController()
+//            }
+//        }
+//
+//    }
     
     
     private func checkIfUserEmailVerified() {
-        guard  Auth.auth().currentUser == nil else { return }
+        guard  Auth.auth().currentUser != nil else { return }
         Auth.auth().currentUser?.reload(completion: { error in
-            guard error == nil else {return}
+            guard error == nil else { return self.showErrorIfNeeded(error) }
             
             if Auth.auth().currentUser?.isEmailVerified == true {
                 return
@@ -166,6 +166,11 @@ class OrnamentViewController: UIViewController {
         loginViewController.modalPresentationStyle = .fullScreen
         
         present(loginViewController, animated: false)
+    }
+    
+    
+    @IBAction func OpenUploadPostControllerButton(_ sender: UIButton) {
+        handleOpenUploadPostController()
     }
     
     
@@ -506,8 +511,8 @@ extension OrnamentViewController {
         
         alert.addTextField(configurationHandler: {(textField) -> Void in
             
-            textField.textContentType = .newPassword
-            textField.placeholder = "パスワード"
+            textField.textContentType = .emailAddress
+            textField.placeholder = "メールアドレス"
         })
         
         alert.addAction(

@@ -21,7 +21,7 @@ enum AccountMenu: String,CaseIterable{
     case exit = "戻る"
 }
 
-class AccountViewController: UIViewController {
+final class AccountViewController: UIViewController {
     
     // MARK: - プロパティ等
     var user: User? {
@@ -104,9 +104,9 @@ class AccountViewController: UIViewController {
         setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
-        profileImageButton.layer.cornerRadius = upDateButton.bounds.height / 1.1
+        profileImageButton.layer.cornerRadius = view.bounds.width / 6
         profileImageButton.imageView?.contentMode = .scaleToFill
-        profileImageButton.imageView?.layer.cornerRadius = upDateButton.bounds.height / 1.1
+        profileImageButton.imageView?.layer.cornerRadius = view.bounds.width / 6
         profileImageButton.layer.borderWidth = 1
         profileImageButton.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         profileImageButton.isEnabled = false
@@ -138,7 +138,7 @@ class AccountViewController: UIViewController {
     
     
     @IBAction func upDateAccountButton(_ sender: UIButton) {
-        sender.showAnimation(true)
+        sender.showSuccessAnimation(true)
         showMessage1(withTitle: "写真", message: "プロフィール画像を変更しますか？")
     }
     

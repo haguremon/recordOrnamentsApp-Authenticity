@@ -32,13 +32,13 @@ extension UIViewController {
     }
     
     
-    func showErrorIfNeeded(_ errorOrNil: Error?) {
+    func showErrorIfNeeded(_ errorOrNil: Error?,handler: ((UIAlertAction) -> Void)? = nil) {
         guard let error = errorOrNil else { return }
         
         let message =  AuthService.errorMessage(of: error)
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        
+        alert.addAction(UIAlertAction(title: "OK", style: .default,handler: handler))
+       
         present(alert, animated: true)
     }
     
@@ -141,15 +141,7 @@ extension UIButton {
     }
     
     
-    func touchStartAnimation(duration: TimeInterval,delay: TimeInterval) {
-        UIView.animate(withDuration: duration, delay: delay, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
-            self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95);
-            self.alpha = 0.9
-        },completion: nil)
-    }
-    
-    
-    func showAnimation(_ show: Bool) {
+    func showSuccessAnimation(_ show: Bool) {
         if show {
             pulsate()
         } else {
@@ -297,5 +289,6 @@ extension UIView {
     
     
 }
+
 
 

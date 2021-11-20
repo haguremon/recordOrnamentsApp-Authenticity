@@ -7,7 +7,7 @@
 
 import UIKit
 
-class InputTextView: UITextView {
+final class InputTextView: UITextView {
     
     // MARK: - プロパティ等
     var placeholderText: String? {

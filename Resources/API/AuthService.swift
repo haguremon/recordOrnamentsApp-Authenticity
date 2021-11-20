@@ -18,7 +18,7 @@ struct AuthCredentials {
 struct  AuthService {
     
     
-    static func registerUser(_ viewControllerw: UIViewController,withCredential credentials: AuthCredentials, completion: @escaping FirestoreCompletion) {
+    static func registerUser(_ viewControllerw: UIViewController,button: UIButton,withCredential credentials: AuthCredentials, completion: @escaping FirestoreCompletion) {
         print("DEBUG: Credentials are \(credentials)")
 //
         ImageService.uploadImage(image: credentials.profileImage) { (imageUrl) in
@@ -27,6 +27,9 @@ struct  AuthService {
           
                 if let error = error {
                     viewControllerw.showErrorIfNeeded(error)
+                    button.showSuccessAnimation(false)
+                    button.isEnabled = true
+                    button.backgroundColor = .red
                     return
                 }
                 guard let user = result?.user else { return }
@@ -37,6 +40,9 @@ struct  AuthService {
                     user.sendEmailVerification { error in
                         guard let error = error else { return }
                         viewControllerw.showErrorIfNeeded(error)
+                        button.isEnabled = true
+                        button.showSuccessAnimation(false)
+                        button.backgroundColor = .red
 
                     }
                 }

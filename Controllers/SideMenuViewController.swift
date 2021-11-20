@@ -19,7 +19,7 @@ enum SideMenuItem: String,CaseIterable{
     case contact = "問い合わせ"
 }
 
-class SideMenuViewController: UIViewController {
+final class SideMenuViewController: UIViewController {
     
     // MARK: - プロパティ類
     @IBOutlet private var tableView: UITableView!

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DescriptionViewController: UIViewController {
+final class DescriptionViewController: UIViewController {
     
     // MARK: - プロパティ
     struct Photo {
@@ -84,7 +84,7 @@ class DescriptionViewController: UIViewController {
     
     //MARK: - メソッド等
     @objc func closeDescriptionViewController() {
-        button.showAnimation(true)
+        button.showSuccessAnimation(true)
         dismiss(animated: true)
     }
     

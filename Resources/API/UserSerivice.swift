@@ -30,17 +30,17 @@ struct UserService {
             COLLECTION_USERS.document(user.uid).updateData([
                 "name": updateUser.name as Any
             ]) { error in
-                if let error = error {
-                    print("DEBUG: Failed to update user \(error.localizedDescription)")
-                } else {
-                    
+                
+                guard error == nil else {
+                    return print("DEBUG: Failed to update user \(String(describing: error?.localizedDescription))")
+                }
+                            
                     COLLECTION_USERS.document(user.uid).getDocument { (snapshot, _) in
                         guard let snapshot = snapshot else { return }
                         guard let data = snapshot.data() else { return }
                         let user = User(dictonary: data)
                         completion(user)
                     }
-                }
             }
             
         } else {
@@ -50,26 +50,23 @@ struct UserService {
                     "name": updateUser.name as Any,
                     "profileImageUrl": profileImageUrl as Any
                 ]) { error in
-                    if let error = error {
-                        print("Error updating document: \(error.localizedDescription)")
-                    } else {
-                        
+                    
+                    guard error == nil else {
+                        return print("DEBUG: Failed to update user \(String(describing: error?.localizedDescription))")
+                    }
                         COLLECTION_USERS.document(user.uid).getDocument { (snapshot, _) in
                             guard let snapshot = snapshot else { return }
                             guard let data = snapshot.data() else { return }
                             let user = User(dictonary: data)
                             completion(user)
                         }
-                        
-                    }
                 }
                 
             }
             
-            
         }
         
-        
     }
+    
     
 }

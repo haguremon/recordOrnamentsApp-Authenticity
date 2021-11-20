@@ -52,16 +52,22 @@ class LoginViewController: UIViewController {
     
     private func handleLogin(_ sender: UIButton?) {
         sender?.isEnabled = false
-        sender?.showAnimation(true)
+        sender?.showSuccessAnimation(true)
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
        
-        guard let email = emailTextField.text, !email.isEmpty else { return showMessage(withTitle: "エラー", message: "適切なメールアドレスを入力してください") }
-        guard let password = passwordTextField.text, password.count >= 8 else { return showMessage(withTitle: "短いです", message: "8文字以上入力してください") }
+        guard let email = emailTextField.text, !email.isEmpty else {
+            sender?.isEnabled = true
+            return showMessage(withTitle: "エラー", message: "適切なメールアドレスを入力してください")
+        }
+        guard let password = passwordTextField.text, password.count >= 6 else {
+            sender?.isEnabled = true
+            return showMessage(withTitle: "短いです", message: "6文字以上入力してください")
+        }
         
         AuthService.logUserIn(withEmail: email, password: password) { [ weak self ] _, error in
             if let error = error {
-                sender?.showAnimation(false)
+                sender?.showSuccessAnimation(false)
                 sender?.isEnabled = true
                 self?.showErrorIfNeeded(error)
                 return
@@ -139,7 +145,7 @@ class LoginViewController: UIViewController {
     
     
     @IBAction func openSignupPage(_ sender: UIButton) {
-        sender.showAnimation(true)
+        sender.showSuccessAnimation(true)
         openRegistrationViewController()
     }
     

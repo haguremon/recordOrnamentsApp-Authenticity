@@ -11,7 +11,7 @@ protocol EditViewControllerDelegate: AnyObject {
     func controllerDidFinishUploadingPost(_ controller: EditViewController)
 }
 
-class EditViewController: UIViewController {
+final class EditViewController: UIViewController {
     
     // MARK: - プロパティ等
     var user: User?
@@ -39,7 +39,7 @@ class EditViewController: UIViewController {
         button.backgroundColor = .clear
         return button
     }()
-
+    
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
         button.setTitle("削除", for: .normal)
@@ -73,10 +73,10 @@ class EditViewController: UIViewController {
         tv.text = ""
         tv.keyboardType = .default
         tv.placeholderShouldCenter = true
-        tv.returnKeyType = .next
+        tv.returnKeyType = .done
         return tv
     }()
-   
+    
     private lazy var captionTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "メモを変更する"
@@ -99,7 +99,7 @@ class EditViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
-   
+    
     private let memoLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -166,7 +166,8 @@ class EditViewController: UIViewController {
         
         if post.imagename == "" {
             imagenameTextView.placeholderLabel.isHidden = false
-        } else if post.caption == "" {
+        }
+        if post.caption == "" {
             captionTextView.placeholderLabel.isHidden = false
         }
         
@@ -189,6 +190,9 @@ class EditViewController: UIViewController {
     
     
     @objc func removePost() {
+        DispatchQueue.main.async {
+            self.deleteButton.showSuccessAnimation(true)
+        }
         let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "削除する", style: .default, handler: { [ weak self ] _ in
@@ -203,7 +207,7 @@ class EditViewController: UIViewController {
         
         present(alert, animated: true)
     }
-   
+    
     
     private func deletePost() {
         PostService.deletePost(withPostId: post!.postId)
@@ -219,7 +223,7 @@ class EditViewController: UIViewController {
         captionTextView.resignFirstResponder()
         
         self.showLoader(true)
-        
+        editButton.showSuccessAnimation(true)
         let imagename = imagenameTextView.text
         let caption = captionTextView.text
         let setPassword = checkButton.isChecked
@@ -240,7 +244,7 @@ class EditViewController: UIViewController {
             self.showLoader(false)
             self.delegate?.controllerDidFinishUploadingPost(self)
         }
-            
+        
     }
     
     
@@ -288,10 +292,10 @@ class EditViewController: UIViewController {
         
         checkButton.bounds.size.width = checkButton.intrinsicContentSize.width
         passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
-    
+        
         verticalStackView.addArrangedSubview(stack)
         verticalStackView.addArrangedSubview(memoLabel)
-    
+        
         view.addSubview(captionTextView)
         captionTextView.setDimensions(height: view.bounds.height / 6, width: view.bounds.width / 1.08)
         captionTextView.anchor(top: verticalStackView.bottomAnchor, paddingTop: 2)
@@ -307,7 +311,7 @@ class EditViewController: UIViewController {
         
         deleteButton.bounds.size.width = deleteButton.intrinsicContentSize.width
         editButton.bounds.size.width = editButton.intrinsicContentSize.width
-
+        
         view.addSubview(stack2)
         stack2.anchor(top: captionTextView.bottomAnchor,
                       paddingTop: 7)
@@ -377,7 +381,7 @@ extension EditViewController {
             if (textView.text.count) > 15 {
                 textView.deleteBackward()
             }
-       
+            
         case captionTextView:
             
             if (textView.text.count) > 300 {
@@ -425,7 +429,7 @@ extension EditViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addTextField(configurationHandler: {(textField) -> Void in
-           
+            
             textField.textContentType = .newPassword
             textField.isSecureTextEntry = true
             textField.placeholder = "パスワード"
@@ -452,7 +456,7 @@ extension EditViewController {
                     }
                 })
         )
-       
+        
         DispatchQueue.main.async {
             self.present(
                 alert,
@@ -489,14 +493,14 @@ extension EditViewController: UITextViewDelegate {
     
     
     func textViewDidEndEditing(_ textView: UITextView) {
-       
+        
         switch textView {
         case imagenameTextView:
             imagenameTextView.resignFirstResponder()
-        
+            
         case captionTextView:
             captionTextView.resignFirstResponder()
-        
+            
         default:
             break
         }
@@ -505,12 +509,32 @@ extension EditViewController: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
                   replacementText text: String) -> Bool {
-        if text == "\n" {
-            imagenameTextView.resignFirstResponder()
-            captionTextView.resignFirstResponder()
+        
+        let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
+        let newLines = text.components(separatedBy: .newlines)//新規改行数
+        let textViewLines = existingLines + newLines
+        
+        switch textView {
+        case imagenameTextView:
+            if text == "\n" {
+                imagenameTextView.resignFirstResponder()
+                
+                return false
+            }
+        case captionTextView:
             
-            return false
+            if newLines.count == 2 && existingLines.last == "" && textViewLines.last == "" {
+                
+                captionTextView.resignFirstResponder()
+                
+                return false
+            }
+            
+        default:
+            break
+            
         }
+        
         return true
     }
     

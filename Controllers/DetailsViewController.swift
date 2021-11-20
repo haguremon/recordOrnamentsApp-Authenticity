@@ -12,7 +12,7 @@ protocol DetailsViewControllerDelegate: AnyObject {
     func controllerDidFinishEditingPost(_ controller: UIViewController)
 }
 
-class DetailsViewController: UIViewController {
+final class DetailsViewController: UIViewController {
     
     // MARK: - プロパティ等
     weak var delegate: DetailsViewControllerDelegate?
@@ -181,7 +181,8 @@ class DetailsViewController: UIViewController {
         
         if post.imagename == "" {
             imagenameTextView.placeholderLabel.isHidden = false
-        } else if post.caption == "" {
+        }
+        if post.caption == "" {
             captionTextView.placeholderLabel.isHidden = false
         }
         
@@ -205,7 +206,7 @@ class DetailsViewController: UIViewController {
     @objc func removePost() {
         
         DispatchQueue.main.async {
-            self.deleteButton.showAnimation(true)
+            self.deleteButton.showSuccessAnimation(true)
         }
        
         let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
@@ -247,16 +248,16 @@ class DetailsViewController: UIViewController {
         
     
     @objc func didTapDone() {
-        
-        DispatchQueue.main.async {
-            self.editButton.showAnimation(true)
-        }
-        
+
         editingMode()
     }
    
     
     @objc func editingMode() {
+        DispatchQueue.main.async {
+            self.editButton.showSuccessAnimation(true)
+        }
+       
         let editViewController = EditViewController(user: self.user!, post: self.post!)
         editViewController.delegate = self
         
