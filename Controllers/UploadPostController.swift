@@ -258,7 +258,7 @@ final class UploadPostController: UIViewController {
         captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
     
@@ -359,34 +359,43 @@ extension UploadPostController {
 //MARK: - キーボード周り
 extension UploadPostController {
     
-    
-    @objc private func keyboardWillShow(sender: NSNotification) {
+
+    @objc func keyboardWillShow(notification: NSNotification) {
         
         if captionTextView.isFirstResponder {
-            guard let userInfo = sender.userInfo else { return }
-            let duration: Float = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
-            UIView.animate(withDuration: TimeInterval(duration), animations: { () -> Void in
-                let transform = CGAffineTransform(translationX: 0, y: -194)
-                self.view.transform = transform
-            })
+            
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+                if self.view.frame.origin.y == 0 {
+                    self.view.frame.origin.y -= keyboardSize.height
+                }
+            }
+            
         }
         
     }
-    
-    
-    @objc func hidekeyboard(){
-        UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
-            self.view.transform = .identity
-        })
-    }
 
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
     
-    func checkMaxLength(_ textView: UITextView){
+}
+
+
+// MARK: - UITextViewDelegate
+extension UploadPostController: UITextViewDelegate {
+    
+    
+    
+    func checkMaxLength(_ textView: UITextView) {
         
         switch textView {
         case imagenameTextView:
@@ -402,12 +411,6 @@ extension UploadPostController {
         }
     
     }
-    
-}
-
-
-// MARK: - UITextViewDelegate
-extension UploadPostController: UITextViewDelegate {
    
     
     func textViewDidChange(_ textView: UITextView) {

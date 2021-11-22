@@ -159,6 +159,13 @@ final class EditViewController: UIViewController {
         captionTextView.delegate = self
         
     }
+
+    // 画面から非表示になる直後に呼ばれます。
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("viewDidDisappear")
+    }
+
     
     // MARK: - メソッド等
     private func configurepost(post: Post?) {
@@ -331,7 +338,7 @@ final class EditViewController: UIViewController {
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
     
@@ -349,24 +356,24 @@ final class EditViewController: UIViewController {
 extension EditViewController {
     
     
-    @objc private func keyboardWillShow(sender: NSNotification) {
+    @objc func keyboardWillShow(notification: NSNotification) {
         
         if captionTextView.isFirstResponder {
-            guard let userInfo = sender.userInfo else { return }
-            let duration: Float = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
-            UIView.animate(withDuration: TimeInterval(duration), animations: { () -> Void in
-                let transform = CGAffineTransform(translationX: 0, y: -144)
-                self.view.transform = transform
-            })
+            
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+                if self.view.frame.origin.y == 0 {
+                    self.view.frame.origin.y -= keyboardSize.height
+                }
+            }
+            
         }
         
     }
-    
-    
-    @objc func hidekeyboard() {
-        UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
-            self.view.transform = .identity
-        })
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
     }
     
     
@@ -374,28 +381,6 @@ extension EditViewController {
         self.view.endEditing(true)
     }
     
-    
-    func checkMaxLength(_ textView: UITextView){
-        
-        switch textView {
-        case imagenameTextView:
-            
-            if (textView.text.count) > 15 {
-                textView.deleteBackward()
-            }
-            
-        case captionTextView:
-            
-            if (textView.text.count) > 300 {
-                
-                textView.deleteBackward()
-            }
-            
-        default:
-            break
-            
-        }
-    }
     
     
 }
@@ -472,6 +457,30 @@ extension EditViewController {
 
 // MARK: - UITextViewDelegate
 extension EditViewController: UITextViewDelegate {
+    
+    
+    func checkMaxLength(_ textView: UITextView) {
+        
+        switch textView {
+        case imagenameTextView:
+            
+            if (textView.text.count) > 15 {
+                textView.deleteBackward()
+            }
+            
+        case captionTextView:
+            
+            if (textView.text.count) > 300 {
+                
+                textView.deleteBackward()
+            }
+            
+        default:
+            break
+            
+        }
+        
+    }
     
     
     func textViewDidChange(_ textView: UITextView) {

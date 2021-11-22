@@ -146,7 +146,7 @@ final class DetailsViewController: UIViewController {
     }()
     
     // MARK: - ライフサイクル
-    init(user: User, post: Post){
+    init(user: User, post: Post) {
         self.user = user
         self.post = post
         super.init(nibName: nil, bundle: nil)

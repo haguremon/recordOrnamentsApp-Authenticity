@@ -186,6 +186,8 @@ class NewRegistrationViewController: UIViewController {
         emailTextField.keyboardType = .emailAddress
         userNameTextField.keyboardType = .default
         
+        passwordTextField.placeholder = "6文字以上"
+        
         emailTextField.returnKeyType = .continue
         passwordTextField.returnKeyType = .continue
         userNameTextField.returnKeyType = .done
@@ -200,17 +202,17 @@ class NewRegistrationViewController: UIViewController {
         emailTextField.leftViewMode = .always
         emailTextField.leftView = UIView(frame: .init(x: 0,
                                                       y: 0,
-                                                      width: 10,
+                                                      width: 5,
                                                       height: 0))
         passwordTextField.leftViewMode = .always
         passwordTextField.leftView = UIView(frame: .init(x: 0,
                                                          y: 0,
-                                                         width: 10,
+                                                         width: 5,
                                                          height: 0))
         userNameTextField.leftViewMode = .always
         userNameTextField.leftView = UIView(frame: .init(x: 0,
                                                          y: 0,
-                                                         width: 10,
+                                                         width: 5,
                                                          height: 0))
         
         emailTextField.delegate = self

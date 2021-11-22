@@ -187,6 +187,7 @@ class LoginViewController: UIViewController {
     
     private func congigureTextField() {
         emailTextField.keyboardType = .emailAddress
+        passwordTextField.placeholder = "6文字以上"
         
         emailTextField.layer.borderWidth = 1
         emailTextField.layer.borderColor = UIColor.secondaryLabel.cgColor
@@ -199,12 +200,12 @@ class LoginViewController: UIViewController {
         emailTextField.leftViewMode = .always
         emailTextField.leftView = UIView(frame: .init(x: 0,
                                                       y: 0,
-                                                      width: 10,
+                                                      width: 5,
                                                       height: 0))
         passwordTextField.leftViewMode = .always
         passwordTextField.leftView = UIView(frame: .init(x: 0,
                                                          y: 0,
-                                                         width: 10,
+                                                         width: 5,
                                                          height: 0))
         
         emailTextField.delegate = self
