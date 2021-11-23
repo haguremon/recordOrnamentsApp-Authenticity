@@ -7,7 +7,7 @@
 
 
 
-##               置き場所画/保管画面/編集画面スクリーンショット
+##               置き場所画面/保管画面/編集画面スクリーンショット
                          
 <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1679562/415ef954-7c6d-ddc9-e26c-e2d6e99c3bd7.png" width="33%"><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1679562/f41e0862-4c88-678b-e5bc-07bb62d49738.png" width="31.5%"><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1679562/8d886655-ad09-ebb4-2551-f710fc720d1e.png" width="33%">
 
