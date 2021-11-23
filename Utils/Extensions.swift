@@ -67,10 +67,8 @@ extension UIViewController {
         let auth = AVCaptureDevice.authorizationStatus(for: .video)
         
         switch auth {
-        case .notDetermined:
-            print("notDetermined")
-        case .restricted:
-            print("restricted")
+        case .notDetermined, .restricted , .authorized:
+            break
         case .denied:
             let alert = UIAlertController(title: "設定", message: "カメラのアクセス許可をしてください", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
@@ -83,9 +81,6 @@ extension UIViewController {
             alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
             
             present(alert, animated: true)
-            
-        case .authorized:
-            print("authorized")
             
         @unknown default:
             fatalError()
