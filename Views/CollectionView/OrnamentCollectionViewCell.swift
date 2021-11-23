@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OrnamentCollectionViewCell: UICollectionViewCell {
+final class OrnamentCollectionViewCell: UICollectionViewCell {
     
    //MARK: - プロパティ等
     private var imageView: UIImageView = {

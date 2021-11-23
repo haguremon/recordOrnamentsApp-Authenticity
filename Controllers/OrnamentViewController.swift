@@ -9,7 +9,7 @@ import UIKit
 import SideMenu
 import FirebaseAuth
 
-class OrnamentViewController: UIViewController {
+final class OrnamentViewController: UIViewController {
     
     // MARK: - プロパティ等
     var user: User?
@@ -54,7 +54,6 @@ class OrnamentViewController: UIViewController {
     //MARK: - ライフサイクル等
     override func viewDidLoad() {
         super.viewDidLoad()
-        //checkIfUserIsLoggedIn()
         configureNavigation()
         collectionView.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -85,17 +84,6 @@ class OrnamentViewController: UIViewController {
     }
     
     //MARK: - API
-//    func checkIfUserIsLoggedIn() {
-//
-//        if Auth.auth().currentUser == nil {
-//            DispatchQueue.main.async {
-//                self.openLoginViewController()
-//            }
-//        }
-//
-//    }
-    
-    
     private func checkIfUserEmailVerified() {
         guard  Auth.auth().currentUser != nil else { return }
         Auth.auth().currentUser?.reload(completion: { error in

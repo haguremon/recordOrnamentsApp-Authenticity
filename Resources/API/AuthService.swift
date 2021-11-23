@@ -80,7 +80,7 @@ struct  AuthService {
         }
     
         switch errcd {
-        case .networkError: message = "ネットワークに接続できません"
+        case .networkError: message = "ネットワークに接続してください"
         case .userNotFound: message = "ユーザが見つかりません"
         case .invalidEmail: message = "不正なメールアドレスです"
         case .emailAlreadyInUse: message = "このメールアドレスは既に使われています"

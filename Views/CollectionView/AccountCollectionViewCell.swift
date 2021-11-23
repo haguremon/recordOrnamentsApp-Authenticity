@@ -13,7 +13,7 @@ protocol AccountCollectionViewCellDelegat: AnyObject {
     func textFieldShouldReturnCell(_ cell: AccountCollectionViewCell)
 }
 
-class AccountCollectionViewCell: UICollectionViewCell {
+final class AccountCollectionViewCell: UICollectionViewCell {
     
     //MARK: - プロパティ等
     weak var delegat: AccountCollectionViewCellDelegat?

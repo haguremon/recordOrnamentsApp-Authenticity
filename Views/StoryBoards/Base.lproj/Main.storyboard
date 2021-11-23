@@ -118,7 +118,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新規登録" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="St0-gf-Idv">
-                                <rect key="frame" x="155.5" y="185.5" width="103.5" height="23"/>
+                                <rect key="frame" x="155.5" y="181.5" width="103.5" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="St0-gf-Idv" secondAttribute="height" multiplier="1:0.22" id="rT9-xE-G1B"/>
                                 </constraints>
@@ -146,7 +146,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gaa-ak-9A1">
-                                <rect key="frame" x="155.5" y="218.5" width="103.5" height="103.5"/>
+                                <rect key="frame" x="155.5" y="214.5" width="103.5" height="103.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="gaa-ak-9A1" secondAttribute="height" multiplier="1:1" id="DYS-JT-eKQ"/>
                                 </constraints>
@@ -246,7 +246,7 @@
                             <constraint firstItem="4Zv-12-Y8z" firstAttribute="width" secondItem="M2J-7u-TfA" secondAttribute="width" multiplier="0.9" id="KjC-zL-lxl"/>
                             <constraint firstItem="03I-Kp-j6N" firstAttribute="centerY" secondItem="3RQ-qI-qva" secondAttribute="centerY" id="O0V-4K-6IP"/>
                             <constraint firstItem="JYJ-du-k2j" firstAttribute="width" secondItem="M2J-7u-TfA" secondAttribute="width" multiplier="0.51" id="QR1-lR-fBb"/>
-                            <constraint firstItem="Lfv-YY-ia4" firstAttribute="top" secondItem="gaa-ak-9A1" secondAttribute="bottom" constant="-2" id="RdY-5N-psh"/>
+                            <constraint firstItem="Lfv-YY-ia4" firstAttribute="top" secondItem="gaa-ak-9A1" secondAttribute="bottom" constant="2" id="RdY-5N-psh"/>
                             <constraint firstItem="OQh-sW-i6G" firstAttribute="centerX" secondItem="3RQ-qI-qva" secondAttribute="centerX" id="Rdp-1o-Gqv"/>
                             <constraint firstItem="OQh-sW-i6G" firstAttribute="top" secondItem="3RQ-qI-qva" secondAttribute="top" constant="101.5" id="Trs-gf-oIl"/>
                             <constraint firstItem="gaa-ak-9A1" firstAttribute="top" secondItem="St0-gf-Idv" secondAttribute="bottom" constant="10" id="V13-uK-8Kk"/>
@@ -559,9 +559,9 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="おきもの" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EEy-02-9uP">
-                                <rect key="frame" x="20.5" y="161.5" width="373" height="74.5"/>
+                                <rect key="frame" x="20.5" y="100.5" width="373" height="130.5"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="EEy-02-9uP" secondAttribute="height" multiplier="1:0.2" id="Kmf-6u-oGI"/>
+                                    <constraint firstAttribute="width" secondItem="EEy-02-9uP" secondAttribute="height" multiplier="1:0.35" id="Kmf-6u-oGI"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="60"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -584,10 +584,10 @@
                             <constraint firstItem="Jmv-u6-MZ1" firstAttribute="centerX" secondItem="GSd-Ez-paa" secondAttribute="centerX" id="Qk6-p2-nPO"/>
                             <constraint firstItem="2KR-Rm-ewl" firstAttribute="top" secondItem="W8j-Gc-cYk" secondAttribute="bottom" constant="6" id="ROr-UV-Zgx"/>
                             <constraint firstItem="qx5-kg-v2z" firstAttribute="width" secondItem="GSd-Ez-paa" secondAttribute="width" multiplier="0.3" id="SZn-tU-MvR"/>
-                            <constraint firstItem="qx5-kg-v2z" firstAttribute="top" secondItem="EEy-02-9uP" secondAttribute="bottom" constant="20" id="Urp-lX-GRW"/>
                             <constraint firstItem="42K-w1-dyv" firstAttribute="bottom" secondItem="np6-Zd-u91" secondAttribute="bottom" id="VRe-qo-w5z"/>
                             <constraint firstItem="AlI-mp-vti" firstAttribute="width" secondItem="GSd-Ez-paa" secondAttribute="width" id="aq1-WE-iLg"/>
                             <constraint firstItem="2KR-Rm-ewl" firstAttribute="width" secondItem="GSd-Ez-paa" secondAttribute="width" multiplier="0.51" id="buW-hw-7Qm"/>
+                            <constraint firstItem="EEy-02-9uP" firstAttribute="top" secondItem="np6-Zd-u91" secondAttribute="top" constant="56.5" id="dOP-Ee-oLl"/>
                             <constraint firstItem="42K-w1-dyv" firstAttribute="trailing" secondItem="np6-Zd-u91" secondAttribute="trailing" id="lza-OS-y9j"/>
                             <constraint firstItem="42K-w1-dyv" firstAttribute="leading" secondItem="np6-Zd-u91" secondAttribute="leading" id="neT-DX-BDV"/>
                             <constraint firstItem="sgK-bZ-n7o" firstAttribute="width" secondItem="42K-w1-dyv" secondAttribute="width" multiplier="0.7" id="qt2-qn-HUK"/>
@@ -602,6 +602,7 @@
                     <connections>
                         <outlet property="SignupPageButton" destination="2KR-Rm-ewl" id="poJ-5A-OgC"/>
                         <outlet property="animationView" destination="42K-w1-dyv" id="hRa-8S-T9o"/>
+                        <outlet property="appNameLabel" destination="EEy-02-9uP" id="cfD-Kl-2HQ"/>
                         <outlet property="emailTextField" destination="sgK-bZ-n7o" id="nTS-7I-Zrm"/>
                         <outlet property="loginButton" destination="IJ4-g0-2Ky" id="OHb-u0-0Pu"/>
                         <outlet property="messageLabel" destination="Jmv-u6-MZ1" id="GoA-Va-Nmk"/>

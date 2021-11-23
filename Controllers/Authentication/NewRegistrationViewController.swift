@@ -9,7 +9,7 @@ import UIKit
 import Lottie
 
 
-class NewRegistrationViewController: UIViewController {
+final class NewRegistrationViewController: UIViewController {
     
     // MARK: - プロパティ等
     @IBOutlet private var animationView: UIView!
@@ -149,13 +149,12 @@ class NewRegistrationViewController: UIViewController {
                 self?.showLoader(false)
                 self?.registerButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
                 self?.registerButton.isEnabled = true
-                DispatchQueue.main.async {
+
                     let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
                     loginViewController.modalPresentationStyle = .fullScreen
                     loginViewController.email = self?.emailTextField.text
                     loginViewController.message = "確認メールを認証してください"
                     self?.present(loginViewController, animated: true)
-                }
             }
         }
         

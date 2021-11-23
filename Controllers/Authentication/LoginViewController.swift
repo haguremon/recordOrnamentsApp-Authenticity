@@ -8,7 +8,7 @@
 import UIKit
 import Lottie
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
     
     // MARK: - プロパティ等
     @IBOutlet private var animationView: UIView!
@@ -25,6 +25,10 @@ class LoginViewController: UIViewController {
     @IBOutlet private var messageLabel: UILabel!
     var message: String? = ""
     
+    @IBOutlet private var appNameLabel: UILabel!
+    
+    
+    
     // MARK: - ライフサイクル
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +38,7 @@ class LoginViewController: UIViewController {
         messageLabel.isHidden = true
         congigureButtton()
         congigureTextField()
+        appNameLabel.font = UIFont.systemFont(ofSize: view.bounds.height / 11, weight: .bold)
     }
     
     
@@ -116,7 +121,7 @@ class LoginViewController: UIViewController {
                         
                         DispatchQueue.main.async {
                             self?.messageLabel.text = "リセット用のメールを送りました!"
-                        }
+                     }
                         
                     }
                     
@@ -132,10 +137,7 @@ class LoginViewController: UIViewController {
         
         self.present(
             alert,
-            animated: true,
-            completion: {
-                print("アラートが表示された")
-            })
+            animated: true)
     }
    
     

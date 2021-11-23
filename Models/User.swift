@@ -8,7 +8,7 @@
 import FirebaseAuth
 import UIKit
 
-struct User {
+ struct User {
     let email: String
     let name: String
     let profileImageUrl: String

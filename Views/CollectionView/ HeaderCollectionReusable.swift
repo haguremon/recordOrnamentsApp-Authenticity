@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HeaderCollectionReusableView: UICollectionReusableView {
+final class HeaderCollectionReusableView: UICollectionReusableView {
      
     //MARK: - プロパティ等
     let headerLabel: UILabel = {
