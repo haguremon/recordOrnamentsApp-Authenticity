@@ -46,9 +46,9 @@ final class OrnamentCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .white
         label.textAlignment = .center
-        label.numberOfLines = 0
         label.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         label.lineBreakMode = .byWordWrapping
+        label.adjustsFontSizeToFitWidth = true
         label.clipsToBounds = true
         label.layer.cornerRadius = 5.0
         label.layer.borderWidth = 1

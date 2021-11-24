@@ -331,11 +331,13 @@ final class EditViewController: UIViewController {
         deleteButton.layer.cornerRadius = view.bounds.width / 18
         editButton.layer.cornerRadius = view.bounds.width / 18
         
-        imagenameTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
-        imagenameTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
+        imagenameTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 28)
+        imagenameTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 28)
+        imagenameCharacterCountLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 35)
+        
         captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
         captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
-        
+        captionCharacterCountLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 43)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)

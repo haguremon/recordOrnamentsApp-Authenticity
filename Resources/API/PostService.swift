@@ -13,10 +13,12 @@ struct  PostService {
     //MARK: - Firebaseに保存する処理
     static func uploadPost(caption: String, image: UIImage, imagename: String,setpassword: Bool, password: String?, user: User,completion: @escaping(FirestoreCompletion)){
         guard let uid = Auth.auth().currentUser?.uid else { return }
+        let editDate:Timestamp? = nil
         
         ImageService.uploadImage(image: image) { (imageUrl) in
             let data = ["caption": caption,
-                        "timestamp": Timestamp(date: Date()),
+                        "creationDate": Timestamp(date: Date()),
+                        "editDate": editDate as Any,
                         "imageUrl": imageUrl,
                         "imagename": imagename,
                         "ownerUid": uid,
@@ -35,6 +37,7 @@ struct  PostService {
         
         COLLETION_POSTS.document(uid.postId).updateData([
                 "caption": updatepost.caption as Any,
+                "editDate": Timestamp(date: Date()),
                 "imagename": updatepost.imagename as Any,
                 "password": updatepost.password as Any,
                 "isSetPassword": updatepost.isSetPassword as Any
@@ -92,20 +95,9 @@ struct  PostService {
             var posts = documents.map({Post(postId: $0.documentID, dictonary: $0.data())})
     
             posts.sort { (post1, post2) -> Bool in
-                return post1.timestamp.seconds > post2.timestamp.seconds
+                return post1.creationDate.seconds > post2.creationDate.seconds
             }
             completion(posts)
-        }
-        
-    }
-    
-
-    static func fetchPost(withPostId postId: String, completion: @escaping(Post) -> Void) {
-        COLLETION_POSTS.document(postId).getDocument { (snapshot, _) in
-            guard let snapshot = snapshot else { return }
-            guard let data = snapshot.data() else { return }
-            let post = Post(postId: snapshot.documentID, dictonary: data)
-            completion(post)
         }
         
     }

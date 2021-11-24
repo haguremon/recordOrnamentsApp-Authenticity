@@ -75,23 +75,22 @@ final class DetailsViewController: UIViewController {
         return button
     }()
     
-    private lazy var imagenameTextView: InputTextView = {
-        let tv = InputTextView()
-        tv.placeholderText = "名前"
-        tv.textColor = .black
-        tv.backgroundColor = .white
-        tv.text = ""
-        tv.isEditable = false
-        tv.isSelectable = false
-        tv.placeholderShouldCenter = true
-        tv.layer.masksToBounds = false
-        tv.layer.borderWidth = 1
-        tv.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-        tv.layer.shadowColor = UIColor.black.cgColor
-        tv.layer.shadowOpacity = 0.8
-        tv.layer.shadowRadius = 8.0
-        tv.layer.shadowOffset = .zero
-        return tv
+    private lazy var imagenameTextField: UITextField = {
+        let tf = UITextField()
+        tf.textColor = .black
+        tf.backgroundColor = .white
+        tf.text = ""
+        tf.isEnabled = false
+        tf.isSelected = false
+        tf.textAlignment = .center
+        tf.layer.masksToBounds = false
+        tf.layer.borderWidth = 1
+        tf.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        tf.layer.shadowColor = UIColor.black.cgColor
+        tf.layer.shadowOpacity = 0.8
+        tf.layer.shadowRadius = 8.0
+        tf.layer.shadowOffset = .zero
+        return tf
     }()
     
     private lazy var captionTextView: InputTextView = {
@@ -129,10 +128,51 @@ final class DetailsViewController: UIViewController {
         return label
     }()
     
+    private let creationDateLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.adjustsFontSizeToFitWidth = true
+        label.text = "作成日:"
+        label.backgroundColor = .clear
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private let creationDate: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.adjustsFontSizeToFitWidth = true
+        label.text = ""
+        label.backgroundColor = .clear
+        label.textAlignment = .center
+        return label
+    }()
+  
+    private let editDateLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.adjustsFontSizeToFitWidth = true
+        label.isHidden = true
+        label.text = "変更日:"
+        label.backgroundColor = .clear
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private let editDate: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.adjustsFontSizeToFitWidth = true
+        label.text = ""
+        label.backgroundColor = .clear
+        label.textAlignment = .center
+        return label
+    }()
+    
+    
     private let captionCharacterCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/300"
         return label
     }()
@@ -150,7 +190,6 @@ final class DetailsViewController: UIViewController {
         self.user = user
         self.post = post
         super.init(nibName: nil, bundle: nil)
-        imagenameTextView.placeholderLabel.isHidden = true
         captionTextView.placeholderLabel.isHidden = true
         DispatchQueue.main.async {
             self.configurepost(post: post)
@@ -179,19 +218,22 @@ final class DetailsViewController: UIViewController {
     private func configurepost(post: Post?) {
         guard let post = post else { return }
         
-        if post.imagename == "" {
-            imagenameTextView.placeholderLabel.isHidden = false
-        }
         if post.caption == "" {
             captionTextView.placeholderLabel.isHidden = false
         }
         
+        if let editDate = post.editDate {
+            self.editDate.text =  dateFormatterForcreatedAt(date: editDate.dateValue())
+            editDateLabel.isHidden = false
+        }
+        creationDate.text = dateFormatterForcreatedAt(date: post.creationDate.dateValue())
+        
         photoImageView.sd_setImage(with: URL(string: post.imageUrl), completed: nil)
-        imagenameTextView.text = post.imagename
+        imagenameTextField.text = post.imagename
         captionTextView.text = post.caption
         checkButton.isChecked = post.isSetPassword
-        imagenameCharacterCountLabel.text = "\(imagenameTextView.text.count)/15"
         captionCharacterCountLabel.text = "\(captionTextView.text.count)/300"
+        
     }
     
 
@@ -274,29 +316,38 @@ final class DetailsViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "編集", style: .done, target: self, action: #selector(editingMode))
         navigationItem.rightBarButtonItem?.tintColor = .blue
     }
-       
+    
+    
+    private func dateFormatterForcreatedAt(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+            dateFormatter.calendar = Calendar(identifier: .gregorian)
+            dateFormatter.locale = Locale(identifier: "ja_JP")
+            dateFormatter.timeZone = TimeZone(identifier:  "Asia/Tokyo")
+            dateFormatter.dateFormat = "yyyy年M月d日(EEEEE) HH時mm分"
+        
+        return dateFormatter.string(from: date)
+    
+    }
+
     
     // MARK: - UI等
     private func configureUI(){
         setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
   
-        view.addSubview(imagenameTextView)
-        imagenameTextView.setDimensions(height: view.bounds.height / 13, width: view.bounds.width / 1.08)
-        imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
-        imagenameTextView.centerX(inView: view)
-        
-        view.addSubview(imagenameCharacterCountLabel)
-        imagenameCharacterCountLabel.anchor(bottom: imagenameTextView.bottomAnchor, right: imagenameTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
+        view.addSubview(imagenameTextField)
+        imagenameTextField.setDimensions(height: view.bounds.height / 15, width: view.bounds.width / 1.08)
+        imagenameTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
+        imagenameTextField.centerX(inView: view)
         
         view.addSubview(shadowView)
-        shadowView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
-        shadowView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
+        shadowView.setDimensions(height: view.bounds.height / 3.7, width: view.bounds.width / 1.08)
+        shadowView.anchor(top: imagenameTextField.bottomAnchor, paddingTop: 2)
         shadowView.centerX(inView: view)
         
         shadowView.addSubview(photoImageView)
-        photoImageView.setDimensions(height: view.bounds.width / 1.5, width: view.bounds.width / 1.08)
-        photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 2)
+        photoImageView.setDimensions(height: view.bounds.height / 3.05, width: view.bounds.width / 1.08)
+        photoImageView.anchor(top: imagenameTextField.bottomAnchor, paddingTop: 2)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
        
@@ -322,36 +373,86 @@ final class DetailsViewController: UIViewController {
         verticalStackView.addArrangedSubview(memoLabel)
 
         view.addSubview(captionTextView)
-        captionTextView.setDimensions(height: view.bounds.height / 6, width: view.bounds.width / 1.08)
+        captionTextView.setDimensions(height: view.bounds.height / 6.8, width: view.bounds.width / 1.08)
         captionTextView.anchor(top: verticalStackView.bottomAnchor, paddingTop: 2)
         captionTextView.centerX(inView: view)
        
         view.addSubview(captionCharacterCountLabel)
         captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
                 
-        let stack2 = UIStackView(arrangedSubviews: [editButton, deleteButton])
-        stack2.axis = .horizontal
-        stack2.spacing = 30
-        stack2.alignment = .fill
+        let buttonStack = UIStackView(arrangedSubviews: [editButton, deleteButton])
+        buttonStack.axis = .horizontal
+        buttonStack.spacing = 30
+        buttonStack.alignment = .fill
       
         deleteButton.bounds.size.width = deleteButton.intrinsicContentSize.width
         editButton.bounds.size.width = editButton.intrinsicContentSize.width
     
-        view.addSubview(stack2)
+        view.addSubview(buttonStack)
    
-        stack2.anchor(top: captionTextView.bottomAnchor,
+        buttonStack.anchor(top: captionTextView.bottomAnchor,
                                  paddingTop: 7)
-        stack2.centerX(inView: view)
+        buttonStack.centerX(inView: view)
         
         deleteButton.setDimensions(height: view.bounds.height / 15, width: view.bounds.width / 3)
         editButton.setDimensions(height: view.bounds.height / 15, width: view.bounds.width / 3)
         deleteButton.layer.cornerRadius = view.bounds.width / 18
         editButton.layer.cornerRadius = view.bounds.width / 18
+        
+         let verticalStackView2 = UIStackView()
+             verticalStackView2.axis = .vertical
+             verticalStackView2.alignment = .fill
+             verticalStackView2.spacing = 2
+             
+            view.addSubview(verticalStackView2)
+        verticalStackView2.anchor(top: buttonStack.bottomAnchor,
+                                  paddingTop: 10)
+         verticalStackView2.centerX(inView: view)
 
-        imagenameTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
-        imagenameTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 26)
-        captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
-        captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
+      
+        let creationDatestack = UIStackView(arrangedSubviews: [creationDateLabel, creationDate])
+        creationDatestack.axis = .horizontal
+        creationDatestack.spacing = 3
+        creationDatestack.alignment = .fill
+        
+        creationDateLabel.bounds.size.width = creationDateLabel.intrinsicContentSize.width
+        creationDate.bounds.size.width = creationDate.intrinsicContentSize.width
+        
+        let editDatestack = UIStackView(arrangedSubviews: [editDateLabel, editDate])
+        editDatestack.axis = .horizontal
+        editDatestack.spacing = 2
+        editDatestack.alignment = .fill
+        
+        editDateLabel.bounds.size.width = editDateLabel.intrinsicContentSize.width
+        editDate.bounds.size.width = editDate.intrinsicContentSize.width
+        
+        verticalStackView2.addArrangedSubview(creationDatestack)
+        verticalStackView2.addArrangedSubview(editDatestack)
+        
+        
+        
+        imagenameTextField.font = UIFont.systemFont(ofSize: view.bounds.size.height / 28)
+        
+        let attributes: [NSAttributedString.Key : Any] = [
+             .font: UIFont.boldSystemFont(ofSize: view.bounds.size.height / 28),
+             .foregroundColor : UIColor.lightGray
+           ]
+        imagenameTextField.attributedPlaceholder = NSAttributedString(string: "名 前", attributes: attributes)
+        captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 42)
+        captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 42)
+        captionCharacterCountLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 43)
+        
+        passwordLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
+        memoLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
+        
+        creationDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
+        creationDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 41)
+        
+        editDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
+        editDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 41)
+        
+
+        
     }
     
     

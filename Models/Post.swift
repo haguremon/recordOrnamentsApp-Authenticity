@@ -12,11 +12,12 @@ struct Post {
     let imageUrl: String
     let imagename: String
     let ownerUid: String
-    let timestamp: Timestamp
+    let creationDate: Timestamp
+    let editDate: Timestamp?
+    
     let postId: String
   
     let ownerImageUrl: String
-
     let ownerUsername: String
     
     let password: String?
@@ -27,7 +28,8 @@ struct Post {
         self.imageUrl = dictonary["imageUrl"] as? String ?? ""
         self.imagename = dictonary["imagename"] as? String ?? ""
         self.ownerUid = dictonary["ownerUid"] as? String ?? ""
-        self.timestamp = dictonary["timestamp"] as? Timestamp ?? Timestamp(date: Date())
+        self.creationDate = dictonary["creationDate"] as? Timestamp ?? Timestamp(date: Date())
+        self.editDate = dictonary["editDate"] as? Timestamp
         self.postId = postId
         self.password = dictonary["password"] as? String
         self.isSetPassword = dictonary["isSetPassword"] as? Bool ?? false
@@ -41,6 +43,7 @@ struct Submissions {
     var imagename: String?
     var password: String?
     var isSetPassword: Bool?
+    var editDate: Timestamp?
 }
 
 struct ResetData {
