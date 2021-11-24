@@ -438,6 +438,7 @@ final class DetailsViewController: UIViewController {
              .foregroundColor : UIColor.lightGray
            ]
         imagenameTextField.attributedPlaceholder = NSAttributedString(string: "名 前", attributes: attributes)
+        
         captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 42)
         captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 42)
         captionCharacterCountLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 43)

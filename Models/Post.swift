@@ -38,13 +38,16 @@ struct Post {
     }
     
 }
+
+
 struct Submissions {
     var caption: String?
     var imagename: String?
     var password: String?
     var isSetPassword: Bool?
-    var editDate: Timestamp?
+    var editDate: Timestamp
 }
+
 
 struct ResetData {
     var password: String?
