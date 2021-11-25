@@ -45,7 +45,7 @@ final class NewRegistrationViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-   
+    
     // MARK: - メソッド等
     @IBAction func tappedRegisterButton(_ sender: UIButton) {
         handleAuthToFirebase()
@@ -122,7 +122,7 @@ final class NewRegistrationViewController: UIViewController {
     private func handleAuthToFirebase() {
         registerButton.isEnabled = false
         registerButton.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-     
+        
         emailTextField.resignFirstResponder()
         userNameTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
@@ -141,7 +141,7 @@ final class NewRegistrationViewController: UIViewController {
         }
         
         let name = userNameTextField.text ?? ""
-       
+        
         let authCredential = AuthCredentials(email: email, password: password, name: name, profileImage: selectedImage)
         AuthService.registerUser(self, button: registerButton,withCredential: authCredential) { (error) in
             self.showLoader(true)
@@ -149,12 +149,12 @@ final class NewRegistrationViewController: UIViewController {
                 self?.showLoader(false)
                 self?.registerButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
                 self?.registerButton.isEnabled = true
-
-                    let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
-                    loginViewController.modalPresentationStyle = .fullScreen
-                    loginViewController.email = self?.emailTextField.text
-                    loginViewController.message = "確認メールを認証してください"
-                    self?.present(loginViewController, animated: true)
+                
+                let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+                loginViewController.modalPresentationStyle = .fullScreen
+                loginViewController.email = self?.emailTextField.text
+                loginViewController.message = "確認メールを認証してください"
+                self?.present(loginViewController, animated: true)
             }
         }
         
@@ -277,7 +277,7 @@ extension NewRegistrationViewController: UITextFieldDelegate {
             registerButton.isEnabled = true
             registerButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
         }
-    
+        
     }
     
     
@@ -336,6 +336,6 @@ extension NewRegistrationViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-   
+    
     
 }

@@ -26,6 +26,7 @@ import UIKit
     }
 }
 
+
 struct UpdateUser {
     var name: String?
     var profileImage: UIImage?

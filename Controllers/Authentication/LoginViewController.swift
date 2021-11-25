@@ -53,14 +53,14 @@ final class LoginViewController: UIViewController {
     @IBAction func loginButton(_ sender: UIButton) {
         handleLogin(sender)
     }
-   
+    
     
     private func handleLogin(_ sender: UIButton?) {
         sender?.isEnabled = false
         sender?.showSuccessAnimation(true)
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
-       
+        
         guard let email = emailTextField.text, !email.isEmpty else {
             sender?.isEnabled = true
             return showMessage(withTitle: "エラー", message: "適切なメールアドレスを入力してください")
@@ -101,7 +101,7 @@ final class LoginViewController: UIViewController {
             textField.textContentType = .emailAddress
             textField.placeholder = "パスワード"
         })
-
+        
         alert.addAction(
             UIAlertAction(
                 title: "入力完了",
@@ -121,7 +121,7 @@ final class LoginViewController: UIViewController {
                         
                         DispatchQueue.main.async {
                             self?.messageLabel.text = "リセット用のメールを送りました!"
-                     }
+                        }
                         
                     }
                     
@@ -139,7 +139,7 @@ final class LoginViewController: UIViewController {
             alert,
             animated: true)
     }
-   
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -151,7 +151,7 @@ final class LoginViewController: UIViewController {
         openRegistrationViewController()
     }
     
-
+    
     private func openRegistrationViewController() {
         let newRegistrationViewController = storyboard?.instantiateViewController(withIdentifier: "NewRegistrationViewController") as! NewRegistrationViewController
         newRegistrationViewController.modalPresentationStyle = .fullScreen
@@ -159,7 +159,7 @@ final class LoginViewController: UIViewController {
         present(newRegistrationViewController, animated: true)
     }
     
-   
+    
     private func openOrnamentViewController() {
         let newRegistrationViewController = storyboard?.instantiateViewController(withIdentifier: "NewRegistrationViewController") as! NewRegistrationViewController
         newRegistrationViewController.modalPresentationStyle = .fullScreen
@@ -185,7 +185,7 @@ final class LoginViewController: UIViewController {
         SignupPageButton.layer.shadowOpacity = 1.0
         SignupPageButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
     }
-   
+    
     
     private func congigureTextField() {
         emailTextField.keyboardType = .emailAddress
@@ -257,6 +257,7 @@ extension LoginViewController: UITextFieldDelegate {
         } else if textField ==  passwordTextField {
             handleLogin(nil)
         }
+        
         return true
     }
     

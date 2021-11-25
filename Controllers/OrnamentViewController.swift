@@ -57,7 +57,7 @@ final class OrnamentViewController: UIViewController {
         configureNavigation()
         collectionView.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.925465405, green: 0.9490913749, blue: 0.9807662368, alpha: 1))
         configureSearchController()
         configureSideMenu()
         configureCollectionView()
@@ -196,7 +196,7 @@ final class OrnamentViewController: UIViewController {
     private func configureNavigation() {
         navigationItem.title = "お　き　も　の"
         navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.925465405, green: 0.9490913749, blue: 0.9807662368, alpha: 1)
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus.app"),
                                                             style: .done,
@@ -353,7 +353,7 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
     private func openDetailsViewController(user: User, post: Post) {
         let detailsViewController = DetailsViewController(user: user, post: post)
         detailsViewController.delegate = self
-       
+        
         navigationController?.pushViewController(detailsViewController, animated: true)
     }
     
@@ -371,7 +371,6 @@ extension OrnamentViewController: UICollectionViewDelegate, UICollectionViewData
         header.headerLabel.text = " 置き場所 "
         
         return extractedFunc(indexPath, header)
-    
     }
     
     
@@ -388,6 +387,7 @@ extension OrnamentViewController: SideMenuNavigationControllerDelegate {
         settings.presentationStyle = .menuSlideIn
         settings.presentationStyle.onTopShadowOpacity = 1.0
         settings.statusBarEndAlpha = 0
+        
         return settings
     }
     
@@ -543,6 +543,6 @@ extension OrnamentViewController {
             animated: true)
         
     }
-  
+    
     
 }

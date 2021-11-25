@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if #available(iOS 13.0, *) {
             let appearance = UINavigationBarAppearance()
-            appearance.backgroundColor = #colorLiteral(red: 0.7712653279, green: 0.76668185, blue: 0.7747893929, alpha: 0.520540149)
+            appearance.backgroundColor = #colorLiteral(red: 0.8821483254, green: 0.8769047856, blue: 0.8861791492, alpha: 0.7161113411)
             appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
             UINavigationBar.appearance().standardAppearance = appearance
         } else {

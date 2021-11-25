@@ -152,7 +152,7 @@ final class EditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.925465405, green: 0.9490913749, blue: 0.9807662368, alpha: 1))
         configureNavigation()
         configureUI()
         imagenameTextView.delegate = self
@@ -339,6 +339,9 @@ final class EditViewController: UIViewController {
         captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
         captionCharacterCountLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 43)
         
+        passwordLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
+        memoLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
@@ -346,7 +349,7 @@ final class EditViewController: UIViewController {
     
     private func configureNavigation() {
         navigationItem.title = "編集"
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.925465405, green: 0.9490913749, blue: 0.9807662368, alpha: 1)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
     }
     
@@ -535,14 +538,11 @@ extension EditViewController: UITextViewDelegate {
                 return false
             }
         case captionTextView:
-            
             if newLines.count == 2 && existingLines.last == "" && textViewLines.last == "" {
-                
                 captionTextView.resignFirstResponder()
                 
                 return false
             }
-            
         default:
             break
             

@@ -49,9 +49,8 @@ extension UIViewController {
         for subView in self.view.subviews where subView is StatusBarView {
             subView.removeFromSuperview()
         }
-        guard let color = color else {
-            return
-        }
+        guard let color = color else { return }
+        
         let statusBarView = StatusBarView()
         statusBarView.backgroundColor = color
         self.view.addSubview(statusBarView)

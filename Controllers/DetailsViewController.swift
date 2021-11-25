@@ -36,7 +36,7 @@ final class DetailsViewController: UIViewController {
         view.layer.cornerRadius = 10
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOffset = .zero
-        view.layer.shadowOpacity = 0.8
+        view.layer.shadowOpacity = 0.5
         view.layer.shadowRadius = 8
         return view
     }()
@@ -50,7 +50,7 @@ final class DetailsViewController: UIViewController {
         button.backgroundColor = .clear
         return button
     }()
-
+    
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
         button.setTitle("削除", for: .normal)
@@ -59,7 +59,7 @@ final class DetailsViewController: UIViewController {
         button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
-        button.layer.shadowOpacity = 1.0
+        button.layer.shadowOpacity = 0.8
         return button
     }()
     
@@ -71,7 +71,7 @@ final class DetailsViewController: UIViewController {
         button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
-        button.layer.shadowOpacity = 1.0
+        button.layer.shadowOpacity = 0.8
         return button
     }()
     
@@ -87,7 +87,7 @@ final class DetailsViewController: UIViewController {
         tf.layer.borderWidth = 1
         tf.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         tf.layer.shadowColor = UIColor.black.cgColor
-        tf.layer.shadowOpacity = 0.8
+        tf.layer.shadowOpacity = 0.3
         tf.layer.shadowRadius = 8.0
         tf.layer.shadowOffset = .zero
         return tf
@@ -147,7 +147,7 @@ final class DetailsViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
-  
+    
     private let editDateLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -207,8 +207,8 @@ final class DetailsViewController: UIViewController {
         configureUI()
         showLoader(true)
     }
-   
-   
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showLoader(false)
@@ -236,7 +236,7 @@ final class DetailsViewController: UIViewController {
         
     }
     
-
+    
     @objc func handleCheckButtonTapped() {
         DispatchQueue.main.async {
             self.showEditModeMessage()
@@ -244,22 +244,22 @@ final class DetailsViewController: UIViewController {
         }
     }
     
-   
+    
     @objc func removePost() {
         
         DispatchQueue.main.async {
             self.deleteButton.showSuccessAnimation(true)
         }
-       
+        
         let alert = UIAlertController(title: "削除", message: "データは復元されません", preferredStyle: .alert)
-
+        
         alert.addAction(UIAlertAction(title: "削除する", style: .default, handler: { [ weak self ] _ in
-
+            
             DispatchQueue.main.async {
                 self?.deletePost()
             }
             self?.delegate?.controllerDidFinishdeletePost(self!)
-        
+            
         }))
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
         
@@ -270,48 +270,48 @@ final class DetailsViewController: UIViewController {
     private func deletePost() {
         PostService.deletePost(withPostId: post!.postId)
     }
-
+    
     
     private func showEditModeMessage() {
         let alert = UIAlertController(title: "編集", message: "編集画面に変更しますか？", preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [ weak self ] _ in
-                self?.editingMode()
+            self?.editingMode()
         }))
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel))
         
         present(alert, animated: true)
     }
-
-
+    
+    
     @objc func didTapClose() {
         navigationController?.popViewController(animated: true)
     }
-        
+    
     
     @objc func didTapDone() {
-
+        
         editingMode()
     }
-   
+    
     
     @objc func editingMode() {
-       
+        
         DispatchQueue.main.async {
             self.editButton.showSuccessAnimation(true)
         }
-       
+        
         let editViewController = EditViewController(user: self.user!, post: self.post!)
         editViewController.delegate = self
         
         navigationController?.pushViewController(editViewController, animated: true)
     }
     
-   
+    
     private func configureNavigation() {
         navigationItem.title = "詳細"
         navigationController?.navigationBar.tintColor = .black
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.925465405, green: 0.9490913749, blue: 0.9807662368, alpha: 1)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapClose))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "編集", style: .done, target: self, action: #selector(editingMode))
         navigationItem.rightBarButtonItem?.tintColor = .blue
@@ -320,21 +320,20 @@ final class DetailsViewController: UIViewController {
     
     private func dateFormatterForcreatedAt(date: Date) -> String {
         let dateFormatter = DateFormatter()
-            dateFormatter.calendar = Calendar(identifier: .gregorian)
-            dateFormatter.locale = Locale(identifier: "ja_JP")
-            dateFormatter.timeZone = TimeZone(identifier:  "Asia/Tokyo")
-            dateFormatter.dateFormat = "yyyy年M月d日(EEEEE) HH時mm分"
+        dateFormatter.calendar = Calendar(identifier: .gregorian)
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.timeZone = TimeZone(identifier:  "Asia/Tokyo")
+        dateFormatter.dateFormat = "yyyy年M月d日(EEEEE) HH時mm分"
         
         return dateFormatter.string(from: date)
-    
     }
-
+    
     
     // MARK: - UI等
     private func configureUI(){
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.925465405, green: 0.9490913749, blue: 0.9807662368, alpha: 1))
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-  
+        
         view.addSubview(imagenameTextField)
         imagenameTextField.setDimensions(height: view.bounds.height / 15, width: view.bounds.width / 1.08)
         imagenameTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
@@ -346,17 +345,17 @@ final class DetailsViewController: UIViewController {
         shadowView.centerX(inView: view)
         
         shadowView.addSubview(photoImageView)
-        photoImageView.setDimensions(height: view.bounds.height / 3.05, width: view.bounds.width / 1.08)
+        photoImageView.setDimensions(height: view.bounds.height / 2.85, width: view.bounds.width / 1.08)
         photoImageView.anchor(top: imagenameTextField.bottomAnchor, paddingTop: 2)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
-       
+        
         let verticalStackView = UIStackView()
-            verticalStackView.axis = .vertical
-            verticalStackView.alignment = .fill
-            verticalStackView.spacing = 1
-            view.addSubview(verticalStackView)
-       
+        verticalStackView.axis = .vertical
+        verticalStackView.alignment = .fill
+        verticalStackView.spacing = 1
+        view.addSubview(verticalStackView)
+        
         verticalStackView.anchor(top: photoImageView.bottomAnchor,
                                  paddingTop: 2)
         verticalStackView.centerX(inView: view)
@@ -368,30 +367,30 @@ final class DetailsViewController: UIViewController {
         
         checkButton.bounds.size.width = checkButton.intrinsicContentSize.width
         passwordLabel.bounds.size.width = passwordLabel.intrinsicContentSize.width
-
+        
         verticalStackView.addArrangedSubview(stack)
         verticalStackView.addArrangedSubview(memoLabel)
-
+        
         view.addSubview(captionTextView)
         captionTextView.setDimensions(height: view.bounds.height / 6.8, width: view.bounds.width / 1.08)
         captionTextView.anchor(top: verticalStackView.bottomAnchor, paddingTop: 2)
         captionTextView.centerX(inView: view)
-       
+        
         view.addSubview(captionCharacterCountLabel)
         captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
-                
+        
         let buttonStack = UIStackView(arrangedSubviews: [editButton, deleteButton])
         buttonStack.axis = .horizontal
         buttonStack.spacing = 30
         buttonStack.alignment = .fill
-      
+        
         deleteButton.bounds.size.width = deleteButton.intrinsicContentSize.width
         editButton.bounds.size.width = editButton.intrinsicContentSize.width
-    
+        
         view.addSubview(buttonStack)
-   
+        
         buttonStack.anchor(top: captionTextView.bottomAnchor,
-                                 paddingTop: 7)
+                           paddingTop: 7)
         buttonStack.centerX(inView: view)
         
         deleteButton.setDimensions(height: view.bounds.height / 15, width: view.bounds.width / 3)
@@ -399,17 +398,17 @@ final class DetailsViewController: UIViewController {
         deleteButton.layer.cornerRadius = view.bounds.width / 18
         editButton.layer.cornerRadius = view.bounds.width / 18
         
-         let verticalStackView2 = UIStackView()
-             verticalStackView2.axis = .vertical
-             verticalStackView2.alignment = .fill
-             verticalStackView2.spacing = 2
-             
-            view.addSubview(verticalStackView2)
+        let verticalStackView2 = UIStackView()
+        verticalStackView2.axis = .vertical
+        verticalStackView2.alignment = .fill
+        verticalStackView2.spacing = 2
+        
+        view.addSubview(verticalStackView2)
         verticalStackView2.anchor(top: buttonStack.bottomAnchor,
                                   paddingTop: 10)
-         verticalStackView2.centerX(inView: view)
-
-      
+        verticalStackView2.centerX(inView: view)
+        
+        
         let creationDatestack = UIStackView(arrangedSubviews: [creationDateLabel, creationDate])
         creationDatestack.axis = .horizontal
         creationDatestack.spacing = 3
@@ -420,7 +419,7 @@ final class DetailsViewController: UIViewController {
         
         let editDatestack = UIStackView(arrangedSubviews: [editDateLabel, editDate])
         editDatestack.axis = .horizontal
-        editDatestack.spacing = 2
+        editDatestack.spacing = 3
         editDatestack.alignment = .fill
         
         editDateLabel.bounds.size.width = editDateLabel.intrinsicContentSize.width
@@ -434,9 +433,9 @@ final class DetailsViewController: UIViewController {
         imagenameTextField.font = UIFont.systemFont(ofSize: view.bounds.size.height / 28)
         
         let attributes: [NSAttributedString.Key : Any] = [
-             .font: UIFont.boldSystemFont(ofSize: view.bounds.size.height / 28),
-             .foregroundColor : UIColor.lightGray
-           ]
+            .font: UIFont.boldSystemFont(ofSize: view.bounds.size.height / 28),
+            .foregroundColor : UIColor.lightGray
+        ]
         imagenameTextField.attributedPlaceholder = NSAttributedString(string: "名 前", attributes: attributes)
         
         captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 42)
@@ -452,7 +451,6 @@ final class DetailsViewController: UIViewController {
         editDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
         editDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 41)
         
-
         
     }
     
@@ -467,6 +465,6 @@ extension DetailsViewController: EditViewControllerDelegate {
     func controllerDidFinishUploadingPost(_ controller: EditViewController) {
         self.delegate?.controllerDidFinishEditingPost(controller)
     }
-   
+    
     
 }

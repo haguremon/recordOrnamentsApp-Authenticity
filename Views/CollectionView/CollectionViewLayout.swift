@@ -22,7 +22,7 @@ final class  CollectionViewLayout {
     private func ornamentCategories(_ collectionView: UICollectionView ) -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: .init(
             widthDimension: .fractionalWidth(0.5),
-            heightDimension: .absolute(collectionView.bounds.width / 1.8)))
+            heightDimension: .absolute(collectionView.bounds.width / 1.7)))
         
         item.contentInsets = .init(top: 2, leading: 5, bottom: 10, trailing: 5)
         

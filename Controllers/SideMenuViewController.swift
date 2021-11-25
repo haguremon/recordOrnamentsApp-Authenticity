@@ -30,7 +30,7 @@ final class SideMenuViewController: UIViewController {
     @IBOutlet weak var usernameLabel: UILabel!
     
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-
+    
     var user: User? {
         didSet {
             guard let user = user else { return }
@@ -64,7 +64,7 @@ final class SideMenuViewController: UIViewController {
     
     //MARK: - API
     func fetchUser() {
-         UserService.fetchUser { user in
+        UserService.fetchUser { user in
             self.user = user
         }
     }
@@ -84,7 +84,7 @@ final class SideMenuViewController: UIViewController {
     }
     
     
-     private func configureTableView() {
+    private func configureTableView() {
         tableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         tableView.dataSource = self
         tableView.delegate = self
@@ -92,7 +92,7 @@ final class SideMenuViewController: UIViewController {
         tableView.scrollsToTop = false
     }
     
-     
+    
     private func configure(user: User) {
         imageView.sd_setImage(with: URL(string: user.profileImageUrl), completed: nil)
         usernameLabel.text = user.name
@@ -102,19 +102,19 @@ final class SideMenuViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         updateImageView = imageView
-      
+        
         imageView.layer.cornerRadius = view.bounds.width / 8.25
         imageView.layer.borderWidth = 0.8
         imageView.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         imageView.contentMode = .scaleToFill
-       
+        
         usernameLabel.font = UIFont.boldSystemFont(ofSize: imageView.bounds.height / 7)
         usernameLabel.tintColor = .white
     }
     
     
 }
- 
+
 
 //MARK: - UITableViewDataSource, UITableViewDelegate
 extension SideMenuViewController: UITableViewDataSource, UITableViewDelegate {
@@ -137,6 +137,7 @@ extension SideMenuViewController: UITableViewDataSource, UITableViewDelegate {
         cell.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         cell.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         cell.textLabel?.text = sideMenuItems[indexPath.row].rawValue
+        
         return cell
     }
     
@@ -144,12 +145,12 @@ extension SideMenuViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         imageView.bounds.height / 1.5
     }
-
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectItem = sideMenuItems[indexPath.row]
-      
+        
         delegate?.didSelectMeunItem(name: selectItem)
     }
     
@@ -167,7 +168,7 @@ extension SideMenuViewController: AccountViewControllerDelegate {
     
     
     func controllerDidFinishUpDateUser() {
-            self.fetchUser()
+        self.fetchUser()
     }
     
     

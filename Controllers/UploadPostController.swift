@@ -38,10 +38,7 @@ final class UploadPostController: UIViewController {
         button.addTarget(self, action: #selector(addPhoto), for: .touchUpInside)
         button.backgroundColor = .systemRed
         button.tintColor = .white
-        button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.cornerRadius = 10
-        button.layer.shadowRadius = 5
-        button.layer.shadowOpacity = 1.0
         return button
     }()
     
@@ -138,7 +135,7 @@ final class UploadPostController: UIViewController {
         configureNavigation()
         imagenameTextView.delegate = self
         captionTextView.delegate = self
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.925465405, green: 0.9490913749, blue: 0.9807662368, alpha: 1))
     }
     
     // MARK: - メソッド等
@@ -169,7 +166,7 @@ final class UploadPostController: UIViewController {
         let imagename = imagenameTextView.text ?? ""
         guard let image = selectedImage else { return showMessage(withTitle: "写真", message: "写真がありません") }
         let caption = captionTextView.text ?? ""
-        guard let user = currentUser else { return }
+        guard let user = currentUser else { return showMessage(withTitle: "エラー", message: "エラーが発生しました", handler: nil) }
         let password = password.text
         let setPassword = checkButton.isChecked
         
@@ -216,7 +213,7 @@ final class UploadPostController: UIViewController {
         characterCountLabel2.anchor(bottom: imagenameTextView.bottomAnchor, right: imagenameTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
         
         view.addSubview(photoImageView)
-        photoImageView.setDimensions(height: view.bounds.height / 3.3, width: view.bounds.width / 1.15)
+        photoImageView.setDimensions(height: view.bounds.height / 3, width: view.bounds.width / 1.15)
         photoImageView.anchor(top: imagenameTextView.bottomAnchor, paddingTop: 5)
         photoImageView.centerX(inView: view)
         photoImageView.layer.cornerRadius = 10
@@ -249,7 +246,7 @@ final class UploadPostController: UIViewController {
         view.addSubview(saveButton)
         saveButton.setDimensions(height: view.bounds.height / 19.5, width: view.bounds.width / 2.5 )
         saveButton.anchor(top: captionTextView.bottomAnchor,
-                                 paddingTop:20)
+                                 paddingTop:10)
         saveButton.centerX(inView: view)
         
         imagenameTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 27)
@@ -264,7 +261,7 @@ final class UploadPostController: UIViewController {
     
     
     private func configureNavigation() {
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.925465405, green: 0.9490913749, blue: 0.9807662368, alpha: 1)
         navigationItem.title = "保管"
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didTapDone))
@@ -464,18 +461,16 @@ extension UploadPostController: UITextViewDelegate {
                 return false
             }
         case captionTextView:
-
             if newLines.count == 2 && existingLines.last == "" && textViewLines.last == "" {
-    
                 captionTextView.resignFirstResponder()
                 
                 return false
             }
-          
         default:
             break
             
         }
+        
         return true
     }
     

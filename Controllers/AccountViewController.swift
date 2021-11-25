@@ -75,7 +75,7 @@ final class AccountViewController: UIViewController {
     // MARK: - UI等
     private func configureNavigation() {
         navigationItem.title = "アカウント"
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1)
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.925465405, green: 0.9490913749, blue: 0.9807662368, alpha: 1)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "戻る", style: .done, target: self, action: #selector(didTappedismiss))
         navigationItem.rightBarButtonItem?.tintColor = .green
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "保存", style: .done, target: self, action: #selector(didtappedSave))
@@ -101,7 +101,7 @@ final class AccountViewController: UIViewController {
     private func configureUI() {
         messageLabel.isHidden = true
         
-        setStatusBarBackgroundColor(#colorLiteral(red: 0.790112555, green: 0.79740417, blue: 0.8156889081, alpha: 1))
+        setStatusBarBackgroundColor(#colorLiteral(red: 0.925465405, green: 0.9490913749, blue: 0.9807662368, alpha: 1))
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         profileImageButton.layer.cornerRadius = view.bounds.width / 6
@@ -131,7 +131,7 @@ final class AccountViewController: UIViewController {
         view.addGestureRecognizer(tap)
     }
     
-   
+    
     @objc public func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -307,7 +307,7 @@ extension AccountViewController :UIImagePickerControllerDelegate, UINavigationCo
         if picker.sourceType == .camera {
             UIImageWriteToSavedPhotosAlbum(selectedImage,self,nil,nil)
         }
-       
+        
         self.updateprofileImage = selectedImage
         profileImageImageview.image = selectedImage
         
@@ -360,7 +360,7 @@ extension AccountViewController :UIImagePickerControllerDelegate, UINavigationCo
         
         present(picker, animated: true)
     }
-   
+    
     
 }
 
@@ -379,7 +379,7 @@ extension AccountViewController: AccountCollectionViewCellDelegat {
             updatename = cell.textField.text
             navigationItem.leftBarButtonItem?.isEnabled = true
         }
-   
+        
     }
     
     
@@ -389,14 +389,14 @@ extension AccountViewController: AccountCollectionViewCellDelegat {
         
         if user?.name == cell.textField.text && updateprofileImage == nil {
             updatename = cell.textField.text
-        navigationItem.leftBarButtonItem?.isEnabled = false
+            navigationItem.leftBarButtonItem?.isEnabled = false
         } else {
             updatename = cell.textField.text
             navigationItem.leftBarButtonItem?.isEnabled = true
         }
         
     }
-  
+    
     
 }
 
@@ -449,7 +449,7 @@ extension AccountViewController {
                             accountViewController.messageLabel.isHidden = false
                             accountViewController.messageLabel.text = "リセット用のメールを送りました!"
                         }
-                    
+                        
                     }
                 })
         )

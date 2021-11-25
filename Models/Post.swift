@@ -45,7 +45,6 @@ struct Submissions {
     var imagename: String?
     var password: String?
     var isSetPassword: Bool?
-    var editDate: Timestamp
 }
 
 
