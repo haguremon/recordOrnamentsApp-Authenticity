@@ -55,7 +55,7 @@ final class DetailsViewController: UIViewController {
         let button = UIButton()
         button.setTitle("削除", for: .normal)
         button.addTarget(self, action: #selector(removePost), for: .touchUpInside)
-        button.backgroundColor = .red
+        button.backgroundColor = .systemRed
         button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
@@ -67,7 +67,7 @@ final class DetailsViewController: UIViewController {
         let button = UIButton()
         button.setTitle("編集", for: .normal)
         button.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
-        button.backgroundColor = .blue
+        button.backgroundColor = .systemBlue
         button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
@@ -291,20 +291,20 @@ final class DetailsViewController: UIViewController {
     
     @objc func didTapDone() {
         
-        editingMode()
+        editButton.showSuccessAnimation(true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.18) {
+            self.editingMode()
+        }
+        
     }
     
     
     @objc func editingMode() {
-        
-        DispatchQueue.main.async {
-            self.editButton.showSuccessAnimation(true)
-        }
-        
-        let editViewController = EditViewController(user: self.user!, post: self.post!)
-        editViewController.delegate = self
-        
-        navigationController?.pushViewController(editViewController, animated: true)
+            let editViewController = EditViewController(user: self.user!, post: self.post!)
+            editViewController.delegate = self
+            
+            self.navigationController?.pushViewController(editViewController, animated: true)
     }
     
     
@@ -445,11 +445,15 @@ final class DetailsViewController: UIViewController {
         passwordLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
         memoLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
         
-        creationDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
-        creationDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 41)
+        editButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 35)
+        deleteButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 35)
         
-        editDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
-        editDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 41)
+        
+        creationDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 40)
+        creationDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
+        
+        editDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 40)
+        editDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
         
         
     }

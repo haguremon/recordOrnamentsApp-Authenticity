@@ -44,7 +44,7 @@ final class EditViewController: UIViewController {
         let button = UIButton()
         button.setTitle("削除", for: .normal)
         button.addTarget(self, action: #selector(removePost), for: .touchUpInside)
-        button.backgroundColor = .red
+        button.backgroundColor = .systemRed
         button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
@@ -56,7 +56,7 @@ final class EditViewController: UIViewController {
         let button = UIButton()
         button.setTitle("編集完了", for: .normal)
         button.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
-        button.backgroundColor = .blue
+        button.backgroundColor = .systemBlue
         button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.cornerRadius = 10
         button.layer.shadowRadius = 5
@@ -159,13 +159,6 @@ final class EditViewController: UIViewController {
         captionTextView.delegate = self
         
     }
-
-    // 画面から非表示になる直後に呼ばれます。
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        print("viewDidDisappear")
-    }
-
     
     // MARK: - メソッド等
     private func configurepost(post: Post?) {
@@ -341,6 +334,9 @@ final class EditViewController: UIViewController {
         
         passwordLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
         memoLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
+        
+        editButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 35)
+        deleteButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 35)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)

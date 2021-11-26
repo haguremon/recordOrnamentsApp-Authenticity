@@ -188,7 +188,7 @@ final class LoginViewController: UIViewController {
         SignupPageButton.layer.cornerRadius = 20
         SignupPageButton.layer.shadowRadius = 5
         SignupPageButton.layer.shadowOpacity = 1.0
-        SignupPageButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
+        SignupPageButton.backgroundColor = .systemRed
     }
     
     
@@ -250,7 +250,7 @@ extension LoginViewController: UITextFieldDelegate {
             loginButton.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         } else {
             loginButton.isEnabled = true
-            loginButton.backgroundColor = #colorLiteral(red: 0.053540878, green: 0.01193358283, blue: 0.9903386235, alpha: 1)
+            loginButton.backgroundColor = .systemBlue
         }
     }
     

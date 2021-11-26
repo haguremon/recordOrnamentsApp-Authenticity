@@ -113,6 +113,7 @@ final class AccountViewController: UIViewController {
         profileImageButton.contentHorizontalAlignment = .fill
         profileImageButton.contentVerticalAlignment = .fill
         
+        upDateButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: profileImageButton.bounds.height / 10)
         upDateButton.layer.cornerRadius = 5
         upDateButton.layer.shadowRadius = 5
         upDateButton.layer.shadowOpacity = 1.0

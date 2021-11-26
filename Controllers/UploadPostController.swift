@@ -34,8 +34,8 @@ final class UploadPostController: UIViewController {
     private lazy var addPhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("写真を追加する", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.addTarget(self, action: #selector(addPhoto), for: .touchUpInside)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.backgroundColor = .systemRed
         button.tintColor = .white
         button.layer.cornerRadius = 10
@@ -44,14 +44,13 @@ final class UploadPostController: UIViewController {
     
     private lazy var imagenameTextView: InputTextView = {
         let tv = InputTextView()
-        tv.placeholderText = "名前を付ける"
-        tv.font = UIFont.systemFont(ofSize: 16)
-        tv.textColor = .black
+        tv.placeholderText = "名前をつける"
         tv.backgroundColor = .white
-        tv.text = ""
+        tv.textColor = .black
         tv.delegate = self
-        tv.placeholderShouldCenter = false
+        tv.text = ""
         tv.keyboardType = .default
+        tv.placeholderShouldCenter = true
         tv.returnKeyType = .done
         return tv
     }()
@@ -59,7 +58,6 @@ final class UploadPostController: UIViewController {
     private lazy var captionTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "メモをする"
-        tv.font = UIFont.systemFont(ofSize: 16)
         tv.textColor = .black
         tv.backgroundColor = .white
         tv.text = ""
@@ -70,18 +68,16 @@ final class UploadPostController: UIViewController {
         return tv
     }()
     
-    private let characterCountLabel: UILabel = {
+    private let captionCharacterCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/300"
         return label
     }()
     
-    private let characterCountLabel2: UILabel = {
+    private let imagenameCharacterCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/15"
         return label
     }()
@@ -116,10 +112,9 @@ final class UploadPostController: UIViewController {
     private lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("保存する", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
         button.backgroundColor = .systemBlue
-        button.showSuccessAnimation(true)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.tintColor = .white
         button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.cornerRadius = 10
@@ -209,8 +204,8 @@ final class UploadPostController: UIViewController {
         imagenameTextView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
         imagenameTextView.centerX(inView: view)
         
-        view.addSubview(characterCountLabel2)
-        characterCountLabel2.anchor(bottom: imagenameTextView.bottomAnchor, right: imagenameTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
+        view.addSubview(imagenameCharacterCountLabel)
+        imagenameCharacterCountLabel.anchor(bottom: imagenameTextView.bottomAnchor, right: imagenameTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
         
         view.addSubview(photoImageView)
         photoImageView.setDimensions(height: view.bounds.height / 3, width: view.bounds.width / 1.15)
@@ -240,8 +235,8 @@ final class UploadPostController: UIViewController {
         captionTextView.anchor(top: stack.bottomAnchor, paddingTop: 2)
         captionTextView.centerX(inView: view)
         
-        view.addSubview(characterCountLabel)
-        characterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
+        view.addSubview(captionCharacterCountLabel)
+        captionCharacterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: captionTextView.rightAnchor,paddingBottom: 0, paddingRight: 5)
         
         view.addSubview(saveButton)
         saveButton.setDimensions(height: view.bounds.height / 19.5, width: view.bounds.width / 2.5 )
@@ -251,9 +246,18 @@ final class UploadPostController: UIViewController {
         
         imagenameTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 27)
         imagenameTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 27)
+        imagenameCharacterCountLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 35)
+        
         captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
         captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
+        captionCharacterCountLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 43)
         
+        addPhotoButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 50)
+        passwordLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 41)
+        
+
+        saveButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 37)
+             
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
@@ -416,12 +420,12 @@ extension UploadPostController: UITextViewDelegate {
         case imagenameTextView:
             checkMaxLength(textView)
             let count = textView.text.count
-            characterCountLabel2.text = "\(count)/15"
+            imagenameCharacterCountLabel.text = "\(count)/15"
         
         case captionTextView:
             checkMaxLength(textView)
             let count = textView.text.count
-            characterCountLabel.text = "\(count)/300"
+            captionCharacterCountLabel.text = "\(count)/300"
      
         default:
             break

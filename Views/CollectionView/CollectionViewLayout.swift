@@ -36,7 +36,7 @@ final class  CollectionViewLayout {
             [
                 .init(layoutSize: .init(
                         widthDimension: .fractionalWidth(0.95),
-                        heightDimension: .absolute(45)),
+                        heightDimension: .absolute(collectionView.bounds.width / 5.8)),
                       elementKind: "header" ,
                       alignment: .top)
                 

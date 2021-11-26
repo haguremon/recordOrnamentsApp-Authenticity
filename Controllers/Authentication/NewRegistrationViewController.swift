@@ -129,13 +129,13 @@ final class NewRegistrationViewController: UIViewController {
         
         guard let email = emailTextField.text, !email.isEmpty else {
             registerButton.isEnabled = true
-            registerButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
+            registerButton.backgroundColor = .systemRed
             registerButton.showSuccessAnimation(false)
             return showMessage(withTitle: "エラー", message: "適切なメールアドレスを入力してください")
         }
         guard let password = passwordTextField.text, password.count >= 6 else {
             registerButton.isEnabled = true
-            registerButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
+            registerButton.backgroundColor = .systemRed
             registerButton.showSuccessAnimation(false)
             return showMessage(withTitle: "短いです", message: "6文字以上入力してください")
         }
@@ -147,7 +147,7 @@ final class NewRegistrationViewController: UIViewController {
             self.showLoader(true)
             self.showMessage(withTitle: "認証", message: "入力したメールアドレス宛に確認メールを送信しました") { [ weak self ] _ in
                 self?.showLoader(false)
-                self?.registerButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
+                self?.registerButton.backgroundColor = .systemRed
                 self?.registerButton.isEnabled = true
                 
                 let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
@@ -276,7 +276,7 @@ extension NewRegistrationViewController: UITextFieldDelegate {
             registerButton.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         } else {
             registerButton.isEnabled = true
-            registerButton.backgroundColor = #colorLiteral(red: 0.9498600364, green: 0.03114925325, blue: 0.1434316933, alpha: 1)
+            registerButton.backgroundColor = .systemRed
         }
         
     }

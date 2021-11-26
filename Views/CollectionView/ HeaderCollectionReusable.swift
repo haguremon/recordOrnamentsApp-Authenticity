@@ -14,11 +14,10 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     let headerLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-         label.textAlignment = .left
+        label.textAlignment = .left
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.clipsToBounds = true
-        label.font = UIFont(name: "Arial-BoldMT", size: 30)
         label.sizeToFit()
         return label
     }()
@@ -28,7 +27,8 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
         super.init(frame: frame)
     addSubview(headerLabel)
     headerLabel.setDimensions(height: self.bounds.height, width: self.bounds.width / 1.08)
-        self.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        self.backgroundColor = #colorLiteral(red: 0.1012339815, green: 0.3698244691, blue: 0.5125739574, alpha: 1)
+        headerLabel.font = UIFont(name: "Arial-BoldMT", size: self.bounds.height / 1.7)
         self.clipsToBounds = true
         self.layer.cornerRadius = 6.0
         self.layer.borderWidth = 1
