@@ -42,7 +42,7 @@ final class NewRegistrationViewController: UIViewController {
         messageLabel.isHidden = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hidekeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     
@@ -182,6 +182,7 @@ final class NewRegistrationViewController: UIViewController {
     
     
     private func congigureTextField() {
+        
         emailTextField.keyboardType = .emailAddress
         userNameTextField.keyboardType = .default
         
@@ -304,34 +305,27 @@ extension NewRegistrationViewController: UITextFieldDelegate {
 extension NewRegistrationViewController {
     
     
-    @objc private func keyboardWillShow(sender: NSNotification) {
+    @objc func keyboardWillShow(notification: NSNotification) {
         
         if userNameTextField.isFirstResponder {
-            guard let userInfo = sender.userInfo else { return }
-            let duration: Float = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
-            UIView.animate(withDuration: TimeInterval(duration), animations: { () -> Void in
-                let transform = CGAffineTransform(translationX: 0, y: -100)
-                self.view.transform = transform
-            })
+            
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+                if self.view.frame.origin.y == 0 {
+                    self.view.frame.origin.y -= keyboardSize.height
+                }
+            }
+            
         }
         
-        if userNameTextField.isFirstResponder {
-            guard let userInfo = sender.userInfo else { return }
-            let duration: Float = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
-            UIView.animate(withDuration: TimeInterval(duration), animations: { () -> Void in
-                let transform = CGAffineTransform(translationX: 0, y: -150)
-                self.view.transform = transform
-            })
+    }
+
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
         }
     }
-    
-    
-    @objc func hidekeyboard(){
-        UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
-            self.view.transform = .identity
-        })
-    }
-    
+
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)

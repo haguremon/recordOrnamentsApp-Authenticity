@@ -22,7 +22,7 @@ final class LoginViewController: UIViewController {
     
     @IBOutlet private var SignupPageButton: UIButton!
     
-    @IBOutlet private var messageLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
     var message: String? = ""
     
     @IBOutlet private var appNameLabel: UILabel!
@@ -36,17 +36,22 @@ final class LoginViewController: UIViewController {
         passwordTextField.isSecureTextEntry = true
         movingBackground()
         messageLabel.isHidden = true
+        messageLabel.adjustsFontSizeToFitWidth = true
         congigureButtton()
         congigureTextField()
         appNameLabel.font = UIFont.systemFont(ofSize: view.bounds.height / 11, weight: .bold)
+        print("viewDidLoad")
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         emailTextField.text = email
-        messageLabel.isHidden = false
         messageLabel.text = message
+        
+        if message  != "" {
+            messageLabel.isHidden = false
+        }
     }
     
     // MARK: - メソッド等
@@ -188,6 +193,7 @@ final class LoginViewController: UIViewController {
     
     
     private func congigureTextField() {
+        
         emailTextField.keyboardType = .emailAddress
         passwordTextField.placeholder = "6文字以上"
         

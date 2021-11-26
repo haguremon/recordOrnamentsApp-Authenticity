@@ -74,7 +74,7 @@ struct  AuthService {
     
     
     static func errorMessage(of error: Error) -> String {
-        var message = "エラーが発生しました"
+        var message = "エラーが発生しました、再ログインしてもう一度行ってください"
         guard let errcd = AuthErrorCode(rawValue: (error as NSError).code) else {
             return message
         }
@@ -89,6 +89,9 @@ struct  AuthService {
         case .weakPassword: message = "パスワードが脆弱すぎます"
         case .accountExistsWithDifferentCredential: message = "エラーが発生しました、再ログインしてもう一度行ってください"
         case .invalidDynamicLinkDomain: message = "エラーが発生しました、再ログインしてもう一度行ってください"
+        
+        case .nullUser: message = "test1"
+            
         
         default: break
         }

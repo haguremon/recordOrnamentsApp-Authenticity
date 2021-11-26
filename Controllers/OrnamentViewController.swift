@@ -95,11 +95,7 @@ final class OrnamentViewController: UIViewController {
                 let alert = UIAlertController(title: "確認用メールを送信しているので確認をお願いします。", message: "まだメール認証が完了していません。", preferredStyle: .alert)
                 
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [ weak self ] _ in
-                    let loginViewController = self?.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
-                    loginViewController.modalPresentationStyle = .fullScreen
-                    loginViewController.message = "確認用メールを確認してください"
-                    loginViewController.email = self?.user?.email
-                    self?.present(loginViewController, animated: false)
+                    self?.openLoginViewController(message: "確認用メールを確認してください", email: self?.user?.email ??  "")
                 }))
                 
                 self.present(alert, animated: true)
@@ -149,10 +145,11 @@ final class OrnamentViewController: UIViewController {
     }
     
     
-    private func openLoginViewController() {
+    private func openLoginViewController(message: String,email: String) {
         let loginViewController = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
         loginViewController.modalPresentationStyle = .fullScreen
-        
+        loginViewController.message = message
+        loginViewController.email = email
         present(loginViewController, animated: false)
     }
     
@@ -439,7 +436,7 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
             
             do {
                 try Auth.auth().signOut()
-                openLoginViewController()
+                openLoginViewController(message: "ログアウトされました", email: "")
             } catch  {
                 self.showErrorIfNeeded(error)
             }

@@ -24,7 +24,6 @@ struct  PostService {
                         "ownerUid": uid,
                         "password": password as Any,
                         "isSetPassword": setpassword,
-                        "ownerImageUrl": user.profileImageUrl,
                         "ownerUsername": user.name] as [String: Any]
             
             COLLETION_POSTS.addDocument(data: data, completion: completion)

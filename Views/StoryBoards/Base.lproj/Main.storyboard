@@ -436,8 +436,11 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jmv-u6-MZ1">
-                                <rect key="frame" x="5" y="49" width="404" height="0.0"/>
+                                <rect key="frame" x="5" y="49" width="404" height="28.5"/>
                                 <color key="backgroundColor" red="0.25098039220000001" green="0.2901960784" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Jmv-u6-MZ1" secondAttribute="height" multiplier="1:0.07" id="9qJ-ev-7qo"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
@@ -572,15 +575,16 @@
                         <color key="backgroundColor" red="0.1647058824" green="0.20784313730000001" blue="0.31764705879999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Jmv-u6-MZ1" firstAttribute="top" secondItem="np6-Zd-u91" secondAttribute="top" constant="5" id="30L-QD-Zmz"/>
                             <constraint firstItem="vLl-EP-TZU" firstAttribute="centerX" secondItem="np6-Zd-u91" secondAttribute="centerX" id="5CA-cA-qqk"/>
                             <constraint firstItem="IJ4-g0-2Ky" firstAttribute="centerX" secondItem="np6-Zd-u91" secondAttribute="centerX" id="5Fd-E1-p50"/>
+                            <constraint firstItem="Jmv-u6-MZ1" firstAttribute="width" secondItem="GSd-Ez-paa" secondAttribute="width" multiplier="0.975845" id="7I6-bJ-1ah"/>
                             <constraint firstItem="EEy-02-9uP" firstAttribute="centerX" secondItem="GSd-Ez-paa" secondAttribute="centerX" id="8Yf-wi-3bN"/>
                             <constraint firstItem="np6-Zd-u91" firstAttribute="trailing" secondItem="AlI-mp-vti" secondAttribute="trailing" id="9i1-Fx-c1d"/>
                             <constraint firstItem="EEy-02-9uP" firstAttribute="width" secondItem="GSd-Ez-paa" secondAttribute="width" multiplier="0.9" id="AwC-Vr-Tp9"/>
                             <constraint firstItem="qx5-kg-v2z" firstAttribute="centerX" secondItem="np6-Zd-u91" secondAttribute="centerX" id="B2n-7G-70F"/>
                             <constraint firstItem="IJ4-g0-2Ky" firstAttribute="width" secondItem="GSd-Ez-paa" secondAttribute="width" multiplier="0.51" id="FT7-qB-aJt"/>
                             <constraint firstItem="AlI-mp-vti" firstAttribute="leading" secondItem="np6-Zd-u91" secondAttribute="leading" id="NZR-Bn-HiD"/>
+                            <constraint firstItem="Jmv-u6-MZ1" firstAttribute="top" secondItem="np6-Zd-u91" secondAttribute="top" constant="5" id="Pmq-F9-0b1"/>
                             <constraint firstItem="Jmv-u6-MZ1" firstAttribute="centerX" secondItem="GSd-Ez-paa" secondAttribute="centerX" id="Qk6-p2-nPO"/>
                             <constraint firstItem="2KR-Rm-ewl" firstAttribute="top" secondItem="W8j-Gc-cYk" secondAttribute="bottom" constant="6" id="ROr-UV-Zgx"/>
                             <constraint firstItem="qx5-kg-v2z" firstAttribute="width" secondItem="GSd-Ez-paa" secondAttribute="width" multiplier="0.3" id="SZn-tU-MvR"/>
@@ -594,7 +598,6 @@
                             <constraint firstItem="AlI-mp-vti" firstAttribute="top" secondItem="np6-Zd-u91" secondAttribute="top" constant="68" id="tEO-im-WSw"/>
                             <constraint firstItem="hs9-Fw-aUG" firstAttribute="centerX" secondItem="GSd-Ez-paa" secondAttribute="centerX" id="tci-18-AzV"/>
                             <constraint firstItem="AlI-mp-vti" firstAttribute="centerX" secondItem="GSd-Ez-paa" secondAttribute="centerX" id="uxh-et-J3M"/>
-                            <constraint firstItem="Jmv-u6-MZ1" firstAttribute="leading" secondItem="np6-Zd-u91" secondAttribute="leading" constant="5" id="wO2-Lq-q56"/>
                             <constraint firstItem="42K-w1-dyv" firstAttribute="top" secondItem="np6-Zd-u91" secondAttribute="top" id="yQz-Kw-HB1"/>
                         </constraints>
                     </view>

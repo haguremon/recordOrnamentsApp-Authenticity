@@ -17,7 +17,6 @@ struct Post {
     
     let postId: String
   
-    let ownerImageUrl: String
     let ownerUsername: String
     
     let password: String?
@@ -33,7 +32,6 @@ struct Post {
         self.postId = postId
         self.password = dictonary["password"] as? String
         self.isSetPassword = dictonary["isSetPassword"] as? Bool ?? false
-        self.ownerImageUrl = dictonary["ownerImageUrl"] as? String ?? ""
         self.ownerUsername = dictonary["ownerUsername"] as? String ?? ""
     }
     

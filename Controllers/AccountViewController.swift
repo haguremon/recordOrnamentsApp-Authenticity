@@ -198,7 +198,7 @@ final class AccountViewController: UIViewController {
         Auth.auth().currentUser?.delete {  (error) in
             
             if error == nil {
-                self.openLoginViewController()
+                self.openLoginViewController(message: "データが全て削除されました", email: "")
             } else {
                 self.showErrorIfNeeded(error)
             }
@@ -405,9 +405,11 @@ extension AccountViewController: AccountCollectionViewCellDelegat {
 extension AccountViewController {
     
     
-    private func openLoginViewController() {
+    private func openLoginViewController(message: String,email: String) {
         let loginViewController = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
         loginViewController.modalPresentationStyle = .fullScreen
+        loginViewController.message = message
+        loginViewController.email = email    
         
         present(loginViewController, animated: false, completion: nil)
     }
@@ -446,8 +448,7 @@ extension AccountViewController {
                         }
                         
                         DispatchQueue.main.async {
-                            accountViewController.messageLabel.isHidden = false
-                            accountViewController.messageLabel.text = "リセット用のメールを送りました!"
+                            self?.openLoginViewController(message: "リセット用メールを確認して再ログインしてください。", email: self?.user?.email ?? "")
                         }
                         
                     }

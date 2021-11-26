@@ -60,9 +60,9 @@
 		CF829F86272A94F8000F6DC1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F6A272A94F8000F6DC1 /* SceneDelegate.swift */; };
 		CF829F88272A94F8000F6DC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F6D272A94F8000F6DC1 /* User.swift */; };
 		CF829F89272A94F8000F6DC1 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F6E272A94F8000F6DC1 /* Post.swift */; };
-		CF829F8B272A9564000F6DC1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF829F8A272A9564000F6DC1 /* GoogleService-Info.plist */; };
 		CF829F8F272BBBB1000F6DC1 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F8E272BBBB1000F6DC1 /* DescriptionViewController.swift */; };
 		CF829F91272BCE90000F6DC1 /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F90272BCE90000F6DC1 /* CheckBoxButton.swift */; };
+		CF86345527509EBC005AFB04 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF86345427509EBC005AFB04 /* GoogleService-Info.plist */; };
 		CFCF1419274242DF004F646D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF829F6B272A94F8000F6DC1 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -121,9 +121,9 @@
 		CF829F6B272A94F8000F6DC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF829F6D272A94F8000F6DC1 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CF829F6E272A94F8000F6DC1 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
-		CF829F8A272A9564000F6DC1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CF829F8E272BBBB1000F6DC1 /* DescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = "<group>"; };
 		CF829F90272BCE90000F6DC1 /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
+		CF86345427509EBC005AFB04 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CF8DBA83273AC33600B5F38E /* recordOrnamentsAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = recordOrnamentsAppDebug.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -215,7 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				CF8DBA83273AC33600B5F38E /* recordOrnamentsAppDebug.entitlements */,
-				CF829F8A272A9564000F6DC1 /* GoogleService-Info.plist */,
+				CF86345427509EBC005AFB04 /* GoogleService-Info.plist */,
 				CF829EF9272A9174000F6DC1 /* Info.plist */,
 			);
 			path = recordOrnamentsApp;
@@ -465,8 +465,8 @@
 				CF14407E2742268000F0E4AE /* InfoPlist.strings in Resources */,
 				CF829F78272A94F8000F6DC1 /* background2.json in Resources */,
 				CF829F79272A94F8000F6DC1 /* LaunchScreen.storyboard in Resources */,
+				CF86345527509EBC005AFB04 /* GoogleService-Info.plist in Resources */,
 				CFCF1419274242DF004F646D /* Assets.xcassets in Resources */,
-				CF829F8B272A9564000F6DC1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
