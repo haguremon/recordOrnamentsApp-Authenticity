@@ -512,12 +512,9 @@ extension OrnamentViewController {
                         }
                         self?.showMessage(withTitle: "パスワード", message: "パスワードがリセットされたました",handler: { [ weak self ] _ in
                             
-                            self?.dismiss(animated: true, completion: {
                                 DispatchQueue.main.async {
                                     self?.fetchPosts()
                                 }
-                                
-                            })
                         })
                         
                     } else {

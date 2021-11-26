@@ -39,7 +39,12 @@ extension UIViewController {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default,handler: { _ in
             if message == "エラーが発生しました、再ログインしてもう一度行ってください" {
-                self.dismiss(animated: true, completion: nil)
+                // self.dismiss(animated: true, completion: nil)
+                let loginViewController = self.storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+                loginViewController.modalPresentationStyle = .fullScreen
+                loginViewController.message = "再ログインしてください"
+                self.present(loginViewController, animated: false)
+                
             }
         }))
        
@@ -89,8 +94,8 @@ extension UIViewController {
             fatalError()
         }
     }
-    
-    
+
+
 }
 
 
