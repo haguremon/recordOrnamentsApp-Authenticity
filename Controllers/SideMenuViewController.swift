@@ -14,7 +14,7 @@ protocol SideMenuViewControllerDelegate: AnyObject {
 
 enum SideMenuItem: String,CaseIterable{
     case useGuide = "使い方ガイド"
-    case account = "アカウント"
+    case account = "アカウント設定"
     case signOut = "ログアウト"
     case contact = "問い合わせ"
 }

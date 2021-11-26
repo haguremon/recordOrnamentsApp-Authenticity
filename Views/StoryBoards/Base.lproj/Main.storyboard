@@ -617,7 +617,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="hgM-C0-si6">
-                                <rect key="frame" x="0.0" y="222.5" width="361" height="630.5"/>
+                                <rect key="frame" x="0.0" y="222.5" width="361" height="617.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="UVw-6R-L8x">
@@ -647,9 +647,9 @@
                                 </connections>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="version1.0.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aIo-eC-aW9">
-                                <rect key="frame" x="241" y="863" width="90" height="18"/>
+                                <rect key="frame" x="157.5" y="850" width="173.5" height="31"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="aIo-eC-aW9" secondAttribute="height" multiplier="1:0.2" id="PpJ-gS-uTv"/>
+                                    <constraint firstAttribute="width" secondItem="aIo-eC-aW9" secondAttribute="height" multiplier="1:0.18" id="PpJ-gS-uTv"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -681,7 +681,7 @@
                             <constraint firstItem="hgM-C0-si6" firstAttribute="centerX" secondItem="sVJ-Lx-aDG" secondAttribute="centerX" id="YxY-ke-192"/>
                             <constraint firstItem="WgC-rv-XV3" firstAttribute="width" secondItem="hgM-C0-si6" secondAttribute="width" multiplier="0.4" id="acy-w2-sqP"/>
                             <constraint firstItem="aIo-eC-aW9" firstAttribute="top" secondItem="hgM-C0-si6" secondAttribute="bottom" constant="10" id="dpf-ML-Psb"/>
-                            <constraint firstItem="aIo-eC-aW9" firstAttribute="width" secondItem="WgC-rv-XV3" secondAttribute="width" multiplier="0.625" id="jLX-e0-Ffn"/>
+                            <constraint firstItem="aIo-eC-aW9" firstAttribute="width" secondItem="WgC-rv-XV3" secondAttribute="width" multiplier="1.2" id="jLX-e0-Ffn"/>
                             <constraint firstItem="x42-Hh-9y8" firstAttribute="width" secondItem="WgC-rv-XV3" secondAttribute="width" id="l3L-dB-W9e"/>
                             <constraint firstItem="x42-Hh-9y8" firstAttribute="centerX" secondItem="2uG-ML-ZKd" secondAttribute="centerX" id="l9o-ts-tfk"/>
                             <constraint firstItem="hgM-C0-si6" firstAttribute="trailing" secondItem="sVJ-Lx-aDG" secondAttribute="trailing" id="ws3-pI-XdP"/>
