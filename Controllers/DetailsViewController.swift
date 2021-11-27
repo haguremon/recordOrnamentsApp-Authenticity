@@ -153,7 +153,7 @@ final class DetailsViewController: UIViewController {
         label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         label.isHidden = true
-        label.text = "変更日:"
+        label.text = "  変更日:"
         label.backgroundColor = .clear
         label.textAlignment = .center
         return label
@@ -321,9 +321,9 @@ final class DetailsViewController: UIViewController {
     private func dateFormatterForcreatedAt(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.calendar = Calendar(identifier: .gregorian)
-        dateFormatter.locale = Locale(identifier: "ja_JP")
-        dateFormatter.timeZone = TimeZone(identifier:  "Asia/Tokyo")
-        dateFormatter.dateFormat = "yyyy年M月d日(EEEEE) HH時mm分"
+        dateFormatter.locale = .current
+        dateFormatter.timeZone = .current
+        dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "dd. MMM yyyy HH:mm:ss", options: 0, locale: .autoupdatingCurrent)//"yyyy年M月d日(EEEEE) HH時mm分"
         
         return dateFormatter.string(from: date)
     }
@@ -411,7 +411,7 @@ final class DetailsViewController: UIViewController {
         
         let creationDatestack = UIStackView(arrangedSubviews: [creationDateLabel, creationDate])
         creationDatestack.axis = .horizontal
-        creationDatestack.spacing = 3
+        creationDatestack.spacing = 0
         creationDatestack.alignment = .fill
         
         creationDateLabel.bounds.size.width = creationDateLabel.intrinsicContentSize.width
@@ -419,7 +419,7 @@ final class DetailsViewController: UIViewController {
         
         let editDatestack = UIStackView(arrangedSubviews: [editDateLabel, editDate])
         editDatestack.axis = .horizontal
-        editDatestack.spacing = 3
+        editDatestack.spacing = 5
         editDatestack.alignment = .fill
         
         editDateLabel.bounds.size.width = editDateLabel.intrinsicContentSize.width
@@ -449,8 +449,8 @@ final class DetailsViewController: UIViewController {
         deleteButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 35)
         
         
-        creationDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 40)
-        creationDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
+        creationDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 39)
+        creationDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 39)
         
         editDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 40)
         editDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
