@@ -40,7 +40,6 @@ final class LoginViewController: UIViewController {
         congigureButtton()
         congigureTextField()
         appNameLabel.font = UIFont.systemFont(ofSize: view.bounds.height / 11, weight: .bold)
-        print("viewDidLoad")
     }
     
     

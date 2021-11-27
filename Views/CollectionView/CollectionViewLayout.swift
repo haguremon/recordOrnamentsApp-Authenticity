@@ -5,7 +5,6 @@
 //  Created by IwasakIYuta on 2021/09/24.
 //
 
-import Foundation
 import UIKit
 
 final class  CollectionViewLayout {

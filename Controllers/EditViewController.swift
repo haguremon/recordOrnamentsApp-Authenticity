@@ -183,7 +183,7 @@ final class EditViewController: UIViewController {
     @objc func setPassword() {
         
         if checkButton.isChecked {
-            editViewshowMessage(withTitle: "パスワード", message: "保存した写真に非表示になり、置き場所でパスワードが要求されます")
+            editViewshowMessage(withTitle: "パスワード", message: "保存した写真は非表示になり、置き場所でパスワードが要求されます")
         }
         
     }
