@@ -153,7 +153,7 @@ final class DetailsViewController: UIViewController {
         label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         label.isHidden = true
-        label.text = "  変更日:"
+        label.text = "変更日:"
         label.backgroundColor = .clear
         label.textAlignment = .center
         return label
@@ -411,7 +411,7 @@ final class DetailsViewController: UIViewController {
         
         let creationDatestack = UIStackView(arrangedSubviews: [creationDateLabel, creationDate])
         creationDatestack.axis = .horizontal
-        creationDatestack.spacing = 0
+        creationDatestack.spacing = 4
         creationDatestack.alignment = .fill
         
         creationDateLabel.bounds.size.width = creationDateLabel.intrinsicContentSize.width

@@ -229,7 +229,7 @@ final class EditViewController: UIViewController {
         let imagename = imagenameTextView.text
         let caption = captionTextView.text
         let setPassword = checkButton.isChecked
-        let password = password.text
+        let password = password.text ?? post?.password
         
         guard let post = post else {
             self.showLoader(false)
