@@ -13,4 +13,5 @@ enum SomeError: Error {
     case domainError
     case urlError
     case assertNilError
+    case assertNotNilError
 }

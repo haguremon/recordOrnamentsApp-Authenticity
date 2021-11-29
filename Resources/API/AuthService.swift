@@ -90,7 +90,7 @@ struct  AuthService {
         case .accountExistsWithDifferentCredential: message = "エラーが発生しました、再ログインしてもう一度行ってください"
         case .invalidDynamicLinkDomain: message = "エラーが発生しました、再ログインしてもう一度行ってください"
         
-        case .nullUser: message = "test1"
+        case .nullUser: message = "エラーが発生しました、再ログインしてもう一度行ってください"
             
         
         default: break

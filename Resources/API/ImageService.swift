@@ -12,9 +12,8 @@ import UIKit
 struct ImageService {
     
     
-    static func uploadImage(image: UIImage?, completion: @escaping (Result<String, Error>) -> Void) {
+    static func uploadImage(image: UIImage?, completion: @escaping (String) -> Void) {
         guard let image = image else {
-            completion(.failure(SomeError.assertNilError))
             return
         }
         
@@ -31,7 +30,7 @@ struct ImageService {
             ref.downloadURL { (url, error) in
                 guard let imageUrl = url?.absoluteString else { return }
         
-                completion(.success(imageUrl))
+                completion(imageUrl)
             }
         }
     }

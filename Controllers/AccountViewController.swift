@@ -172,7 +172,7 @@ final class AccountViewController: UIViewController {
         }
         
         let updateUser = UpdateUser(name: updatename, profileImage: updateprofileImage)
-        UserService.updateUser(ownerUid: user!, updateUser: updateUser) { user in
+        UserService.updateUser(ownerUid: user!, updateUser: updateUser) { _ in
             DispatchQueue.main.async {
                 self.showLoader(false)
                 self.navigationItem.leftBarButtonItem?.isEnabled = false
