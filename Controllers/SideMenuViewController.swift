@@ -64,9 +64,16 @@ final class SideMenuViewController: UIViewController {
     
     //MARK: - API
     func fetchUser() {
-        UserService.fetchUser { user in
-            self.user = user
+        UserService.fetchUser { result in
+            
+            switch result {
+            case .success(let user):
+                self.user = user
+            case  .failure(_):
+                self.showMessage(withTitle: "エラーが発生しました", message: "再ログインしてください", handler: nil)
+            }
         }
+        
     }
     
     //MARK: - メソッド類

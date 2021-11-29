@@ -107,8 +107,14 @@ final class OrnamentViewController: UIViewController {
     
     
     private func fetchUser() {
-        UserService.fetchUser { user in
-            self.user = user
+        UserService.fetchUser { result in
+            
+            switch result {
+            case .success(let user):
+                self.user = user
+            case  .failure(_):
+                self.showMessage(withTitle: "エラーが発生しました", message: "再ログインしてください", handler: nil)
+            }
         }
         
     }
@@ -118,9 +124,18 @@ final class OrnamentViewController: UIViewController {
         guard post == nil else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        PostService.fetchPosts(forUser: uid) { (posts) in
-            self.posts = posts
-            self.collectionView.refreshControl?.endRefreshing()
+        PostService.fetchPosts(forUser: uid) { result in
+            
+            switch result {
+            case .success(let posts):
+                self.posts = posts
+                self.collectionView.refreshControl?.endRefreshing()
+            case  .failure(_):
+                self.showMessage(withTitle: "エラーが発生しました", message: "再ログインしてください", handler: nil)
+            }
+
+            
+            
         }
         
     }
@@ -507,9 +522,7 @@ extension OrnamentViewController {
                 handler: { [ weak self ] _ in
                     if alert.textFields?.first?.text == user.email {
                         let resuetdate = ResetData(password: nil, isSetPassword: false)
-                        PostService.resetPasswordPost(ownerUid: post, updatepost: resuetdate) { _ in
-                            
-                        }
+                        PostService.resetPasswordPost(ownerUid: post, updatepost: resuetdate)
                         self?.showMessage(withTitle: "パスワード", message: "パスワードがリセットされたました",handler: { [ weak self ] _ in
                             
                                 DispatchQueue.main.async {
@@ -519,7 +532,7 @@ extension OrnamentViewController {
                         
                     } else {
                         
-                        self?.showMessage(withTitle: "パスワード", message: "パスワードが違います")
+                        self?.showMessage(withTitle: "メールアドレス", message: "メールアドレスが違います")
                     }
                     
                     

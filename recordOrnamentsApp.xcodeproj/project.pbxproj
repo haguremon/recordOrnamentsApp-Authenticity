@@ -63,6 +63,7 @@
 		CF829F8F272BBBB1000F6DC1 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F8E272BBBB1000F6DC1 /* DescriptionViewController.swift */; };
 		CF829F91272BCE90000F6DC1 /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F90272BCE90000F6DC1 /* CheckBoxButton.swift */; };
 		CF86345527509EBC005AFB04 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF86345427509EBC005AFB04 /* GoogleService-Info.plist */; };
+		CF8634572754F44A005AFB04 /* errorEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8634562754F44A005AFB04 /* errorEnum.swift */; };
 		CFCF1419274242DF004F646D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF829F6B272A94F8000F6DC1 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -124,6 +125,7 @@
 		CF829F8E272BBBB1000F6DC1 /* DescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = "<group>"; };
 		CF829F90272BCE90000F6DC1 /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
 		CF86345427509EBC005AFB04 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CF8634562754F44A005AFB04 /* errorEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = errorEnum.swift; sourceTree = "<group>"; };
 		CF8DBA83273AC33600B5F38E /* recordOrnamentsAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = recordOrnamentsAppDebug.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -245,6 +247,7 @@
 				CF829F44272A94E5000F6DC1 /* Extensions.swift */,
 				CF829F45272A94E5000F6DC1 /* InputTextView.swift */,
 				CF829F90272BCE90000F6DC1 /* CheckBoxButton.swift */,
+				CF8634562754F44A005AFB04 /* errorEnum.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -508,6 +511,7 @@
 				CF829F48272A94E5000F6DC1 /* Extensions.swift in Sources */,
 				CF829F89272A94F8000F6DC1 /* Post.swift in Sources */,
 				CF829F84272A94F8000F6DC1 /* UserSerivice.swift in Sources */,
+				CF8634572754F44A005AFB04 /* errorEnum.swift in Sources */,
 				CF144079273EBB5200F0E4AE /* AccountViewController.swift in Sources */,
 				CF829F82272A94F8000F6DC1 /* PostService.swift in Sources */,
 				CF829F77272A94F8000F6DC1 /* DetailsViewController.swift in Sources */,

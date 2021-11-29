@@ -32,7 +32,7 @@ struct  PostService {
     }
     
     
-    static func updatePost(ownerUid uid: Post,updatepost: Submissions, completion: @escaping(Post) -> Void) {
+    static func updatePost(ownerUid uid: Post,updatepost: Submissions, completion: @escaping (Result<Post, Error>) -> Void) {
         
         COLLETION_POSTS.document(uid.postId).updateData([
                 "caption": updatepost.caption as Any,
@@ -42,14 +42,14 @@ struct  PostService {
                 "isSetPassword": updatepost.isSetPassword as Any
             ]) { error in
                 if let error = error {
-                    print("DEBUG: Failed to update Post \(error.localizedDescription)")
+                    completion(.failure(error))
                 } else {
                     
                 COLLETION_POSTS.document(uid.postId).getDocument { (snapshot, _) in
                 guard let snapshot = snapshot else { return }
                 guard let data = snapshot.data() else { return }
                 let post = Post(postId: snapshot.documentID, dictonary: data)
-                completion(post)
+                    completion(.success(post))
                     }
                 
                 }
@@ -59,34 +59,26 @@ struct  PostService {
     }
     
     
-    static func resetPasswordPost(ownerUid uid: Post,updatepost: ResetData, completion: @escaping(Post) -> Void) {
+    static func resetPasswordPost(ownerUid uid: Post,updatepost: ResetData) {
                 COLLETION_POSTS.document(uid.postId).updateData([
                         "password": updatepost.password as Any,
                         "isSetPassword": updatepost.isSetPassword as Any
                     ]) { error in
                         if let error = error {
-                            print("DEBUG: Failed to resetPassword Post \(error.localizedDescription)")
-                        } else { 
-                            
-                        COLLETION_POSTS.document(uid.postId).getDocument { (snapshot, _) in
-                        guard let snapshot = snapshot else { return }
-                        guard let data = snapshot.data() else { return }
-                        let post = Post(postId: snapshot.documentID, dictonary: data)
-                        completion(post)
-                            }
-                        
+                            print(error.localizedDescription)
+                            return
                         }
                     }
                 
             }
     
     
-    static func fetchPosts(forUser uid: String, completion: @escaping([Post]) -> Void) {
+    static func fetchPosts(forUser uid: String, completion: @escaping(Result<[Post], Error>) -> Void) {
         let query = COLLETION_POSTS.whereField("ownerUid", isEqualTo: uid)
       
         query.getDocuments { (snapshot, error) in
             if let error = error {
-                print("DEBUG: Failed to fetch Posts \(error.localizedDescription)")
+                completion(.failure(error))
                 return
             }
             
@@ -96,7 +88,7 @@ struct  PostService {
             posts.sort { (post1, post2) -> Bool in
                 return post1.creationDate.seconds > post2.creationDate.seconds
             }
-            completion(posts)
+            completion(.success(posts))
         }
         
     }

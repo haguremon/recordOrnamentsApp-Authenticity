@@ -12,13 +12,15 @@ import UIKit
 struct UserService {
     
     
-    static func fetchUser(completion: @escaping (User) -> Void) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+    static func fetchUser(completion: @escaping (Result<User, Error>) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return completion(.failure(SomeError.assertNilError))
+        }
         
         COLLECTION_USERS.document(uid).getDocument { snapshot, _ in
             guard let dictonary = snapshot?.data() else { return }
             let user = User(dictonary: dictonary)
-            completion(user)
+            completion(.success(user))
         }
         
     }

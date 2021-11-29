@@ -419,7 +419,7 @@ final class DetailsViewController: UIViewController {
         
         let editDatestack = UIStackView(arrangedSubviews: [editDateLabel, editDate])
         editDatestack.axis = .horizontal
-        editDatestack.spacing = 5
+        editDatestack.spacing = 4
         editDatestack.alignment = .fill
         
         editDateLabel.bounds.size.width = editDateLabel.intrinsicContentSize.width
@@ -449,11 +449,11 @@ final class DetailsViewController: UIViewController {
         deleteButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 35)
         
         
-        creationDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 39)
-        creationDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 39)
+        creationDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 39.5)
+        creationDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 39.5)
         
         editDateLabel.font = UIFont.boldSystemFont(ofSize: view.bounds.size.height / 40)
-        editDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 40)
+        editDate.font = UIFont.systemFont(ofSize: view.bounds.size.height / 39.8)
         
         
     }

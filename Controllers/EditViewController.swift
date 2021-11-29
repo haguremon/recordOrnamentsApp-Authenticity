@@ -238,13 +238,20 @@ final class EditViewController: UIViewController {
         }
         
         let updatePost = Submissions(caption: caption, imagename: imagename,password: password,isSetPassword: setPassword)
-        PostService.updatePost(ownerUid: post, updatepost: updatePost) { post in
-            DispatchQueue.main.async {
-                self.post = post
+        PostService.updatePost(ownerUid: post, updatepost: updatePost) { result in
+            
+            switch result {
+            case .success(let post):
+                DispatchQueue.main.async {
+                    self.post = post
+                }
+                self.showLoader(false)
+                self.delegate?.controllerDidFinishUploadingPost(self)
+                
+            case  .failure(_):
+                self.showMessage(withTitle: "エラーが発生しました", message: "再ログインしてください", handler: nil)
             }
             
-            self.showLoader(false)
-            self.delegate?.controllerDidFinishUploadingPost(self)
         }
         
     }
@@ -370,7 +377,8 @@ extension EditViewController {
         }
         
     }
-
+    
+    
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
