@@ -457,7 +457,7 @@ extension OrnamentViewController: SideMenuViewControllerDelegate {
             }
             
         case .contact:
-            if let url = URL(string: "https://itunes.apple.com/jp/app/id1094591345?mt=8&action=write-review") {
+            if let url = URL(string: "https://itunes.apple.com/jp/app/id1597749872?mt=8&action=write-review") {
                 UIApplication.shared.open(url)
             }
         }

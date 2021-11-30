@@ -215,6 +215,7 @@ final class UploadPostController: UIViewController {
         
       
         view.addSubview(addPhotoButton)
+        
         addPhotoButton.setDimensions(height: view.bounds.height / 19.5, width: view.bounds.width / 2.5 )
         addPhotoButton.anchor(top: photoImageView.bottomAnchor,
                                  paddingTop: 1)
