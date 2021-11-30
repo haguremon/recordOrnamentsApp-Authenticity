@@ -109,7 +109,7 @@ final class SideMenuViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         updateImageView = imageView
-        
+        navigationController?.navigationBar.isHidden = true
         imageView.layer.cornerRadius = view.bounds.width / 8.25
         imageView.layer.borderWidth = 0.8
         imageView.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
