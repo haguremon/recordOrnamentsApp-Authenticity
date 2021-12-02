@@ -32,8 +32,8 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
     <key>NSCameraUsageDescription</key>
-    <string>写真を撮影して表示します。</string>
+    <string>おきものの保存にカメラを使用します。</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>撮影した写真を保存します。</string>
+    <string>おきもので保存した写真をフォトライブラリに保存します。</string>
 </dict>
 </plist>
