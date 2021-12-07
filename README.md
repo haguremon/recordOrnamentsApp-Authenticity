@@ -28,7 +28,6 @@
 ※cocoapodを利用してライブラリの管理を行なってましたが、使いづらいのでSwift Package Managerに移行して管理をしてます。
 
 * Firebase
-* Firebase/Firestore
 * SDWebimage
 * SideMenu
 * JGProgressHUD
