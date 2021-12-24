@@ -98,7 +98,6 @@ final class DetailsViewController: UIViewController {
         tv.placeholderText = "メモ"
         tv.layer.borderWidth = 1
         tv.layer.borderColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
-        tv.font = UIFont.systemFont(ofSize: 20)
         tv.textColor = .black
         tv.text = ""
         tv.backgroundColor = .white
@@ -108,82 +107,20 @@ final class DetailsViewController: UIViewController {
         return tv
     }()
     
-    private let passwordLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.adjustsFontSizeToFitWidth = true
-        label.text = "パスワード"
-        label.backgroundColor = .clear
-        label.textAlignment = .center
-        return label
-    }()
+    private let passwordLabel = CustomInfoLabel(frame: .zero, labelColor: .black, labelbackgroundColor: .clear, labelText: "パスワード", labeltextAlignment: .center)
     
-    private let memoLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.adjustsFontSizeToFitWidth = true
-        label.text = "メモ"
-        label.backgroundColor = .clear
-        label.textAlignment = .center
-        return label
-    }()
+    private let memoLabel = CustomInfoLabel(frame: .zero, labelColor: .black, labelbackgroundColor: .clear, labelText: "メモ", labeltextAlignment: .center)
+
+    private let creationDateLabel = CustomInfoLabel(frame: .zero, labelColor: .black, labelbackgroundColor: .clear, labelText: "作成日:", labeltextAlignment: .center)
+    private let creationDate = CustomInfoLabel(frame: .zero, labelColor: .black, labelbackgroundColor: .clear, labelText: "", labeltextAlignment: .center)
     
-    private let creationDateLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.adjustsFontSizeToFitWidth = true
-        label.text = "作成日:"
-        label.backgroundColor = .clear
-        label.textAlignment = .center
-        return label
-    }()
+    private let editDateLabel = CustomInfoLabel(frame: .zero, labelColor: .black, labelbackgroundColor: .clear, labelText: "変更日:", labeltextAlignment: .center)
     
-    private let creationDate: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.adjustsFontSizeToFitWidth = true
-        label.text = ""
-        label.backgroundColor = .clear
-        label.textAlignment = .center
-        return label
-    }()
+    private let editDate = CustomInfoLabel(frame: .zero, labelColor: .black, labelbackgroundColor: .clear, labelText: "", labeltextAlignment: .center)
     
-    private let editDateLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.adjustsFontSizeToFitWidth = true
-        label.isHidden = true
-        label.text = "変更日:"
-        label.backgroundColor = .clear
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private let editDate: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.adjustsFontSizeToFitWidth = true
-        label.text = ""
-        label.backgroundColor = .clear
-        label.textAlignment = .center
-        return label
-    }()
-    
-    
-    private let captionCharacterCountLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .gray
-        label.text = "0/300"
-        return label
-    }()
-    
-    private let imagenameCharacterCountLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "0/15"
-        return label
-    }()
+    private let captionCharacterCountLabel = CustomInfoLabel(frame: .zero, labelColor: .gray, labelbackgroundColor: .clear, labelText: "0/300", labeltextAlignment: .natural)
+
+    private let imagenameCharacterCountLabel = CustomInfoLabel(frame: .zero, labelColor: .gray, labelbackgroundColor: .clear, labelText: "0/15", labeltextAlignment: .natural)
     
     // MARK: - ライフサイクル
     init(user: User, post: Post) {
@@ -232,6 +169,7 @@ final class DetailsViewController: UIViewController {
         imagenameTextField.text = post.imagename
         captionTextView.text = post.caption
         checkButton.isChecked = post.isSetPassword
+        imagenameCharacterCountLabel.text = "\(imagenameTextField.text?.count ?? 0)/15"
         captionCharacterCountLabel.text = "\(captionTextView.text.count)/300"
         
     }
@@ -339,6 +277,9 @@ final class DetailsViewController: UIViewController {
         imagenameTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 2)
         imagenameTextField.centerX(inView: view)
         
+        imagenameTextField.addSubview(imagenameCharacterCountLabel)
+        imagenameCharacterCountLabel.anchor(bottom: imagenameTextField.bottomAnchor, right: imagenameTextField.rightAnchor,paddingBottom: 0, paddingRight: 5)
+        
         view.addSubview(shadowView)
         shadowView.setDimensions(height: view.bounds.height / 3.7, width: view.bounds.width / 1.08)
         shadowView.anchor(top: imagenameTextField.bottomAnchor, paddingTop: 2)
@@ -437,6 +378,7 @@ final class DetailsViewController: UIViewController {
             .foregroundColor : UIColor.lightGray
         ]
         imagenameTextField.attributedPlaceholder = NSAttributedString(string: "名 前", attributes: attributes)
+        imagenameCharacterCountLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 35)
         
         captionTextView.font = UIFont.systemFont(ofSize: view.bounds.size.height / 42)
         captionTextView.placeholderLabel.font = UIFont.systemFont(ofSize: view.bounds.size.height / 42)

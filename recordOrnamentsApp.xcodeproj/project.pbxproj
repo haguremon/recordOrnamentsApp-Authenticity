@@ -38,7 +38,6 @@
 		CF829F3E272A93DC000F6DC1 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = CF829F3D272A93DC000F6DC1 /* Lottie */; };
 		CF829F41272A9408000F6DC1 /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = CF829F40272A9408000F6DC1 /* JGProgressHUD */; };
 		CF829F47272A94E5000F6DC1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F43272A94E5000F6DC1 /* Constants.swift */; };
-		CF829F48272A94E5000F6DC1 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F44272A94E5000F6DC1 /* Extensions.swift */; };
 		CF829F49272A94E5000F6DC1 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F45272A94E5000F6DC1 /* InputTextView.swift */; };
 		CF829F6F272A94F8000F6DC1 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F4C272A94F7000F6DC1 /* SideMenuViewController.swift */; };
 		CF829F70272A94F8000F6DC1 /* NewRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF829F4D272A94F7000F6DC1 /* NewRegistrationViewController.swift */; };
@@ -65,6 +64,11 @@
 		CF86345527509EBC005AFB04 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF86345427509EBC005AFB04 /* GoogleService-Info.plist */; };
 		CF8634572754F44A005AFB04 /* errorEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8634562754F44A005AFB04 /* errorEnum.swift */; };
 		CFCF1419274242DF004F646D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF829F6B272A94F8000F6DC1 /* Assets.xcassets */; };
+		CFF1EA322775773E000A77DD /* UIViewController-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF1EA312775773E000A77DD /* UIViewController-Extension.swift */; };
+		CFF1EA34277577C1000A77DD /* UITextField-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF1EA33277577C1000A77DD /* UITextField-Extension.swift */; };
+		CFF1EA3627757817000A77DD /* UIButton-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF1EA3527757817000A77DD /* UIButton-Extension.swift */; };
+		CFF1EA3827757860000A77DD /* UIView-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF1EA3727757860000A77DD /* UIView-Extension.swift */; };
+		CFF1EA3A27757A30000A77DD /* CustomInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF1EA3927757A30000A77DD /* CustomInfoLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,7 +103,6 @@
 		CF829F0C272A9174000F6DC1 /* recordOrnamentsAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recordOrnamentsAppUITests.swift; sourceTree = "<group>"; };
 		CF829F0E272A9174000F6DC1 /* recordOrnamentsAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recordOrnamentsAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		CF829F43272A94E5000F6DC1 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		CF829F44272A94E5000F6DC1 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		CF829F45272A94E5000F6DC1 /* InputTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
 		CF829F4C272A94F7000F6DC1 /* SideMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		CF829F4D272A94F7000F6DC1 /* NewRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRegistrationViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +130,11 @@
 		CF86345427509EBC005AFB04 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CF8634562754F44A005AFB04 /* errorEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = errorEnum.swift; sourceTree = "<group>"; };
 		CF8DBA83273AC33600B5F38E /* recordOrnamentsAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = recordOrnamentsAppDebug.entitlements; sourceTree = "<group>"; };
+		CFF1EA312775773E000A77DD /* UIViewController-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController-Extension.swift"; sourceTree = "<group>"; };
+		CFF1EA33277577C1000A77DD /* UITextField-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField-Extension.swift"; sourceTree = "<group>"; };
+		CFF1EA3527757817000A77DD /* UIButton-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton-Extension.swift"; sourceTree = "<group>"; };
+		CFF1EA3727757860000A77DD /* UIView-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView-Extension.swift"; sourceTree = "<group>"; };
+		CFF1EA3927757A30000A77DD /* CustomInfoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInfoLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				CF829EEA272A9172000F6DC1 /* recordOrnamentsApp */,
+				CFF1EA30277576BD000A77DD /* Extensions */,
 				CF829F42272A94E5000F6DC1 /* Utils */,
 				CF829F6B272A94F8000F6DC1 /* Assets.xcassets */,
 				CF829F55272A94F7000F6DC1 /* background2.json */,
@@ -244,7 +253,6 @@
 			isa = PBXGroup;
 			children = (
 				CF829F43272A94E5000F6DC1 /* Constants.swift */,
-				CF829F44272A94E5000F6DC1 /* Extensions.swift */,
 				CF829F45272A94E5000F6DC1 /* InputTextView.swift */,
 				CF829F90272BCE90000F6DC1 /* CheckBoxButton.swift */,
 				CF8634562754F44A005AFB04 /* errorEnum.swift */,
@@ -272,6 +280,7 @@
 			children = (
 				CF829F57272A94F7000F6DC1 /* StoryBoards */,
 				CF829F5C272A94F7000F6DC1 /* CollectionView */,
+				CFF1EA3927757A30000A77DD /* CustomInfoLabel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -325,6 +334,17 @@
 				CF829F6E272A94F8000F6DC1 /* Post.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		CFF1EA30277576BD000A77DD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CFF1EA312775773E000A77DD /* UIViewController-Extension.swift */,
+				CFF1EA33277577C1000A77DD /* UITextField-Extension.swift */,
+				CFF1EA3527757817000A77DD /* UIButton-Extension.swift */,
+				CFF1EA3727757860000A77DD /* UIView-Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -508,16 +528,20 @@
 				CF829F91272BCE90000F6DC1 /* CheckBoxButton.swift in Sources */,
 				CF829F7D272A94F8000F6DC1 /* OrnamentCollectionViewCell.swift in Sources */,
 				CF829F7B272A94F8000F6DC1 /* CollectionViewLayout.swift in Sources */,
-				CF829F48272A94E5000F6DC1 /* Extensions.swift in Sources */,
+				CFF1EA34277577C1000A77DD /* UITextField-Extension.swift in Sources */,
+				CFF1EA3627757817000A77DD /* UIButton-Extension.swift in Sources */,
 				CF829F89272A94F8000F6DC1 /* Post.swift in Sources */,
+				CFF1EA3827757860000A77DD /* UIView-Extension.swift in Sources */,
 				CF829F84272A94F8000F6DC1 /* UserSerivice.swift in Sources */,
 				CF8634572754F44A005AFB04 /* errorEnum.swift in Sources */,
 				CF144079273EBB5200F0E4AE /* AccountViewController.swift in Sources */,
+				CFF1EA322775773E000A77DD /* UIViewController-Extension.swift in Sources */,
 				CF829F82272A94F8000F6DC1 /* PostService.swift in Sources */,
 				CF829F77272A94F8000F6DC1 /* DetailsViewController.swift in Sources */,
 				CF829F75272A94F8000F6DC1 /* LoginViewController.swift in Sources */,
 				CF829F7C272A94F8000F6DC1 /*  HeaderCollectionReusable.swift in Sources */,
 				CF829F85272A94F8000F6DC1 /* AppDelegate.swift in Sources */,
+				CFF1EA3A27757A30000A77DD /* CustomInfoLabel.swift in Sources */,
 				CF829F86272A94F8000F6DC1 /* SceneDelegate.swift in Sources */,
 				CF151E12272FD75C00D774B6 /* EditViewController.swift in Sources */,
 			);

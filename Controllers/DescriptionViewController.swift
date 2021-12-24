@@ -102,7 +102,7 @@ final class DescriptionViewController: UIViewController {
         for i in 0 ..< self.photoList.count {
             let photoItem = self.photoList[i]
             let imageView = createImageView(x: 0, y: 0, width: self.scrollView.frame.size.width, height: self.scrollView.frame.size.height , image: photoItem)
-            imageView.frame = CGRect(origin: CGPoint(x: self.scrollView.frame.size.width * 3, y: 0), size: CGSize(width: self.scrollView.frame.size.width - 100, height: view.frame.size.height / 2 - 50))
+            imageView.frame = CGRect(origin: CGPoint(x: self.scrollView.frame.size.width , y: 0), size: CGSize(width: self.scrollView.frame.size.width - 100, height: view.frame.size.height / 2 - 50))
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.backgroundColor = .gray
             

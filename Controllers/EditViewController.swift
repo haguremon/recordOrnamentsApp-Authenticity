@@ -113,7 +113,6 @@ final class EditViewController: UIViewController {
     private let captionCharacterCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 14)
         label.text = "0/300"
         return label
     }()
