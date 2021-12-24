@@ -28,7 +28,6 @@
 ※cocoapodを利用してライブラリの管理を行なってましたが、使いづらいのでSwift Package Managerに移行して管理をしてます。
 
 * Firebase
-* Firebase/Firestore
 * SDWebimage
 * SideMenu
 * JGProgressHUD
@@ -36,7 +35,9 @@
 
 ## 今後
 コードレビューを依頼してるのでそれを終えってからリリース作業をする
-2021/11/30にリリース予定
+ ̶2̶0̶2̶1̶/̶1̶1̶/̶3̶0̶に̶リ̶リ̶ー̶ス̶予̶定̶
+ 
+リリースアプリ：https://apps.apple.com/jp/app/id1597749872
 #### 　追加機能予定
 * 家族間や知人で共有
 * タイムラインの追加
