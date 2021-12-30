@@ -114,7 +114,7 @@ final class DetailsViewController: UIViewController {
     private let creationDateLabel = CustomInfoLabel(frame: .zero, labelColor: .black, labelbackgroundColor: .clear, labelText: "作成日:", labeltextAlignment: .center)
     private let creationDate = CustomInfoLabel(frame: .zero, labelColor: .black, labelbackgroundColor: .clear, labelText: "", labeltextAlignment: .center)
     
-    private let editDateLabel = CustomInfoLabel(frame: .zero, labelColor: .black, labelbackgroundColor: .clear, labelText: "変更日:", labeltextAlignment: .center)
+    private let editDateLabel = CustomInfoLabel(frame: .zero, labelColor: .black, labelbackgroundColor: .clear, labelText: "変更日:", labeltextAlignment: .center,isHidden: true)
     
     private let editDate = CustomInfoLabel(frame: .zero, labelColor: .black, labelbackgroundColor: .clear, labelText: "", labeltextAlignment: .center)
     
@@ -161,6 +161,7 @@ final class DetailsViewController: UIViewController {
         
         if let editDate = post.editDate {
             self.editDate.text =  dateFormatterForcreatedAt(date: editDate.dateValue())
+
             editDateLabel.isHidden = false
         }
         creationDate.text = dateFormatterForcreatedAt(date: post.creationDate.dateValue())

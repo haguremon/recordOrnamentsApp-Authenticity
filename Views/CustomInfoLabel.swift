@@ -11,7 +11,7 @@ import UIKit
 final class CustomInfoLabel: UILabel {
     
     
-    init(frame: CGRect, labelColor: UIColor,labelbackgroundColor: UIColor?, labelText: String?,labeltextAlignment: NSTextAlignment) {
+    init(frame: CGRect, labelColor: UIColor,labelbackgroundColor: UIColor?, labelText: String?,labeltextAlignment: NSTextAlignment,isHidden:Bool = false) {
         super.init(frame: frame)
         
         textColor = labelColor
@@ -19,6 +19,7 @@ final class CustomInfoLabel: UILabel {
         text = labelText
         adjustsFontSizeToFitWidth = true
         textAlignment = labeltextAlignment
+        self.isHidden = isHidden
         
     
     }
