@@ -37,8 +37,8 @@ final class LoginViewController: UIViewController {
         movingBackground()
         messageLabel.isHidden = true
         messageLabel.adjustsFontSizeToFitWidth = true
-        congigureButtton()
-        congigureTextField()
+        configureButtton()
+        configureTextField()
         appNameLabel.font = UIFont.systemFont(ofSize: view.bounds.height / 11, weight: .bold)
     }
     
@@ -172,7 +172,7 @@ final class LoginViewController: UIViewController {
     }
     
     // MARK: - UI等
-    private func  congigureButtton() {
+    private func configureButtton() {
         loginButton.layer.shadowOffset = CGSize(width: 1, height: 1 )
         loginButton.isEnabled = false
         loginButton.layer.shadowColor = UIColor.gray.cgColor
@@ -191,7 +191,7 @@ final class LoginViewController: UIViewController {
     }
     
     
-    private func congigureTextField() {
+    private func configureTextField() {
         
         emailTextField.keyboardType = .emailAddress
         passwordTextField.placeholder = "6文字以上"

@@ -37,8 +37,8 @@ final class NewRegistrationViewController: UIViewController {
         passwordTextField.isSecureTextEntry = true
         
         movingBackground()
-        congigureButtton()
-        congigureTextField()
+        configureButtton()
+        configureTextField()
         messageLabel.isHidden = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -162,7 +162,7 @@ final class NewRegistrationViewController: UIViewController {
     
     
     // MARK: - UI等
-    private func congigureButtton() {
+    private func configureButtton() {
         registerButton.isEnabled = false
         registerButton.layer.shadowOffset = CGSize(width: 1, height: 1 )
         registerButton.layer.shadowColor = UIColor.gray.cgColor
@@ -181,7 +181,7 @@ final class NewRegistrationViewController: UIViewController {
     }
     
     
-    private func congigureTextField() {
+    private func configureTextField() {
         
         emailTextField.keyboardType = .emailAddress
         userNameTextField.keyboardType = .default
